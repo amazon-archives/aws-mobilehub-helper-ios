@@ -18,4 +18,4 @@ You can build the framework from source using the [Script](Scripts/GenerateHelpe
 
 ## Submitting Pull Requests
 
-At this time we are accepting pull requests only for Bug fixes (one bug per requests). For new features please submit feedback on the [mobile hub console](https://console.aws.amazon.com/mobilehub/home) (link for feedback on the bottom left corner). Please make sure that your pull requests comply with the license.
+At this time we are accepting pull requests only for Bug fixes (one bug fix per requests). For new features please submit feedback on the [mobile hub console](https://console.aws.amazon.com/mobilehub/home) (link for feedback on the bottom left corner). Please make sure that your pull requests comply with the license.
