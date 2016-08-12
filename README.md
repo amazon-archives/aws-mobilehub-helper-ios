@@ -2,7 +2,7 @@
 
 The AWS Mobile Hub simplifies the process of building, testing, and monitoring mobile applications that make use of one or more AWS services. It helps you skip the heavy lifting of integrating and configuring services by letting you add and configure features to your apps, including user authentication, data storage, backend logic, push notifications, content delivery, and analytics—all from a single, integrated console.
 
-This helper code is the source for the AWSMobileHubHelper.framework file which is included with every Objective C and Swfit application download from AWS Mobile Hub. 
+This helper code is the source for the AWSMobileHubHelper.framework file which is included with every Objective C and Swift application download from AWS Mobile Hub. 
 
 * [API Docs](https://docs.aws.amazon.com/awsmobilehubhelper/apireference/latest/index.html)
 * [Forums](https://forums.aws.amazon.com/forum.jspa?forumID=88)
