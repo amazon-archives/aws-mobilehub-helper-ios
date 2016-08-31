@@ -34,7 +34,6 @@
 		1851DD401D25CDB60010B8AA /* AWSUserFileManager.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 1851DD121D25CC890010B8AA /* AWSUserFileManager.h */; };
 		1851DD511D25CF870010B8AA /* module.modulemap in CopyFiles */ = {isa = PBXBuildFile; fileRef = 1851DD501D25CF7C0010B8AA /* module.modulemap */; };
 		18A3E46C1D52AC5000A3AE26 /* libPods-AWSMobileHubHelper.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 18A3E46B1D52AC5000A3AE26 /* libPods-AWSMobileHubHelper.a */; };
-		2B9FC7EC8558CCACFC7F5063 /* libPods-AWSMobileHubHelper.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B8C95D6CB1DBC7A6ADF0D271 /* libPods-AWSMobileHubHelper.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -81,7 +80,6 @@
 		18A3E46B1D52AC5000A3AE26 /* libPods-AWSMobileHubHelper.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libPods-AWSMobileHubHelper.a"; path = "/Users/saligram/Library/Developer/Xcode/DerivedData/AWSMobileHubHelper-gyehtqpthehzduaonjwjnaptkadu/Build/Products/Debug-iphonesimulator/libPods-AWSMobileHubHelper.a"; sourceTree = "<absolute>"; };
 		9C8606474456ECAC0A2A47FB /* Pods-AWSMobileHubHelper.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AWSMobileHubHelper.release.xcconfig"; path = "Pods/Target Support Files/Pods-AWSMobileHubHelper/Pods-AWSMobileHubHelper.release.xcconfig"; sourceTree = "<group>"; };
 		B3EA1B7C4DAA1E2BB1B70928 /* Pods-AWSMobileHubHelper.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AWSMobileHubHelper.debug.xcconfig"; path = "Pods/Target Support Files/Pods-AWSMobileHubHelper/Pods-AWSMobileHubHelper.debug.xcconfig"; sourceTree = "<group>"; };
-		B8C95D6CB1DBC7A6ADF0D271 /* libPods-AWSMobileHubHelper.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-AWSMobileHubHelper.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -90,7 +88,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				18A3E46C1D52AC5000A3AE26 /* libPods-AWSMobileHubHelper.a in Frameworks */,
-				2B9FC7EC8558CCACFC7F5063 /* libPods-AWSMobileHubHelper.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -191,7 +188,6 @@
 			isa = PBXGroup;
 			children = (
 				18A3E46B1D52AC5000A3AE26 /* libPods-AWSMobileHubHelper.a */,
-				B8C95D6CB1DBC7A6ADF0D271 /* libPods-AWSMobileHubHelper.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
