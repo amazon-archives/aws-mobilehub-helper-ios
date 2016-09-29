@@ -85,7 +85,7 @@ typedef NS_ENUM(NSInteger, AWSContentManagerErrorType){
     AWSContentManager *contentManager =  [AWSContentManager defaultContentManager];
  
  */
-+ (instancetype)defaultContentManager;
++ (instancetype)defaultContentManager NS_SWIFT_NAME(defaultContentManager());
 
 /**
  Creates a helper client for AWSContentManager for specified configuration with mentioned key.

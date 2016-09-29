@@ -47,7 +47,7 @@ NS_ASSUME_NONNULL_BEGIN
     AWSUserFileManager *userFileManager = [AWSUserFileManager defaultFileManager];
  
  */
-+ (instancetype)defaultUserFileManager;
++ (instancetype)defaultUserFileManager NS_SWIFT_NAME(defaultUserFileManager());
 
 /**
  Creates a helper client for AWSUserFileManager for specified configuration with mentioned key.

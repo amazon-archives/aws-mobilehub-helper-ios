@@ -31,7 +31,7 @@ NS_ASSUME_NONNULL_BEGIN
     AWSCloudLogic *cloudLogic =  [AWSCloudLogic defaultCloudLogic];
  
  */
-+ (instancetype)defaultCloudLogic;
++ (instancetype)defaultCloudLogic NS_SWIFT_NAME(defaultCloudLogic());
 
 /**
  Creates a helper client for `AWSCloud` for specified configuration with mentioned key.

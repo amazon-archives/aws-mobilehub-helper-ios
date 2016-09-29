@@ -55,7 +55,7 @@ FOUNDATION_EXPORT NSString *const AWSIdentityManagerDidSignOutNotification;
  
  AWSIdentityManager *identityManager = [AWSIdentityManager defaultIdentityManager];
  */
-+ (instancetype)defaultIdentityManager;
++ (instancetype)defaultIdentityManager NS_SWIFT_NAME(defaultIdentityManager());
 
 /**
  * Signs the user out of whatever third party identity provider they used to sign in.

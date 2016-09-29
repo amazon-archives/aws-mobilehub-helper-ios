@@ -95,7 +95,7 @@ typedef NS_ENUM(NSInteger, AWSPushManagerErrorType){
  
     AWSPushManager *pushManager = [AWSPushManager defaultPushManager];
  */
-+ (instancetype)defaultPushManager;
++ (instancetype)defaultPushManager NS_SWIFT_NAME(defaultPushManager());
 
 /**
  Creates a helper client for `AWSPushManager` for specified configuration with mentioned key.
