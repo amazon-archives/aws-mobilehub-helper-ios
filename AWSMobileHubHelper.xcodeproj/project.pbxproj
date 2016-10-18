@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		172C83ED1DB57F6C00217417 /* AWSSignInProviderFactory.h in Headers */ = {isa = PBXBuildFile; fileRef = 172C83EB1DB57F6C00217417 /* AWSSignInProviderFactory.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		172C83EE1DB57F6C00217417 /* AWSSignInProviderFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 172C83EC1DB57F6C00217417 /* AWSSignInProviderFactory.m */; };
+		172C83EF1DB5869200217417 /* AWSSignInProviderFactory.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 172C83EB1DB57F6C00217417 /* AWSSignInProviderFactory.h */; };
 		1851DCF11D25C5A30010B8AA /* AWSMobileHubHelper.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 1851DCF01D25C5A30010B8AA /* AWSMobileHubHelper.h */; };
 		1851DD141D25CC890010B8AA /* AWSCloudLogic.m in Sources */ = {isa = PBXBuildFile; fileRef = 1851DD011D25CC890010B8AA /* AWSCloudLogic.m */; };
 		1851DD151D25CC890010B8AA /* AWSContentManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 1851DD041D25CC890010B8AA /* AWSContentManager.m */; };
@@ -34,6 +37,7 @@
 		1851DD401D25CDB60010B8AA /* AWSUserFileManager.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 1851DD121D25CC890010B8AA /* AWSUserFileManager.h */; };
 		1851DD511D25CF870010B8AA /* module.modulemap in CopyFiles */ = {isa = PBXBuildFile; fileRef = 1851DD501D25CF7C0010B8AA /* module.modulemap */; };
 		18A3E46C1D52AC5000A3AE26 /* libPods-AWSMobileHubHelper.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 18A3E46B1D52AC5000A3AE26 /* libPods-AWSMobileHubHelper.a */; };
+		5A1F46E8D136C85A0F66DBEB /* libPods-AWSMobileHubHelper.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F313F95C1A385D20A08A0F20 /* libPods-AWSMobileHubHelper.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -43,6 +47,7 @@
 			dstPath = "include/$(PRODUCT_NAME)";
 			dstSubfolderSpec = 16;
 			files = (
+				172C83EF1DB5869200217417 /* AWSSignInProviderFactory.h in CopyFiles */,
 				1851DD391D25CDB60010B8AA /* AWSCloudLogic.h in CopyFiles */,
 				1851DD3A1D25CDB60010B8AA /* AWSContentManager.h in CopyFiles */,
 				1851DD3B1D25CDB60010B8AA /* AWSIdentityManager.h in CopyFiles */,
@@ -59,6 +64,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		172C83EB1DB57F6C00217417 /* AWSSignInProviderFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AWSSignInProviderFactory.h; sourceTree = "<group>"; };
+		172C83EC1DB57F6C00217417 /* AWSSignInProviderFactory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AWSSignInProviderFactory.m; sourceTree = "<group>"; };
 		1851DCED1D25C5A30010B8AA /* libAWSMobileHubHelper.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libAWSMobileHubHelper.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		1851DCF01D25C5A30010B8AA /* AWSMobileHubHelper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AWSMobileHubHelper.h; sourceTree = "<group>"; };
 		1851DD001D25CC890010B8AA /* AWSCloudLogic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AWSCloudLogic.h; sourceTree = "<group>"; };
@@ -80,6 +87,7 @@
 		18A3E46B1D52AC5000A3AE26 /* libPods-AWSMobileHubHelper.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libPods-AWSMobileHubHelper.a"; path = "/Users/saligram/Library/Developer/Xcode/DerivedData/AWSMobileHubHelper-gyehtqpthehzduaonjwjnaptkadu/Build/Products/Debug-iphonesimulator/libPods-AWSMobileHubHelper.a"; sourceTree = "<absolute>"; };
 		9C8606474456ECAC0A2A47FB /* Pods-AWSMobileHubHelper.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AWSMobileHubHelper.release.xcconfig"; path = "Pods/Target Support Files/Pods-AWSMobileHubHelper/Pods-AWSMobileHubHelper.release.xcconfig"; sourceTree = "<group>"; };
 		B3EA1B7C4DAA1E2BB1B70928 /* Pods-AWSMobileHubHelper.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AWSMobileHubHelper.debug.xcconfig"; path = "Pods/Target Support Files/Pods-AWSMobileHubHelper/Pods-AWSMobileHubHelper.debug.xcconfig"; sourceTree = "<group>"; };
+		F313F95C1A385D20A08A0F20 /* libPods-AWSMobileHubHelper.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-AWSMobileHubHelper.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -88,6 +96,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				18A3E46C1D52AC5000A3AE26 /* libPods-AWSMobileHubHelper.a in Frameworks */,
+				5A1F46E8D136C85A0F66DBEB /* libPods-AWSMobileHubHelper.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -171,6 +180,8 @@
 				1851DD0E1D25CC890010B8AA /* AWSGoogleSignInProvider.h */,
 				1851DD0F1D25CC890010B8AA /* AWSGoogleSignInProvider.m */,
 				1851DD101D25CC890010B8AA /* AWSSignInProvider.h */,
+				172C83EB1DB57F6C00217417 /* AWSSignInProviderFactory.h */,
+				172C83EC1DB57F6C00217417 /* AWSSignInProviderFactory.m */,
 			);
 			path = SignIn;
 			sourceTree = "<group>";
@@ -188,6 +199,7 @@
 			isa = PBXGroup;
 			children = (
 				18A3E46B1D52AC5000A3AE26 /* libPods-AWSMobileHubHelper.a */,
+				F313F95C1A385D20A08A0F20 /* libPods-AWSMobileHubHelper.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -215,6 +227,7 @@
 				1851DD211D25CD040010B8AA /* AWSFacebookSignInProvider.h in Headers */,
 				1851DD221D25CD040010B8AA /* AWSGoogleSignInProvider.h in Headers */,
 				1851DD231D25CD040010B8AA /* AWSSignInProvider.h in Headers */,
+				172C83ED1DB57F6C00217417 /* AWSSignInProviderFactory.h in Headers */,
 				1851DD241D25CD090010B8AA /* AWSUserFileManager.h in Headers */,
 				1851DD251D25CD0D0010B8AA /* AWSMobileHubHelper.h in Headers */,
 			);
@@ -227,12 +240,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 1851DCF61D25C5A30010B8AA /* Build configuration list for PBXNativeTarget "AWSMobileHubHelper" */;
 			buildPhases = (
-				1A737FE591F558B10F28BC25 /* 📦 Check Pods Manifest.lock */,
+				1A737FE591F558B10F28BC25 /* [CP] Check Pods Manifest.lock */,
 				1851DCE91D25C5A30010B8AA /* Sources */,
 				1851DCEA1D25C5A30010B8AA /* Frameworks */,
 				1851DCEB1D25C5A30010B8AA /* CopyFiles */,
 				1851DD1C1D25CCE70010B8AA /* Headers */,
-				E70AB00DDA6652B541F1277A /* 📦 Copy Pods Resources */,
+				E70AB00DDA6652B541F1277A /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -275,14 +288,14 @@
 /* End PBXProject section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		1A737FE591F558B10F28BC25 /* 📦 Check Pods Manifest.lock */ = {
+		1A737FE591F558B10F28BC25 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "📦 Check Pods Manifest.lock";
+			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -290,14 +303,14 @@
 			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
-		E70AB00DDA6652B541F1277A /* 📦 Copy Pods Resources */ = {
+		E70AB00DDA6652B541F1277A /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "📦 Copy Pods Resources";
+			name = "[CP] Copy Pods Resources";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -315,6 +328,7 @@
 				1851DD141D25CC890010B8AA /* AWSCloudLogic.m in Sources */,
 				1851DD191D25CC890010B8AA /* AWSGoogleSignInProvider.m in Sources */,
 				1851DD171D25CC890010B8AA /* AWSPushManager.m in Sources */,
+				172C83EE1DB57F6C00217417 /* AWSSignInProviderFactory.m in Sources */,
 				1851DD181D25CC890010B8AA /* AWSFacebookSignInProvider.m in Sources */,
 				1851DD161D25CC890010B8AA /* AWSIdentityManager.m in Sources */,
 				1851DD151D25CC890010B8AA /* AWSContentManager.m in Sources */,

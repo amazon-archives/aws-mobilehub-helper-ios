@@ -82,7 +82,9 @@ FOUNDATION_EXPORT NSString *const AWSIdentityManagerDidSignOutNotification;
 /**
  * Passes parameters used to launch the application to the current identity provider. For some
  * third party providers, this completes the User Sign-in call flow, which used a browser to
- * get information from the user, directly.
+ * get information from the user, directly. The current sign-in provider will be set to nil if
+ * the sign-in provider is not registered using `registerAWSSignInProvider:forKey` method  of 
+ * `AWSSignInProviderFactory` class.
  * @param application application
  * @param launchOptions options used to launch the application
  * @return true if this call handled the operation

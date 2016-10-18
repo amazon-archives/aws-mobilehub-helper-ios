@@ -11,6 +11,7 @@
 #import "AWSSignInProvider.h"
 #import "AWSFacebookSignInProvider.h"
 #import "AWSGoogleSignInProvider.h"
+#import "AWSSignInProviderFactory.h"
 
 NSString *const AWSIdentityManagerDidSignInNotification = @"com.amazonaws.AWSIdentityManager.AWSIdentityManagerDidSignInNotification";
 NSString *const AWSIdentityManagerDidSignOutNotification = @"com.amazonaws.AWSIdentityManager.AWSIdentityManagerDidSignOutNotification";
@@ -23,6 +24,12 @@ typedef void (^AWSIdentityManagerCompletionBlock)(id result, NSError *error);
 @property (atomic, copy) AWSIdentityManagerCompletionBlock completionHandler;
 
 @property (nonatomic, strong) id<AWSSignInProvider> currentSignInProvider;
+
+@end
+
+@interface AWSSignInProviderFactory()
+
+-(NSArray<NSString *>*)getRegisterdSignInProviders;
 
 @end
 
@@ -168,18 +175,12 @@ static NSString *const AWSInfoProjectClientId = @"ProjectClientId";
 
 - (BOOL)interceptApplication:(UIApplication *)application
 didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    Class signInProviderClass = nil;
-    if ([[NSUserDefaults standardUserDefaults] objectForKey:@"Facebook"]) {
-        signInProviderClass = NSClassFromString(@"AWSFacebookSignInProvider");
-    } else if ([[NSUserDefaults standardUserDefaults] objectForKey:@"Google"]) {
-        signInProviderClass = NSClassFromString(@"AWSGoogleSignInProvider");
-    }
     
-    self.currentSignInProvider = [signInProviderClass sharedInstance];
-    
-    if (signInProviderClass && !self.currentSignInProvider) {
-        NSLog(@"Unable to locate the SignIn Provider SDK. Signing Out any existing session...");
-        [self wipeAll];
+    for(NSString *key in [[AWSSignInProviderFactory sharedInstance] getRegisterdSignInProviders]) {
+        if ([[NSUserDefaults standardUserDefaults] objectForKey:key]) {
+            self.currentSignInProvider = [[AWSSignInProviderFactory sharedInstance] signInProviderForKey:key];
+        }
+        
     }
     
     if (self.currentSignInProvider) {

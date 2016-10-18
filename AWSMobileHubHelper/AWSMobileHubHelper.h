@@ -14,3 +14,4 @@
 #import "AWSFacebookSignInProvider.h"
 #import "AWSGoogleSignInProvider.h"
 #import "AWSUserFileManager.h"
+#import "AWSSignInProviderFactory.h"
