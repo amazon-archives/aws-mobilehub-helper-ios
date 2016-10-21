@@ -13,8 +13,6 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-// TODO: Get header doc reviewed by Dan Zucker
-
 /*
  `AWSSignInProviderFactory` stores the instances of the sign in providers implemented using the protocol `AWSSignInProvider`. The instances registered with `AWSSignInProviderFactory` are fetched by `AWSIdentityManager` when `interceptApplication:didFinishLaunchingWithOptions` is called from `AWSMobileClient`.
  */

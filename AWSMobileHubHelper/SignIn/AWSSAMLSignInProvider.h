@@ -16,14 +16,14 @@ NS_ASSUME_NONNULL_BEGIN
  *  Any class over-riding the `AWSSAMLSignInProvider` class for implemeting `SAML` as a sign-in provider,
  *  should also adopt the `AWSSAMLSignInProviderInstance` protocol.
  */
-@protocol AWSSAMLSignInProviderInstance <NSObject>
+@protocol AWSSAMLSignInProviderInstance
 
 /**
  *  The shared instance of the class implementing `SAML` as a sign-in provider.
  *
  *  @return the shared instance of the class implementing `SAML` as a sign-in provider.
  */
-+ (instancetype)sharedInstance;
++ (id<AWSSignInProvider>)sharedInstance;
 
 @end
 
