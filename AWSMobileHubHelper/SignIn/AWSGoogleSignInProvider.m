@@ -12,7 +12,7 @@
 
 #import <GoogleSignIn/GoogleSignIn.h>
 
-static NSString *const AWSGoogleSignInProviderKey = @"Google";
+NSString *const AWSGoogleSignInProviderKey = @"Google";
 static NSString *const AWSGoogleSignInProviderUserNameKey = @"Google.userName";
 static NSString *const AWSGoogleSignInProviderImageURLKey = @"Google.imageURL";
 static NSString *const AWSGoogleSignInProviderClientScope = @"profile";

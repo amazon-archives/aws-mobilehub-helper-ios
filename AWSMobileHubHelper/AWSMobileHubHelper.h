@@ -16,3 +16,4 @@
 #import "AWSUserFileManager.h"
 #import "AWSSignInProviderFactory.h"
 #import "AWSSAMLSignInProvider.h"
+#import "AWSCognitoUserPoolsSignInProvider.h"

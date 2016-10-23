@@ -11,7 +11,7 @@
 #import <FBSDKCoreKit/FBSDKCoreKit.h>
 #import <FBSDKLoginKit/FBSDKLoginKit.h>
 
-static NSString *const AWSFacebookSignInProviderKey = @"Facebook";
+NSString *const AWSFacebookSignInProviderKey = @"Facebook";
 static NSString *const AWSFacebookSignInProviderUserNameKey = @"Facebook.userName";
 static NSString *const AWSFacebookSignInProviderImageURLKey = @"Facebook.imageURL";
 static NSTimeInterval const AWSFacebookSignInProviderTokenRefreshBuffer = 10 * 60;

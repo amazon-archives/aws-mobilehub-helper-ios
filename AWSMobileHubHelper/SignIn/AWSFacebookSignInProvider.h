@@ -12,6 +12,8 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+FOUNDATION_EXPORT NSString *const AWSFacebookSignInProviderKey;
+
 /**
  * `AWSFacebookSignInProvider` adopts the `AWSSignInProvider` protocol.
  *
