@@ -75,7 +75,7 @@ typedef void (^AWSIdentityManagerCompletionBlock)(id result, NSError *error);
 #pragma mark - Instance Methods
 
 - (BOOL)isLoggedIn {
-    if ([self isLoginFlagSet] &&
+    if ([self isCachedLoginFlagSet] &&
         [self fetchStoredToken]) {
         return YES;
     }
@@ -108,12 +108,23 @@ typedef void (^AWSIdentityManagerCompletionBlock)(id result, NSError *error);
             }
             return nil;
         }];
-        
     }
 }
 
+- (void)setCachedLoginFlag {
+    [[NSUserDefaults standardUserDefaults] setObject: @"YES" forKey: self.uniqueIdentfier];
+}
+
+- (BOOL)isCachedLoginFlagSet {
+    return [[NSUserDefaults standardUserDefaults] objectForKey: self.uniqueIdentfier] != nil;
+}
+
+- (void)clearCachedLoginFlag {
+    [[NSUserDefaults standardUserDefaults] removeObjectForKey:self.uniqueIdentfier];
+}
+
 - (void)completeLogin {
-    [self setLoginFlag];
+    [self setCachedLoginFlag];
     [[AWSIdentityManager defaultIdentityManager] completeLogin];
 }
 
@@ -127,14 +138,6 @@ typedef void (^AWSIdentityManagerCompletionBlock)(id result, NSError *error);
 
 - (NSString *)fetchStoredToken {
     return self.keychain[[self stringWithUniqueIdentifierPrefix:AWSSAMLSignInProviderTokenSuffix]];
-}
-
-- (void)setLoginFlag {
-    [[NSUserDefaults standardUserDefaults] setObject: @"YES" forKey: self.uniqueIdentfier];
-}
-
-- (BOOL)isLoginFlagSet {
-    return (BOOL)[[NSUserDefaults standardUserDefaults] objectForKey: self.uniqueIdentfier];
 }
 
 - (void)login:(AWSIdentityManagerCompletionBlock) completionHandler {
@@ -162,7 +165,7 @@ typedef void (^AWSIdentityManagerCompletionBlock)(id result, NSError *error);
 }
 
 - (void)logout {
-    [[NSUserDefaults standardUserDefaults] removeObjectForKey:self.uniqueIdentfier];
+    [self clearCachedLoginFlag];
     [self deleteToken];
 }
 

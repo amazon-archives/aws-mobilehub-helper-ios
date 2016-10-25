@@ -131,7 +131,7 @@ typedef void (^AWSIdentityManagerCompletionBlock)(id result, NSError *error);
 
 - (BOOL)isLoggedIn {
     BOOL loggedIn = [FBSDKAccessToken currentAccessToken] != nil;
-    return [[NSUserDefaults standardUserDefaults] objectForKey:AWSFacebookSignInProviderKey] != nil && loggedIn;
+    return [self isCachedLoginFlagSet] && loggedIn;
 }
 
 - (NSString *)userName {
@@ -152,6 +152,19 @@ typedef void (^AWSIdentityManagerCompletionBlock)(id result, NSError *error);
                                               forKey:AWSFacebookSignInProviderImageURLKey];
 }
 
+- (void)setCachedLoginFlag {
+    [[NSUserDefaults standardUserDefaults] setObject:@"YES"
+                                              forKey:AWSFacebookSignInProviderKey];
+}
+
+- (BOOL)isCachedLoginFlagSet {
+    return [[NSUserDefaults standardUserDefaults] objectForKey:AWSFacebookSignInProviderKey] != nil;
+}
+
+- (void)clearCachedLoginFlag {
+    [[NSUserDefaults standardUserDefaults] removeObjectForKey:AWSFacebookSignInProviderKey];
+}
+
 - (void)reloadSession {
     if ([[NSUserDefaults standardUserDefaults] objectForKey:AWSFacebookSignInProviderKey]
         && [FBSDKAccessToken currentAccessToken]) {
@@ -166,8 +179,7 @@ typedef void (^AWSIdentityManagerCompletionBlock)(id result, NSError *error);
 }
 
 - (void)completeLogin {
-    [[NSUserDefaults standardUserDefaults] setObject:@"YES"
-                                              forKey:AWSFacebookSignInProviderKey];
+    [self setCachedLoginFlag];
     [[AWSIdentityManager defaultIdentityManager] completeLogin];
     
     FBSDKGraphRequest *requestForImageUrl = [[FBSDKGraphRequest alloc] initWithGraphPath:@"me"
@@ -213,7 +225,7 @@ typedef void (^AWSIdentityManagerCompletionBlock)(id result, NSError *error);
 }
 
 - (void)logout {
-    [[NSUserDefaults standardUserDefaults] removeObjectForKey:AWSFacebookSignInProviderKey];
+    [self clearCachedLoginFlag];
     if (!self.facebookLogin) {
         [self createFBSDKLoginManager];
     }

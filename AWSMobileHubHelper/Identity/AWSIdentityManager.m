@@ -177,7 +177,7 @@ static NSString *const AWSInfoProjectClientId = @"ProjectClientId";
 didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     
     for(NSString *key in [[AWSSignInProviderFactory sharedInstance] getRegisterdSignInProviders]) {
-        if ([[NSUserDefaults standardUserDefaults] objectForKey:key]) {
+        if ([[[AWSSignInProviderFactory sharedInstance] signInProviderForKey:key] isCachedLoginFlagSet]) {
             self.currentSignInProvider = [[AWSSignInProviderFactory sharedInstance] signInProviderForKey:key];
         }
         

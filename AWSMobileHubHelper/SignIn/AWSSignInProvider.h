@@ -49,6 +49,24 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)logout;
 
 /**
+ *  Call this method on a successful login. This method should store a flag in persistent storage which determines if the user has signed-in using this sign-in provider.
+ *  This method is called by AWSIdentityManager on `interceptApplication:didFinishLaunchingWithOptions` method to set the current sign-in provider.
+ */
+- (void)setCachedLoginFlag;
+
+/**
+ *  Clears the cached login flag. This method should be called during `logout` to clear the stored flag.
+ */
+- (void)clearCachedLoginFlag;
+
+/**
+ *  Fetches the status of the cached login flag set using `setCachedLoginFlag`.
+ *
+ *  @return `YES` if the setCachedLoginFlag is set.
+ */
+- (BOOL)isCachedLoginFlagSet;
+
+/**
  The handler method for managing the session reload for the Sign-In Provider.
  */
 - (void)reloadSession;

@@ -93,7 +93,21 @@ cognitoIdentityUserPoolAppClientSecret:(NSString *)cognitoIdentityUserPoolAppCli
 
 - (BOOL)isLoggedIn {
     AWSCognitoIdentityUserPool *pool = [self getUserPool];
-    return [pool.currentUser isSignedIn];
+    BOOL loggedIn = [pool.currentUser isSignedIn];
+    return (loggedIn && [self isCachedLoginFlagSet]);
+}
+
+- (void)setCachedLoginFlag {
+    [[NSUserDefaults standardUserDefaults] setObject:@"YES"
+                                              forKey:AWSCognitoUserPoolsSignInProviderKey];
+}
+
+- (BOOL)isCachedLoginFlagSet {
+    return [[NSUserDefaults standardUserDefaults] objectForKey: AWSCognitoUserPoolsSignInProviderKey] != nil;
+}
+
+- (void)clearCachedLoginFlag {
+    [[NSUserDefaults standardUserDefaults] removeObjectForKey:AWSCognitoUserPoolsSignInProviderKey];
 }
 
 - (NSString *)userName {
@@ -121,6 +135,7 @@ cognitoIdentityUserPoolAppClientSecret:(NSString *)cognitoIdentityUserPoolAppCli
 }
 
 - (void)completeLogin {
+    [self setCachedLoginFlag];
     [self setUserName:[[[self getUserPool] currentUser] username]]; // set user name as name
     [[AWSIdentityManager defaultIdentityManager] completeLogin];
     
@@ -142,6 +157,7 @@ cognitoIdentityUserPoolAppClientSecret:(NSString *)cognitoIdentityUserPoolAppCli
 }
 
 - (void)logout {
+    [self clearCachedLoginFlag];
     AWSCognitoIdentityUserPool *pool = [self getUserPool];
     [pool.currentUser signOut];
 }
