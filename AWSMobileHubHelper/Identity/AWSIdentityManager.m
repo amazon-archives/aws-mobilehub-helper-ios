@@ -24,6 +24,7 @@ typedef void (^AWSIdentityManagerCompletionBlock)(id result, NSError *error);
 @property (atomic, copy) AWSIdentityManagerCompletionBlock completionHandler;
 
 @property (nonatomic, strong) id<AWSSignInProvider> currentSignInProvider;
+@property (nonatomic, strong) id<AWSSignInProvider> potentialSignInProvider;
 
 @end
 
@@ -135,10 +136,10 @@ static NSString *const AWSInfoProjectClientId = @"ProjectClientId";
 
 - (void)loginWithSignInProvider:(id)signInProvider
               completionHandler:(void (^)(id result, NSError *error))completionHandler {
-    self.currentSignInProvider = signInProvider;
+    self.potentialSignInProvider = signInProvider;
     
     self.completionHandler = completionHandler;
-    [self.currentSignInProvider login:completionHandler];
+    [self.potentialSignInProvider login:completionHandler];
 }
 
 - (void)resumeSessionWithCompletionHandler:(void (^)(id result, NSError *error))completionHandler {
@@ -154,6 +155,11 @@ static NSString *const AWSInfoProjectClientId = @"ProjectClientId";
 - (void)completeLogin {
     // Force a refresh of credentials to see if we need to merge
     [self.credentialsProvider invalidateCachedTemporaryCredentials];
+    
+    if (self.potentialSignInProvider) {
+        self.currentSignInProvider = self.potentialSignInProvider;
+        self.potentialSignInProvider = nil;
+    }
     
     [[self.credentialsProvider credentials] continueWithBlock:^id _Nullable(AWSTask<AWSCredentials *> * _Nonnull task) {
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -195,11 +201,11 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
                      openURL:(NSURL *)url
            sourceApplication:(NSString *)sourceApplication
                   annotation:(id)annotation {
-    if (self.currentSignInProvider) {
-        return [self.currentSignInProvider interceptApplication:application
-                                                        openURL:url
-                                              sourceApplication:sourceApplication
-                                                     annotation:annotation];
+    if (self.potentialSignInProvider) {
+        return [self.potentialSignInProvider interceptApplication:application
+                                                          openURL:url
+                                                sourceApplication:sourceApplication
+                                                       annotation:annotation];
     }
     else {
         return YES;
