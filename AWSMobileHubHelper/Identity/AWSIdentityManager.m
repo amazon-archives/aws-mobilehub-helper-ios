@@ -20,7 +20,7 @@ typedef void (^AWSIdentityManagerCompletionBlock)(id result, NSError *error);
 
 @interface AWSIdentityManager()
 
-@property (nonatomic, strong) AWSCognitoCredentialsProvider *credentialsProvider;
+@property (nonatomic, readwrite, strong) AWSCognitoCredentialsProvider *credentialsProvider;
 @property (atomic, copy) AWSIdentityManagerCompletionBlock completionHandler;
 
 @property (nonatomic, strong) id<AWSSignInProvider> currentSignInProvider;

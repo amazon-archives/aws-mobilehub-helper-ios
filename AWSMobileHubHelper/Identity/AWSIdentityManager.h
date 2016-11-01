@@ -45,6 +45,13 @@ FOUNDATION_EXPORT NSString *const AWSIdentityManagerDidSignOutNotification;
 @property (nonatomic, readonly, nullable) NSString *identityId;
 
 /**
+ * Amazon Cognito Credentials Provider. This is the credential provider used by the Identity Manager.
+ *
+ * @return the cognito credentials provider
+ */
+@property (nonatomic, readonly, strong) AWSCognitoCredentialsProvider *credentialsProvider;
+
+/**
  Returns the Identity Manager singleton instance configured using the information provided in `Info.plist` file.
  
  *Swift*
