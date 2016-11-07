@@ -205,7 +205,11 @@ typedef void (^AWSIdentityManagerCompletionBlock)(id result, NSError *error);
                                                  //[[AWSIdentityManager errorAlert:[NSString stringWithFormat:@"Error logging in with FB: %@", error.localizedDescription]] show];
                                                  self.completionHandler(result, error);
                                              } else if (result.isCancelled) {
-                                                 // Login canceled, do nothing
+                                                 // Login canceled, allow completionhandler to know about it
+                                                 NSMutableDictionary *userInfo = [NSMutableDictionary dictionary];
+                                                 userInfo[@"message"] = @"User Cancelled Login";
+                                                 NSError *resultError = [NSError errorWithDomain:FBSDKLoginErrorDomain code:FBSDKLoginUnknownErrorCode userInfo:userInfo];
+                                                 self.completionHandler(result,resultError);
                                              } else {
                                                  [self completeLogin];
                                              }
