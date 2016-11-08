@@ -45,6 +45,23 @@ FOUNDATION_EXPORT NSString *const AWSIdentityManagerDidSignOutNotification;
 @property (nonatomic, readonly, nullable) NSString *identityId;
 
 /**
+ * Some processes in a mobile app require access to the currentSignInProvider.
+ * For example with custom OpenIdConnect or CognitoUserPools providers you may
+ * need to have access to the provider in order to sign-up a user, or recall a forgotten
+ * password.  For Google and Facebook you may need the provider in order to access
+ * user claims.  Thus we expose the (read only) currentSignInProvider
+ * @return currentSignInProvider
+ */
+@property (nonatomic, readonly) id currentSignInProvider;
+
+/**
+ * Completes login process, sends notification of SignIn state change
+ * clears cached temporary credentials and gets credentials. Once the
+ * AWSSignInProvider completes the login, it must call completLogin
+ */
+- (void)completeLogin;
+
+/**
  Returns the Identity Manager singleton instance configured using the information provided in `Info.plist` file.
  
  *Swift*
@@ -72,6 +89,19 @@ FOUNDATION_EXPORT NSString *const AWSIdentityManagerDidSignOutNotification;
 - (void)loginWithSignInProvider:(id<AWSSignInProvider>)signInProvider
               completionHandler:(void (^)(id _Nullable result, NSError * _Nullable error))completionHandler;
 
+/**
+ * The providerKey is a user readable name of the signInProvider passed as an such 
+ * as Facebook or Google or whatever you choose for your developer identity provider 
+ * or cognito user pools. The name is used as the key for the NSUserDefaults Active
+ * Session indicator. This value is needed for user feedback (for instance a Cognito login
+ * error can say "Failed to login to Cognito Pool" instead of "Failed to login 
+ * to cognito-idp.us-east-1_KRlVhYCpHqM", which is much less user friendly.
+ * Keys are used as user friendly name AND to maintain active sessions.
+ * The keys are established using Info.Plist under 
+ * AWS->IdentityManager->Default->SignInProviderKeyDictionary
+ * @return provider name or nil (nil if classname not found)
+ */
+- (NSString *)providerKey:(id<AWSSignInProvider>)signInProvider;
 
 /**
  * Attempts to resume session with the previous sign-in provider.

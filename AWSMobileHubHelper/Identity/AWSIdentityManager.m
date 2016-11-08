@@ -14,6 +14,7 @@
 
 NSString *const AWSIdentityManagerDidSignInNotification = @"com.amazonaws.AWSIdentityManager.AWSIdentityManagerDidSignInNotification";
 NSString *const AWSIdentityManagerDidSignOutNotification = @"com.amazonaws.AWSIdentityManager.AWSIdentityManagerDidSignOutNotification";
+NSString *const AWSIdentityManagerUserDefaultsProvidersOk = @"com.amazonaws.AWSIdentityManager.ProvidersOk";
 
 typedef void (^AWSIdentityManagerCompletionBlock)(id result, NSError *error);
 
@@ -27,6 +28,8 @@ typedef void (^AWSIdentityManagerCompletionBlock)(id result, NSError *error);
 @end
 
 @implementation AWSIdentityManager
+
+BOOL doNotInitProviders; // Switch true if last shutdown was graceless
 
 static NSString *const AWSInfoIdentityManager = @"IdentityManager";
 static NSString *const AWSInfoRoot = @"AWS";
@@ -45,6 +48,9 @@ static NSString *const AWSInfoProjectClientId = @"ProjectClientId";
                                          userInfo:nil];
         }
         _defaultIdentityManager = [[AWSIdentityManager alloc] initWithCredentialProvider:serviceInfo];
+        if ((doNotInitProviders = ![[NSUserDefaults standardUserDefaults] boolForKey:AWSIdentityManagerUserDefaultsProvidersOk])) {
+            NSLog(@"Graceless exit detected");
+        };
     });
     
     return _defaultIdentityManager;
@@ -97,6 +103,18 @@ static NSString *const AWSInfoProjectClientId = @"ProjectClientId";
     return self.currentSignInProvider.userName;
 }
 
+- (NSString *)providerKey:(id<AWSSignInProvider>)signInProvider {
+    NSString *provider = nil;
+    AWSServiceInfo *serviceInfo = [[AWSInfo defaultAWSInfo] defaultServiceInfo:AWSInfoIdentityManager];
+    NSDictionary *signInProviderKeyDictionary = [serviceInfo.infoDictionary objectForKey:@"SignInProviderKeyDictionary"];
+    provider = [signInProviderKeyDictionary objectForKey:NSStringFromClass([signInProvider class])];
+    if (provider) {
+        return provider;
+    } else {
+        return @"SignInProviderKeyDictionary is not configured properly";
+    }
+}
+
 - (void)wipeAll {
     [self.credentialsProvider clearKeychain];
 }
@@ -109,6 +127,9 @@ static NSString *const AWSInfoProjectClientId = @"ProjectClientId";
     [self wipeAll];
     
     self.currentSignInProvider = nil;
+    
+    // if we still have an active session, getIdentityId will find it
+    [self interceptApplication: [UIApplication sharedApplication] didFinishLaunchingWithOptions:nil];
     
     [[self.credentialsProvider getIdentityId] continueWithBlock:^id _Nullable(AWSTask<NSString *> * _Nonnull task) {
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -133,15 +154,24 @@ static NSString *const AWSInfoProjectClientId = @"ProjectClientId";
     self.completionHandler = completionHandler;
     [self.currentSignInProvider login:completionHandler];
 }
+//              (^AWSIdentityManagerCompletionBlock)(id result, NSError *error)
+- (void)resumeSessionWithCompletionHandler:(AWSIdentityManagerCompletionBlock)completionHandler {
 
-- (void)resumeSessionWithCompletionHandler:(void (^)(id result, NSError *error))completionHandler {
-    self.completionHandler = completionHandler;
-    
-    [self.currentSignInProvider reloadSession];
-    
-    if (self.currentSignInProvider == nil) {
-        [self completeLogin];
+    // Wrap the completion handler in a closure that sets the all clear flag
+    self.completionHandler = ^ (id result, NSError *error) {
+        NSLog(@"Session resume complete - setting Providers Ok");
+        NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+        [userDefaults setBool:YES
+                       forKey:AWSIdentityManagerUserDefaultsProvidersOk];
+        completionHandler(result, error);
+    };
+
+    for (id<AWSSignInProvider> provider  in [self activeProviders]) {
+        [provider reloadSession]; // reload each of the providers that have active sessions
     }
+    // Always do completeLogin to guarantee credentials and NSNotification
+    [self completeLogin];
+    doNotInitProviders = NO;
 }
 
 - (void)completeLogin {
@@ -166,28 +196,74 @@ static NSString *const AWSInfoProjectClientId = @"ProjectClientId";
     }];
 }
 
-- (BOOL)interceptApplication:(UIApplication *)application
-didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+- (NSArray *)activeProviders {
     Class signInProviderClass = nil;
-    if ([[NSUserDefaults standardUserDefaults] objectForKey:@"Facebook"]) {
-        signInProviderClass = NSClassFromString(@"AWSFacebookSignInProvider");
-    } else if ([[NSUserDefaults standardUserDefaults] objectForKey:@"Google"]) {
-        signInProviderClass = NSClassFromString(@"AWSGoogleSignInProvider");
+    NSMutableArray *providerArray;
+    providerArray = [[NSMutableArray<id<AWSSignInProvider>> alloc] init ];
+    AWSServiceInfo *serviceInfo = [[AWSInfo defaultAWSInfo] defaultServiceInfo:AWSInfoIdentityManager];
+    NSDictionary *signInProviderKeyDictionary = [serviceInfo.infoDictionary objectForKey:@"SignInProviderKeyDictionary"];
+    if (!signInProviderKeyDictionary) { // no keys list - do it the old way:
+        // This maintains mobile hub compatibility
+        // Do google first, so that Facebook sessions are preferred just
+        // like before.
+        if ([[NSUserDefaults standardUserDefaults] objectForKey:@"Google"]) {
+            signInProviderClass = NSClassFromString(@"AWSGoogleSignInProvider");
+            [providerArray addObject:[signInProviderClass sharedInstance]];
+        }
+        if ([[NSUserDefaults standardUserDefaults] objectForKey:@"Facebook"]) {
+            signInProviderClass = NSClassFromString(@"AWSFacebookSignInProvider");
+            [providerArray addObject:[signInProviderClass sharedInstance]];
+        }
+        if (signInProviderClass && !providerArray.lastObject) {
+            NSLog(@"Unable to locate the SignIn Provider SDK. Signing Out any existing session...");
+            [self wipeAll];
+        }
+        
     }
     
-    self.currentSignInProvider = [signInProviderClass sharedInstance];
     
-    if (signInProviderClass && !self.currentSignInProvider) {
-        NSLog(@"Unable to locate the SignIn Provider SDK. Signing Out any existing session...");
-        [self wipeAll];
+    // loop through the Info.plist
+    // AWS->IdentityManager->Default->SignInProviderClassDictionary
+    // and return provider list for any sessions found.
+    for (NSString *key in signInProviderKeyDictionary) {
+        if ([[NSUserDefaults standardUserDefaults] objectForKey:[signInProviderKeyDictionary objectForKey:key]]) {
+            if (doNotInitProviders) { // previous exit was not graceful
+                NSLog(@"Graceless exit - removing %@",key);
+                [[NSUserDefaults standardUserDefaults] removeObjectForKey:[signInProviderKeyDictionary objectForKey:key]];
+                [self wipeAll]; // once would be enough
+            } else {
+                signInProviderClass = NSClassFromString(key);
+                [providerArray addObject:[signInProviderClass sharedInstance]]; // assemble list
+                if (signInProviderClass && !providerArray.lastObject) {
+                    NSLog(@"Unable to locate the SignIn Provider SDK for %@. Signing Out any existing session...", key);
+                    [self wipeAll];
+                }
+                
+            }
+        }
+    }
+    return providerArray;
+}
+
+- (BOOL)interceptApplication:(UIApplication *)application
+didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+    [userDefaults setBool:NO
+                   forKey:AWSIdentityManagerUserDefaultsProvidersOk]; // Assume they are not ok
+    
+    // Restart any sessions found.
+    for (id provider in [self activeProviders]) {
+        
+        self.currentSignInProvider = provider;
     }
     
     if (self.currentSignInProvider) {
-        return [self.currentSignInProvider interceptApplication:application
-                                  didFinishLaunchingWithOptions:launchOptions];
-    } else {
-        return YES;
+        if (![self.currentSignInProvider interceptApplication:application
+                                didFinishLaunchingWithOptions:launchOptions]) {
+            NSLog(@"Unable to instantiate AWSSignInProvider for existing session.");
+        }
     }
+    return YES;
 }
 
 - (BOOL)interceptApplication:(UIApplication *)application
