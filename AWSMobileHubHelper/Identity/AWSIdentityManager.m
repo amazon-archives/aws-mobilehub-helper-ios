@@ -29,12 +29,18 @@ typedef void (^AWSIdentityManagerCompletionBlock)(id result, NSError *error);
 
 @implementation AWSIdentityManager
 
+// Enhancement support
+NSDictionary<NSString *, NSString *> *loginCache; // Be a "real" AWSIdentityProviderManager
+BOOL mergingIdentityProviderManager; // Switch to allow or reject identity merging
+BOOL multiAccountIdentityProviderManager; // Switch to allow or reject stacked logins
 BOOL doNotInitProviders; // Switch true if last shutdown was graceless
 
 static NSString *const AWSInfoIdentityManager = @"IdentityManager";
 static NSString *const AWSInfoRoot = @"AWS";
 static NSString *const AWSInfoMobileHub = @"MobileHub";
 static NSString *const AWSInfoProjectClientId = @"ProjectClientId";
+static NSString *const AWSInfoAllowIdentityMerging = @"Allow Identity Merging";
+static NSString *const AWSInfoAllowSimultaneousActiveAccounts = @"Allow Simultaneous Active Accounts";
 
 + (instancetype)defaultIdentityManager {
     static AWSIdentityManager *_defaultIdentityManager = nil;
@@ -48,9 +54,18 @@ static NSString *const AWSInfoProjectClientId = @"ProjectClientId";
                                          userInfo:nil];
         }
         _defaultIdentityManager = [[AWSIdentityManager alloc] initWithCredentialProvider:serviceInfo];
+        loginCache = [[NSDictionary<NSString *, NSString *> alloc] init];
+        if (!(mergingIdentityProviderManager = [[serviceInfo.infoDictionary valueForKey:AWSInfoAllowIdentityMerging] boolValue])) {
+            mergingIdentityProviderManager = FALSE; // Mobile Hub Compatibility
+        };
+        if (!(multiAccountIdentityProviderManager =  [[serviceInfo.infoDictionary valueForKey:AWSInfoAllowSimultaneousActiveAccounts  ] boolValue])) {
+            multiAccountIdentityProviderManager = FALSE; // Mobile Hub Compatibility
+        };
         if ((doNotInitProviders = ![[NSUserDefaults standardUserDefaults] boolForKey:AWSIdentityManagerUserDefaultsProvidersOk])) {
             NSLog(@"Graceless exit detected");
         };
+
+
     });
     
     return _defaultIdentityManager;
@@ -81,8 +96,30 @@ static NSString *const AWSInfoProjectClientId = @"ProjectClientId";
     }
     return [[self.currentSignInProvider token] continueWithSuccessBlock:^id _Nullable(AWSTask<NSString *> * _Nonnull task) {
         NSString *token = task.result;
-        return [AWSTask taskWithResult:@{self.currentSignInProvider.identityProviderName : token}];
+        [self mergeLogins:@{self.currentSignInProvider.identityProviderName : token}];
+        return [AWSTask taskWithResult: loginCache];
     }];
+}
+
+- (void)mergeLogins:(NSDictionary<NSString *,NSString *> *)logins {
+    if (!mergingIdentityProviderManager) {
+        loginCache = [logins copy]; // not merging?  replace the cache with what they passed
+    } else { // merging, add the new login to the cache
+        NSMutableDictionary<NSString *, NSString *> *merge = [[NSMutableDictionary<NSString *, NSString *> alloc] init];
+        merge = [loginCache mutableCopy];
+
+        for (NSString* key in logins) {
+            merge[key] = logins[key];
+        }
+        loginCache = [merge copy];
+    }
+}
+
+- (void)dropLogin:(NSString *)key {
+    NSMutableDictionary<NSString *, NSString *> *shorterList = [[NSMutableDictionary<NSString *, NSString *> alloc] init];
+    shorterList = [loginCache mutableCopy];
+    [shorterList removeObjectForKey: key];
+    loginCache = [shorterList copy];
 }
 
 #pragma mark -
@@ -116,6 +153,9 @@ static NSString *const AWSInfoProjectClientId = @"ProjectClientId";
 }
 
 - (void)wipeAll {
+    if (self.currentSignInProvider) { // fix login cache
+        [self dropLogin: [self.currentSignInProvider identityProviderName]];
+    }
     [self.credentialsProvider clearKeychain];
 }
 
@@ -149,10 +189,33 @@ static NSString *const AWSInfoProjectClientId = @"ProjectClientId";
 
 - (void)loginWithSignInProvider:(id)signInProvider
               completionHandler:(void (^)(id result, NSError *error))completionHandler {
+
+    // don't create multiple logins if the Allow Simultaneous Active Accounts is NO
+    if (!multiAccountIdentityProviderManager  && self.currentSignInProvider) {
+        [self logoutWithCompletionHandler:^void (id result, NSError *error) {
+            if ( error != nil ) {
+                NSLog( @"Error from logoutWithCompletionHandler %@", error);
+            }
+        }];
+    }
+    // allow multiple logins but don't merge the list
+    if (multiAccountIdentityProviderManager && !mergingIdentityProviderManager) {
+        // in this case, we don't want to let the credentials provider retry till he decides
+        // to do a getcredentials, instead we wipe and force it.
+        // This allows multiple stacked logins without merging
+        [self wipeAll];
+    }
     self.currentSignInProvider = signInProvider;
     
     self.completionHandler = completionHandler;
-    [self.currentSignInProvider login:completionHandler];
+    [self.currentSignInProvider login:^void (id result, NSError *error) {
+        if ( error != nil ) {
+            // catch the completion handler so we can do some housekeeping
+            // so we don't leave currentSignInProvider as wrong provider
+            self.currentSignInProvider = nil;
+        }
+        self.completionHandler(result,error);
+    }];
 }
 //              (^AWSIdentityManagerCompletionBlock)(id result, NSError *error)
 - (void)resumeSessionWithCompletionHandler:(AWSIdentityManagerCompletionBlock)completionHandler {
@@ -190,7 +253,19 @@ static NSString *const AWSInfoProjectClientId = @"ProjectClientId";
                 AWSLogError(@"Fatal exception: [%@]", task.exception);
                 kill(getpid(), SIGKILL);
             }
-            self.completionHandler(task.result, task.error);
+            // Cannot merge identities is a failed login, not logging in with another
+            // provider.  And this or any other error causes us to logout and
+            // go look for other sessions to start.
+            if (task.error.code == AWSCognitoIdentityErrorResourceConflict || task.error != nil) {
+                [self logoutWithCompletionHandler:^void (id result, NSError *error) {
+                    if ( error != nil ) {
+                        NSLog( @"Error from logoutWithCompletionHandler %@", error);
+                    }
+                    self.completionHandler(task.result, task.error); // done deliver result
+                }];
+            } else {
+                self.completionHandler(task.result, task.error);  // no issues
+            }
         });
         return nil;
     }];

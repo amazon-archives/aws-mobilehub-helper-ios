@@ -55,6 +55,16 @@ FOUNDATION_EXPORT NSString *const AWSIdentityManagerDidSignOutNotification;
 @property (nonatomic, readonly) id currentSignInProvider;
 
 /**
+ * Returns an array of instances of AWSSignInProviders with active sessions.
+ * SignIn Providers that have active sessions store a value in NSUserDefaults with thier
+ * providerKey as a key.  Usually this value is "YES", but does not need to be (some have
+ * stored a token).  The existence of any value is enough to indicate that there is an
+ * active session with this provider.
+ * @return NSArray of active AWSSignInProvider instances
+ */
+- (NSArray *)activeProviders;
+
+/**
  * Completes login process, sends notification of SignIn state change
  * clears cached temporary credentials and gets credentials. Once the
  * AWSSignInProvider completes the login, it must call completLogin
