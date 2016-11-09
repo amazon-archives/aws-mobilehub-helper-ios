@@ -44,6 +44,10 @@
 		1851DD511D25CF870010B8AA /* module.modulemap in CopyFiles */ = {isa = PBXBuildFile; fileRef = 1851DD501D25CF7C0010B8AA /* module.modulemap */; };
 		18A3E46C1D52AC5000A3AE26 /* libPods-AWSMobileHubHelper.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 18A3E46B1D52AC5000A3AE26 /* libPods-AWSMobileHubHelper.a */; };
 		5A1F46E8D136C85A0F66DBEB /* libPods-AWSMobileHubHelper.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F313F95C1A385D20A08A0F20 /* libPods-AWSMobileHubHelper.a */; };
+		E424BC571DCCE0B200E231E9 /* AWSSalesforceAuthorizationManager.h in Headers */ = {isa = PBXBuildFile; fileRef = E424BC551DCCE0B200E231E9 /* AWSSalesforceAuthorizationManager.h */; };
+		E424BC581DCCE0B200E231E9 /* AWSSalesforceAuthorizationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E424BC561DCCE0B200E231E9 /* AWSSalesforceAuthorizationManager.m */; };
+		E424BC5B1DCCE0F600E231E9 /* AWSAuthorizationManager.h in Headers */ = {isa = PBXBuildFile; fileRef = E424BC591DCCE0F600E231E9 /* AWSAuthorizationManager.h */; };
+		E424BC5C1DCCE0F600E231E9 /* AWSAuthorizationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E424BC5A1DCCE0F600E231E9 /* AWSAuthorizationManager.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -99,6 +103,10 @@
 		18A3E46B1D52AC5000A3AE26 /* libPods-AWSMobileHubHelper.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libPods-AWSMobileHubHelper.a"; path = "/Users/saligram/Library/Developer/Xcode/DerivedData/AWSMobileHubHelper-gyehtqpthehzduaonjwjnaptkadu/Build/Products/Debug-iphonesimulator/libPods-AWSMobileHubHelper.a"; sourceTree = "<absolute>"; };
 		9C8606474456ECAC0A2A47FB /* Pods-AWSMobileHubHelper.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AWSMobileHubHelper.release.xcconfig"; path = "Pods/Target Support Files/Pods-AWSMobileHubHelper/Pods-AWSMobileHubHelper.release.xcconfig"; sourceTree = "<group>"; };
 		B3EA1B7C4DAA1E2BB1B70928 /* Pods-AWSMobileHubHelper.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AWSMobileHubHelper.debug.xcconfig"; path = "Pods/Target Support Files/Pods-AWSMobileHubHelper/Pods-AWSMobileHubHelper.debug.xcconfig"; sourceTree = "<group>"; };
+		E424BC551DCCE0B200E231E9 /* AWSSalesforceAuthorizationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AWSSalesforceAuthorizationManager.h; path = Authorization/AWSSalesforceAuthorizationManager.h; sourceTree = "<group>"; };
+		E424BC561DCCE0B200E231E9 /* AWSSalesforceAuthorizationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AWSSalesforceAuthorizationManager.m; path = Authorization/AWSSalesforceAuthorizationManager.m; sourceTree = "<group>"; };
+		E424BC591DCCE0F600E231E9 /* AWSAuthorizationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AWSAuthorizationManager.h; path = Authorization/AWSAuthorizationManager.h; sourceTree = "<group>"; };
+		E424BC5A1DCCE0F600E231E9 /* AWSAuthorizationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AWSAuthorizationManager.m; path = Authorization/AWSAuthorizationManager.m; sourceTree = "<group>"; };
 		F313F95C1A385D20A08A0F20 /* libPods-AWSMobileHubHelper.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-AWSMobileHubHelper.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -136,6 +144,7 @@
 		1851DCEF1D25C5A30010B8AA /* AWSMobileHubHelper */ = {
 			isa = PBXGroup;
 			children = (
+				E424BC501DCCDFDC00E231E9 /* Authorization */,
 				1851DD501D25CF7C0010B8AA /* module.modulemap */,
 				1851DCFF1D25CC890010B8AA /* CloudLogic */,
 				1851DD021D25CC890010B8AA /* ContentDelivery */,
@@ -229,6 +238,17 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
+		E424BC501DCCDFDC00E231E9 /* Authorization */ = {
+			isa = PBXGroup;
+			children = (
+				E424BC591DCCE0F600E231E9 /* AWSAuthorizationManager.h */,
+				E424BC5A1DCCE0F600E231E9 /* AWSAuthorizationManager.m */,
+				E424BC551DCCE0B200E231E9 /* AWSSalesforceAuthorizationManager.h */,
+				E424BC561DCCE0B200E231E9 /* AWSSalesforceAuthorizationManager.m */,
+			);
+			name = Authorization;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -240,9 +260,11 @@
 				1851DD1E1D25CCF40010B8AA /* AWSContentManager.h in Headers */,
 				1851DD1F1D25CCF70010B8AA /* AWSIdentityManager.h in Headers */,
 				1851DD201D25CCFB0010B8AA /* AWSPushManager.h in Headers */,
+				E424BC571DCCE0B200E231E9 /* AWSSalesforceAuthorizationManager.h in Headers */,
 				1851DD211D25CD040010B8AA /* AWSFacebookSignInProvider.h in Headers */,
 				1851DD221D25CD040010B8AA /* AWSGoogleSignInProvider.h in Headers */,
 				1851DD231D25CD040010B8AA /* AWSSignInProvider.h in Headers */,
+				E424BC5B1DCCE0F600E231E9 /* AWSAuthorizationManager.h in Headers */,
 				172C83ED1DB57F6C00217417 /* AWSSignInProviderFactory.h in Headers */,
 				17FE6F351DB6CBE20053299B /* AWSSAMLSignInProvider.h in Headers */,
 				1851DD241D25CD090010B8AA /* AWSUserFileManager.h in Headers */,
@@ -347,8 +369,10 @@
 				173208B31DBC6E12007DA836 /* AWSCognitoUserPoolsSignInProvider.m in Sources */,
 				1851DD191D25CC890010B8AA /* AWSGoogleSignInProvider.m in Sources */,
 				1851DD171D25CC890010B8AA /* AWSPushManager.m in Sources */,
+				E424BC581DCCE0B200E231E9 /* AWSSalesforceAuthorizationManager.m in Sources */,
 				17FE6F361DB6CBE20053299B /* AWSSAMLSignInProvider.m in Sources */,
 				172C83EE1DB57F6C00217417 /* AWSSignInProviderFactory.m in Sources */,
+				E424BC5C1DCCE0F600E231E9 /* AWSAuthorizationManager.m in Sources */,
 				1851DD181D25CC890010B8AA /* AWSFacebookSignInProvider.m in Sources */,
 				1851DD161D25CC890010B8AA /* AWSIdentityManager.m in Sources */,
 				1851DD151D25CC890010B8AA /* AWSContentManager.m in Sources */,
