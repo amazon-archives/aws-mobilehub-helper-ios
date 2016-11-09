@@ -40,4 +40,39 @@
  */
 - (NSString *)getInstanceURL;
 
+// Inherited methods
+
+/**
+ * Starts the authorization flow. Should be called from main thread.
+ *
+ * @param loginViewController The view controller that user sees right before they should see a login screen.
+ * @param completionHandler The code that will follow after receiving successful login. Executes BEFORE login screen is dismissed.
+ */
+- (void)authorize:(UIViewController *)loginViewController completionHandler:(void (^)(id result, NSError *error)) completionHandler;
+
+/**
+ * Starts the refresh flow or possibly run the same authorize flow again.
+ * Does not check if current accessToken is expired or not.
+ *
+ * @param refreshCompletionHandler The code that will follow after refreshing accessToken.
+ */
+- (void)refresh:(void (^)(id result, NSError *error))refreshCompletionHandler;
+
+/**
+ * This method should be placed in the AppDelegate to listen for the redirect URI.
+ *
+ * - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
+ *
+ * @param refreshCompletionHandler The code that will follow after refreshing accessToken.
+ */
+- (BOOL)handleURL:(NSURL *)url;
+
+/**
+ * Starts the logout flow. Should be called from main thread.
+ *
+ * @param logoutViewController The view controller that user sees right before they should see a logout indication.
+ * @param completionHandler The code that will follow after receiving successful login. Executes BEFORE login screen is dismissed.
+ */
+- (void)logout:(UIViewController *)logoutViewController completionHandler:(void (^)(id result, NSError *error)) completionHandler;
+
 @end
