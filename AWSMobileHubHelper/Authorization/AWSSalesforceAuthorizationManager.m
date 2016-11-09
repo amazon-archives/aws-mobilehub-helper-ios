@@ -61,8 +61,8 @@ static NSString *const AWSSalesforceAuthorizationManagerAccessTokenKey = @"acces
 
 - (void)configureWithClientID:(NSString *)clientID
                   redirectURI:(NSString *)redirectURI {
-    self.clientID = clientID;
-    self.redirectURI = redirectURI;
+    self.clientID = clientID ?: @"";
+    self.redirectURI = redirectURI ?: @"";
 }
 
 - (NSString *)getInstanceURL {

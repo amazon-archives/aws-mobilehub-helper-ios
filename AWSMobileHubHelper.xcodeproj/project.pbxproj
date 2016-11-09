@@ -50,6 +50,8 @@
 		E424BC5C1DCCE0F600E231E9 /* AWSAuthorizationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E424BC5A1DCCE0F600E231E9 /* AWSAuthorizationManager.m */; };
 		E49544A81DD3929E008C17FC /* AWSZendeskAuthorizationManager.h in Headers */ = {isa = PBXBuildFile; fileRef = E49544A61DD3929E008C17FC /* AWSZendeskAuthorizationManager.h */; };
 		E49544A91DD3929E008C17FC /* AWSZendeskAuthorizationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E49544A71DD3929E008C17FC /* AWSZendeskAuthorizationManager.m */; };
+		E49544AD1DD3B757008C17FC /* AWSMSDynamicsAuthorizationManager.h in Headers */ = {isa = PBXBuildFile; fileRef = E49544AB1DD3B757008C17FC /* AWSMSDynamicsAuthorizationManager.h */; };
+		E49544AE1DD3B757008C17FC /* AWSMSDynamicsAuthorizationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E49544AC1DD3B757008C17FC /* AWSMSDynamicsAuthorizationManager.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -111,6 +113,9 @@
 		E424BC5A1DCCE0F600E231E9 /* AWSAuthorizationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AWSAuthorizationManager.m; path = Authorization/AWSAuthorizationManager.m; sourceTree = "<group>"; };
 		E49544A61DD3929E008C17FC /* AWSZendeskAuthorizationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AWSZendeskAuthorizationManager.h; path = Authorization/AWSZendeskAuthorizationManager.h; sourceTree = "<group>"; };
 		E49544A71DD3929E008C17FC /* AWSZendeskAuthorizationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AWSZendeskAuthorizationManager.m; path = Authorization/AWSZendeskAuthorizationManager.m; sourceTree = "<group>"; };
+		E49544AA1DD3B0AC008C17FC /* AWSAuthorizer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = AWSAuthorizer.h; path = Authorization/AWSAuthorizer.h; sourceTree = "<group>"; };
+		E49544AB1DD3B757008C17FC /* AWSMSDynamicsAuthorizationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AWSMSDynamicsAuthorizationManager.h; path = Authorization/AWSMSDynamicsAuthorizationManager.h; sourceTree = "<group>"; };
+		E49544AC1DD3B757008C17FC /* AWSMSDynamicsAuthorizationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AWSMSDynamicsAuthorizationManager.m; path = Authorization/AWSMSDynamicsAuthorizationManager.m; sourceTree = "<group>"; };
 		F313F95C1A385D20A08A0F20 /* libPods-AWSMobileHubHelper.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-AWSMobileHubHelper.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -245,12 +250,15 @@
 		E424BC501DCCDFDC00E231E9 /* Authorization */ = {
 			isa = PBXGroup;
 			children = (
+				E49544AA1DD3B0AC008C17FC /* AWSAuthorizer.h */,
 				E424BC591DCCE0F600E231E9 /* AWSAuthorizationManager.h */,
 				E424BC5A1DCCE0F600E231E9 /* AWSAuthorizationManager.m */,
 				E424BC551DCCE0B200E231E9 /* AWSSalesforceAuthorizationManager.h */,
 				E424BC561DCCE0B200E231E9 /* AWSSalesforceAuthorizationManager.m */,
 				E49544A61DD3929E008C17FC /* AWSZendeskAuthorizationManager.h */,
 				E49544A71DD3929E008C17FC /* AWSZendeskAuthorizationManager.m */,
+				E49544AB1DD3B757008C17FC /* AWSMSDynamicsAuthorizationManager.h */,
+				E49544AC1DD3B757008C17FC /* AWSMSDynamicsAuthorizationManager.m */,
 			);
 			name = Authorization;
 			sourceTree = "<group>";
@@ -270,6 +278,7 @@
 				1851DD211D25CD040010B8AA /* AWSFacebookSignInProvider.h in Headers */,
 				1851DD221D25CD040010B8AA /* AWSGoogleSignInProvider.h in Headers */,
 				1851DD231D25CD040010B8AA /* AWSSignInProvider.h in Headers */,
+				E49544AD1DD3B757008C17FC /* AWSMSDynamicsAuthorizationManager.h in Headers */,
 				E49544A81DD3929E008C17FC /* AWSZendeskAuthorizationManager.h in Headers */,
 				E424BC5B1DCCE0F600E231E9 /* AWSAuthorizationManager.h in Headers */,
 				172C83ED1DB57F6C00217417 /* AWSSignInProviderFactory.h in Headers */,
@@ -373,6 +382,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1851DD141D25CC890010B8AA /* AWSCloudLogic.m in Sources */,
+				E49544AE1DD3B757008C17FC /* AWSMSDynamicsAuthorizationManager.m in Sources */,
 				173208B31DBC6E12007DA836 /* AWSCognitoUserPoolsSignInProvider.m in Sources */,
 				1851DD191D25CC890010B8AA /* AWSGoogleSignInProvider.m in Sources */,
 				1851DD171D25CC890010B8AA /* AWSPushManager.m in Sources */,
