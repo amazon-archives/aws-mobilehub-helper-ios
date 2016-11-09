@@ -8,12 +8,12 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <SafariServices/SafariServices.h>
 #import <UIKit/UIKit.h>
 
-extern NSString *const AWSAuthorizationManagerErrorDomain;
+extern NSString * _Nonnull const AWSAuthorizationManagerErrorDomain;
 
 typedef NS_ENUM(NSUInteger, AWSAuthorizationManagerError) {
+    AWSAuthorizationErrorUserCancelledFlow,
     AWSAuthorizationErrorFailedToRetrieveAccessToken
 };
 
@@ -23,15 +23,15 @@ typedef NS_ENUM(NSUInteger, AWSAuthorizationManagerError) {
  * Singleton used to authorize user during OAuth1.0, 2.0, other flows.
  * @return the singleton
  */
-+ (instancetype)sharedInstance;
++ (instancetype _Nonnull)sharedInstance;
 
 /**
  * Utility method that constructs form encoded portion of url
- * i.e. @{@"grant": @"code", @"client_id": @"abc123"} -> @"grant=code&client_id=abc123"
+ * i.e. @{@"grant": @"code", @"client_id": @"abc123"} -> @"grant=code&client_id=abc123&"
  *
  * @return the string representation of a form
  */
-+ (NSString *)constructURIWithParameters:(NSDictionary *)params;
++ (NSString * _Nonnull)constructURIWithParameters:(NSDictionary * _Nonnull)params;
 
 /**
  * Utility method that constructs dictionary from simple form encoded url
@@ -39,15 +39,15 @@ typedef NS_ENUM(NSUInteger, AWSAuthorizationManagerError) {
  *
  * @return the dictionary representation of a url encoded form
  */
-+ (NSMutableDictionary *)constructParametersWithURI:(NSString *)formString;
++ (NSDictionary * _Nonnull)constructParametersWithURI:(NSString * _Nonnull)formString;
 
 /**
  * Starts the authorization flow. Should be called from main thread.
  *
- * @param loginViewController The view controller that user sees right before they should see a login screen.
+ * @param authorizeViewController The view controller that user sees right before they should see a login screen.
  * @param completionHandler The code that will follow after receiving successful login. Executes BEFORE login screen is dismissed.
  */
-- (void)authorize:(UIViewController *)loginViewController completionHandler:(void (^)(id result, NSError *error)) completionHandler;
+- (void)authorizeWithView:(UIViewController * _Nonnull)authorizeViewController completionHandler:(void (^ _Nullable)(id _Nullable result, NSError * _Nullable error)) completionHandler;
 
 /**
  * Starts the refresh flow or possibly run the same authorize flow again.
@@ -55,21 +55,22 @@ typedef NS_ENUM(NSUInteger, AWSAuthorizationManagerError) {
  *
  * @param refreshCompletionHandler The code that will follow after refreshing accessToken.
  */
-- (void)refresh:(void (^)(id result, NSError *error))refreshCompletionHandler;
+- (void)refresh:(void (^ _Nullable)(id _Nullable result, NSError * _Nullable error))refreshCompletionHandler;
 
 /**
  * This method should be placed in the AppDelegate to listen for the redirect URI.
  *
  * - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation
  *
- * @param refreshCompletionHandler The code that will follow after refreshing accessToken.
+ * @param url The url that the authorization flow gives back.
+ * @return YES if the url matches an expected response, NO if it is not expected.
  */
-- (BOOL)handleURL:(NSURL *)url;
+- (BOOL)handleURL:(NSURL * _Nullable)url;
 
 /**
  * @return the accessToken used for API calls
  */
-- (NSString *)getAccessToken;
+- (NSString * _Nullable)getAccessToken;
 
 /**
  * Starts the logout flow. Should be called from main thread.
@@ -77,6 +78,6 @@ typedef NS_ENUM(NSUInteger, AWSAuthorizationManagerError) {
  * @param logoutViewController The view controller that user sees right before they should see a logout indication.
  * @param completionHandler The code that will follow after receiving successful login. Executes BEFORE login screen is dismissed.
  */
-- (void)logout:(UIViewController *)logoutViewController completionHandler:(void (^)(id result, NSError *error)) completionHandler;
+- (void)logout:(UIViewController * _Nonnull)logoutViewController completionHandler:(void (^ _Nullable)(id _Nullable result, NSError * _Nullable error)) completionHandler;
 
 @end

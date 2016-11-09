@@ -15,7 +15,7 @@
  * Singleton used to authorize user during OAuth2.0
  * @return the singleton
  */
-+ (instancetype)sharedInstance;
++ (instancetype _Nonnull)sharedInstance;
 
 /**
  * Customize the flow.
@@ -26,29 +26,29 @@
  *               https://mysampleapp.amazonaws.com/success
  * @return the singleton
  */
-- (void)configureWithClientID:(NSString *)clientID redirectURI:(NSString *)redirectURI;
+- (void)configureWithClientID:(NSString * _Nonnull)clientID redirectURI:(NSString * _Nonnull)redirectURI;
 
 /**
  * @return The token type. Available after user authorizes app.
  *         i.e. Bearer
  */
-- (NSString *)getTokenType;
+- (NSString * _Nullable)getTokenType;
 
 /**
  * @return The instance Salesforce has assigned you. Available after user authorizes app.
  *         i.e. https://na15.salesforce.com/
  */
-- (NSString *)getInstanceURL;
+- (NSString * _Nullable)getInstanceURL;
 
-// Inherited methods
+# pragma mark - Inherited methods
 
 /**
  * Starts the authorization flow. Should be called from main thread.
  *
- * @param loginViewController The view controller that user sees right before they should see a login screen.
+ * @param authorizeViewController The view controller that user sees right before they should see a login screen.
  * @param completionHandler The code that will follow after receiving successful login. Executes BEFORE login screen is dismissed.
  */
-- (void)authorize:(UIViewController *)loginViewController completionHandler:(void (^)(id result, NSError *error)) completionHandler;
+//- (void)authorizeWithView:(UIViewController * _Nonnull)authorizeViewController completionHandler:(void (^ _Nullable)(id _Nullable result, NSError * _Nullable error)) completionHandler;
 
 /**
  * Starts the refresh flow or possibly run the same authorize flow again.
@@ -56,7 +56,7 @@
  *
  * @param refreshCompletionHandler The code that will follow after refreshing accessToken.
  */
-- (void)refresh:(void (^)(id result, NSError *error))refreshCompletionHandler;
+//- (void)refresh:(void (^ _Nullable)(id _Nullable result, NSError * _Nullable error))refreshCompletionHandler;
 
 /**
  * This method should be placed in the AppDelegate to listen for the redirect URI.
@@ -65,7 +65,12 @@
  *
  * @param refreshCompletionHandler The code that will follow after refreshing accessToken.
  */
-- (BOOL)handleURL:(NSURL *)url;
+//- (BOOL)handleURL:(NSURL * _Nullable)url;
+
+/**
+ * @return the accessToken used for API calls
+ */
+//- (NSString * _Nullable)getAccessToken;
 
 /**
  * Starts the logout flow. Should be called from main thread.
@@ -73,6 +78,6 @@
  * @param logoutViewController The view controller that user sees right before they should see a logout indication.
  * @param completionHandler The code that will follow after receiving successful login. Executes BEFORE login screen is dismissed.
  */
-- (void)logout:(UIViewController *)logoutViewController completionHandler:(void (^)(id result, NSError *error)) completionHandler;
+//- (void)logout:(UIViewController * _Nonnull)logoutViewController completionHandler:(void (^ _Nullable)(id _Nullable result, NSError * _Nullable error)) completionHandler;
 
 @end

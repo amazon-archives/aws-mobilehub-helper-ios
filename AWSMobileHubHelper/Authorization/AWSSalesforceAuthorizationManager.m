@@ -8,11 +8,13 @@
 //
 
 #import "AWSSalesforceAuthorizationManager.h"
+#import <AWSCore/AWSLogging.h>
 
 typedef void (^AWSCompletionBlock)(id result, NSError *error);
 
 static NSString *const AWSSalesforceAuthorizationManagerAuthorizeURLString = @"https://login.salesforce.com/services/oauth2/authorize";
 static NSString *const AWSSalesforceAuthorizationManagerTokenURLString = @"https://login.salesforce.com/services/oauth2/token";
+static NSString *const AWSSalesforceAuthorizationManagerLogoutURLPostfix = @"https://login.salesforce.com/services/oauth2/token";
 
 static NSString *const AWSSalesforceAuthorizationManagerInstanceURLKey = @"instance_url";
 static NSString *const AWSSalesforceAuthorizationManagerTokenTypeKey = @"token_type";
@@ -80,23 +82,19 @@ static NSString *const AWSSalesforceAuthorizationManagerAccessTokenKey = @"acces
                              };
     
     NSString *urlString = [NSString stringWithFormat:@"%@?%@", AWSSalesforceAuthorizationManagerAuthorizeURLString, [AWSAuthorizationManager constructURIWithParameters:params]];
-    NSLog(@"generated url: %@", urlString);
+    
     return [NSURL URLWithString:urlString];
 }
 
 - (NSString *)findAccessCode:(NSURL *)url {
     NSString *urlHeadRemoved = [[url absoluteString] stringByReplacingOccurrencesOfString:[NSString stringWithFormat:@"%@#", self.redirectURI] withString:@""];
     self.valuesFromResponse = [AWSAuthorizationManager constructParametersWithURI:urlHeadRemoved];
-    for(NSString *key in [self.valuesFromResponse allKeys]) {
-        NSLog(@"%@: %@", key, [self.valuesFromResponse objectForKey:key]);
-    }
+    
     return [self.valuesFromResponse objectForKey:AWSSalesforceAuthorizationManagerAccessTokenKey];
 }
 
 - (NSString *)getAccessTokenUsingAuthorizationCode:(NSString *)authorizationCode
                             loginCompletionHandler:(AWSCompletionBlock)loginCompletionHandler {
-    NSLog(@"getAccessTokenUsingAuthorizationCode");
-    
     NSDictionary *params = @{@"grant_type" : @"authorization_code",
                              @"code" : authorizationCode,
                              @"client_id" : self.clientID,
@@ -104,7 +102,6 @@ static NSString *const AWSSalesforceAuthorizationManagerAccessTokenKey = @"acces
                              };
     
     NSString *post = [AWSAuthorizationManager constructURIWithParameters:params];
-    NSLog(@"Post URL to get authorization token:\n%@", post);
     
     NSData *postData = [post dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];
     NSString *postLength = [NSString stringWithFormat:@"%lu", (unsigned long)[postData length]];
@@ -120,19 +117,14 @@ static NSString *const AWSSalesforceAuthorizationManagerAccessTokenKey = @"acces
     
     NSURLSessionTask *task = [[NSURLSession sharedSession] dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
         if (error) {
-            NSLog(@"Error = Sadness: %@", error);
+            AWSLogError(@"Error: %@", error);
             [weakSelf completeLoginWithResult:nil error:error];
             return;
         }
         
-        NSString *stringResponse = [[NSString alloc] initWithData:data encoding:NSASCIIStringEncoding];
-        NSLog(@"%@", stringResponse);
-        
-        //        id json = [NSJSONSerialization JSONObjectWithData:[stringResponse dataUsingEncoding:NSUTF8StringEncoding] options:0 error:nil];
         NSError *parseError;
         weakSelf.valuesFromResponse = [NSJSONSerialization JSONObjectWithData:data options:0 error:&parseError];
         [weakSelf completeLoginWithResult:[weakSelf.valuesFromResponse objectForKey:AWSSalesforceAuthorizationManagerAccessTokenKey] error:parseError];
-        
     }];
     [task resume];
     
@@ -143,9 +135,8 @@ static NSString *const AWSSalesforceAuthorizationManagerAccessTokenKey = @"acces
     return [[url absoluteString] hasPrefix:self.redirectURI];
 }
 
-// Example: https://na35.salesforce.com/secur/logout.jsp
 - (NSURL *)generateLogoutURL {
-    NSString *logoutURLString = [NSString stringWithFormat:@"%@%@", [self getInstanceURL], @"/secur/logout.jsp"];
+    NSString *logoutURLString = [NSString stringWithFormat:@"%@%@", [self getInstanceURL], AWSSalesforceAuthorizationManagerLogoutURLPostfix];
     return [NSURL URLWithString:logoutURLString];
 }
 

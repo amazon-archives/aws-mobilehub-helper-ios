@@ -8,6 +8,7 @@
 //
 
 #import "AWSAuthorizationManager.h"
+#import <SafariServices/SafariServices.h>
 
 NSString *const AWSAuthorizationManagerErrorDomain = @"com.amazonaws.AWSAuthorizationManager";
 
@@ -44,10 +45,11 @@ typedef void (^AWSCompletionBlock)(id result, NSError *error);
     for (id key in params) {
         [uri appendString:[NSString stringWithFormat:@"%@=%@&", key, params[key]]];
     }
+    
     return [uri substringToIndex:[uri length] - 1];
 }
 
-+ (NSMutableDictionary *)constructParametersWithURI:(NSString *)formString {
++ (NSDictionary *)constructParametersWithURI:(NSString *)formString {
     
     NSMutableDictionary *queryStringDictionary = [[NSMutableDictionary alloc] init];
     NSArray *urlComponents = [formString componentsSeparatedByString:@"&"];
@@ -72,7 +74,7 @@ typedef void (^AWSCompletionBlock)(id result, NSError *error);
     return nil;
 }
 
-- (void)authorize:(UIViewController *)loginViewController completionHandler:(void (^)(id result, NSError *error)) completionHandler {
+- (void)authorizeWithView:(UIViewController *)loginViewController completionHandler:(void (^)(id result, NSError *error)) completionHandler {
     self.loginCompletionHandler = completionHandler;
     
     if (self.accessToken != nil) {
@@ -90,7 +92,7 @@ typedef void (^AWSCompletionBlock)(id result, NSError *error);
 - (void)logout:(UIViewController *)logoutViewController completionHandler:(void (^)(id result, NSError *error)) completionHandler {
     self.logoutCompletionHandler = completionHandler;
     
-    self.accessToken = nil;
+    [self destroyAccessToken];
     
     self.safariVC = [[SFSafariViewController alloc] initWithURL:[self generateLogoutURL] entersReaderIfAvailable:NO];
     self.safariVC.delegate = self;
@@ -109,8 +111,6 @@ typedef void (^AWSCompletionBlock)(id result, NSError *error);
         [self completeLoginWithResult:self.accessToken error:nil];
         return YES;
     }
-    
-    NSLog(@"parsed code = %@", self.accessToken);
     
     return YES;
 }
@@ -133,6 +133,10 @@ typedef void (^AWSCompletionBlock)(id result, NSError *error);
 - (void)refresh:(void (^)(id result, NSError *error))completionHandler {
     self.refreshCompletionHandler = completionHandler;
     // Design not determined yet.
+}
+
+- (void)destroyAccessToken {
+    self.accessToken = nil;
 }
 
 #pragma mark - Override Custom Methods
@@ -165,7 +169,7 @@ typedef void (^AWSCompletionBlock)(id result, NSError *error);
 
 -(void)safariViewController:(SFSafariViewController *)controller didCompleteInitialLoad:(BOOL)didLoadSuccessfully {
     // Load finished
-    if ([self dismissOnLoad]) {
+    if (self.dismissOnLoad) {
         self.logoutCompletionHandler(@{@"didSucceed" : @YES}, nil);
         self.logoutCompletionHandler = nil;
         [controller dismissViewControllerAnimated:true completion: nil];
@@ -173,6 +177,16 @@ typedef void (^AWSCompletionBlock)(id result, NSError *error);
 }
 
 -(void)safariViewControllerDidFinish:(SFSafariViewController *)controller {
+    if (self.dismissOnLoad && self.logoutCompletionHandler) {
+        self.logoutCompletionHandler(@{@"didSucceed" : @NO}, [NSError errorWithDomain:AWSAuthorizationManagerErrorDomain
+                                                                                 code:AWSAuthorizationErrorUserCancelledFlow
+                                                                             userInfo:@{@"message": @"User login cookies may not have been cleared."}]);
+        self.logoutCompletionHandler = nil;
+    } else if (!self.dismissOnLoad && self.loginCompletionHandler) {
+        [self completeLoginWithResult:nil error:[NSError errorWithDomain:AWSAuthorizationManagerErrorDomain
+                                                                    code:AWSAuthorizationErrorUserCancelledFlow
+                                                                userInfo:@{@"message": @"User cancelled authorization flow."}]];
+    }
 }
 
 @end
