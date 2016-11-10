@@ -8,8 +8,7 @@
 //
 
 #import "AWSZendeskAuthorizationManager.h"
-#import <AWSCore/AWSLogging.h>
-#import <AWSCore/AWSInfo.h>
+#import <AWSCore/AWSCore.h>
 
 static NSString *const AWSZendeskAuthorizationManagerAuthorizeURLFormatString = @"https://%@.zendesk.com/oauth/authorizations/new";
 static NSString *const AWSZendeskAuthorizationManagerLogoutURLFormatString = @"https://%@.zendesk.com/access/logout";

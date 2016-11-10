@@ -8,9 +8,7 @@
 //
 
 #import "AWSSalesforceAuthorizationManager.h"
-#import <AWSCore/AWSLogging.h>
-#import <AWSCore/AWSUICKeyChainStore.h>
-#import <AWSCore/AWSInfo.h>
+#import <AWSCore/AWSCore.h>
 
 typedef void (^AWSCompletionBlock)(id result, NSError *error);
 

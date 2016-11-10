@@ -8,8 +8,7 @@
 //
 
 #import "AWSMSDynamicsAuthorizationManager.h"
-#import <AWSCore/AWSLogging.h>
-#import <AWSCore/AWSInfo.h>
+#import <AWSCore/AWSCore.h>
 
 static NSString *const AWSMSDynamicsAuthorizationManagerAuthorizeURLString = @"https://login.microsoftonline.com/common/oauth2/authorize";
 static NSString *const AWSMSDynamicsAuthorizationManagerTokenURLString = @"https://login.microsoftonline.com/common/oauth2/token";

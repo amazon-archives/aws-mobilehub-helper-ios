@@ -9,7 +9,7 @@
 
 #import "AWSAuthorizationManager.h"
 #import <SafariServices/SafariServices.h>
-#import <AWSCore/AWSLogging.h>
+#import <AWSCore/AWSCore.h>
 
 NSString *const AWSAuthorizationManagerErrorDomain = @"com.amazonaws.AWSAuthorizationManager";
 

@@ -17,3 +17,7 @@
 #import "AWSSignInProviderFactory.h"
 #import "AWSSAMLSignInProvider.h"
 #import "AWSCognitoUserPoolsSignInProvider.h"
+#import "AWSAuthorizationManager.h"
+#import "AWSSalesforceAuthorizationManager.h"
+#import "AWSZendeskAuthorizationManager.h"
+#import "AWSMSDynamicsAuthorizationManager.h"
