@@ -76,6 +76,7 @@ typedef void (^AWSCompletionBlock)(id result, NSError *error);
 }
 
 - (void)authorizeWithView:(UIViewController *)loginViewController completionHandler:(void (^)(id result, NSError *error)) completionHandler {
+    AWSLogVerbose(@"authorizeWithView called");
     self.loginCompletionHandler = completionHandler;
     
     if (self.accessToken != nil) {
@@ -91,6 +92,7 @@ typedef void (^AWSCompletionBlock)(id result, NSError *error);
 }
 
 - (void)logout:(UIViewController *)logoutViewController completionHandler:(void (^)(id result, NSError *error)) completionHandler {
+    AWSLogVerbose(@"logout called");
     self.logoutCompletionHandler = completionHandler;
     
     [self destroyAccessToken];
@@ -102,15 +104,18 @@ typedef void (^AWSCompletionBlock)(id result, NSError *error);
 }
 
 - (BOOL)handleURL:(NSURL *)url {
+    AWSLogVerbose(@"handleURL called");
     if (![self isAcceptedURL:url]) {
         return NO;
     }
     
     self.accessToken = [self findAccessCode:url];
     
-    if ([self usesImplicitGrant] || [self.accessToken length] > 0) {
+    if ([self.accessToken length] > 0) {
         [self completeLoginWithResult:self.accessToken error:nil];
         return YES;
+    } else if ([self usesImplicitGrant]) {
+        [self completeLoginWithResult:nil error:nil];
     }
     
     return YES;
@@ -118,11 +123,12 @@ typedef void (^AWSCompletionBlock)(id result, NSError *error);
 
 - (void)completeLoginWithResult:(id)result
                           error:(NSError *)error {
+    AWSLogVerbose(@"completeLoginWithResult called");
     NSError *surfacedError = result ? nil : (error ?: [NSError errorWithDomain:AWSAuthorizationManagerErrorDomain
                                                                           code:AWSAuthorizationErrorFailedToRetrieveAccessToken
                                                                       userInfo:nil]);
     if (surfacedError) {
-        AWSLogError(@"Error: %@", error);
+        AWSLogError(@"Error: %@", surfacedError);
     }
     self.loginCompletionHandler(result, surfacedError);
     self.loginCompletionHandler = nil;
