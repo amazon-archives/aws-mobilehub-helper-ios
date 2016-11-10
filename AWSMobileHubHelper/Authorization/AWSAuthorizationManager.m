@@ -9,6 +9,7 @@
 
 #import "AWSAuthorizationManager.h"
 #import <SafariServices/SafariServices.h>
+#import <AWSCore/AWSLogging.h>
 
 NSString *const AWSAuthorizationManagerErrorDomain = @"com.amazonaws.AWSAuthorizationManager";
 
@@ -117,9 +118,13 @@ typedef void (^AWSCompletionBlock)(id result, NSError *error);
 
 - (void)completeLoginWithResult:(id)result
                           error:(NSError *)error {
-    self.loginCompletionHandler(result, result ? nil : (error ?: [NSError errorWithDomain:AWSAuthorizationManagerErrorDomain
-                                                                                     code:AWSAuthorizationErrorFailedToRetrieveAccessToken
-                                                                                 userInfo:nil]));
+    NSError *surfacedError = result ? nil : (error ?: [NSError errorWithDomain:AWSAuthorizationManagerErrorDomain
+                                                                          code:AWSAuthorizationErrorFailedToRetrieveAccessToken
+                                                                      userInfo:nil]);
+    if (surfacedError) {
+        AWSLogError(@"Error: %@", error);
+    }
+    self.loginCompletionHandler(result, surfacedError);
     self.loginCompletionHandler = nil;
     dispatch_async(dispatch_get_main_queue(), ^{
         [self.safariVC dismissViewControllerAnimated:true completion: nil];

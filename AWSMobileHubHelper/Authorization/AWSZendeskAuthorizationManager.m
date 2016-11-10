@@ -9,6 +9,7 @@
 
 #import "AWSZendeskAuthorizationManager.h"
 #import <AWSCore/AWSLogging.h>
+#import <AWSCore/AWSInfo.h>
 
 static NSString *const AWSZendeskAuthorizationManagerAuthorizeURLFormatString = @"https://%@.zendesk.com/oauth/authorizations/new";
 static NSString *const AWSZendeskAuthorizationManagerLogoutURLFormatString = @"https://%@.zendesk.com/access/logout";
@@ -50,7 +51,7 @@ static NSString *const AWSZendeskAuthorizationManagerAccessTokenKey = @"access_t
 
 - (instancetype)init {
     if (self = [super init]) {
-        NSDictionary *config = [[[[[NSBundle mainBundle] infoDictionary] objectForKey:@"AWS"] objectForKey:@"SaaS"] objectForKey:@"Zendesk"];
+        NSDictionary *config = [[[AWSInfo defaultAWSInfo].rootInfoDictionary objectForKey:@"SaaS"] objectForKey:@"Zendesk"];
         _authorizeURLString = [NSString stringWithFormat:AWSZendeskAuthorizationManagerAuthorizeURLFormatString, [config objectForKey:@"Subdomain"]];
         [self configureWithClientID:[config objectForKey:@"ClientID"]
                         redirectURI:[config objectForKey:@"RedirectURI"]

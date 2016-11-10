@@ -9,6 +9,8 @@
 
 #import "AWSSalesforceAuthorizationManager.h"
 #import <AWSCore/AWSLogging.h>
+#import <AWSCore/AWSUICKeyChainStore.h>
+#import <AWSCore/AWSInfo.h>
 
 typedef void (^AWSCompletionBlock)(id result, NSError *error);
 
@@ -50,7 +52,7 @@ static NSString *const AWSSalesforceAuthorizationManagerAccessTokenKey = @"acces
 
 - (instancetype)init {
     if (self = [super init]) {
-        NSDictionary *config = [[[[[NSBundle mainBundle] infoDictionary] objectForKey:@"AWS"] objectForKey:@"SaaS"] objectForKey:@"Salesforce"];
+        NSDictionary *config = [[[AWSInfo defaultAWSInfo].rootInfoDictionary objectForKey:@"SaaS"] objectForKey:@"Salesforce"];
         _clientID = [config objectForKey:@"ClientID"];
         _redirectURI = [config objectForKey:@"RedirectURI"];
         
@@ -117,7 +119,6 @@ static NSString *const AWSSalesforceAuthorizationManagerAccessTokenKey = @"acces
     
     NSURLSessionTask *task = [[NSURLSession sharedSession] dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
         if (error) {
-            AWSLogError(@"Error: %@", error);
             [weakSelf completeLoginWithResult:nil error:error];
             return;
         }

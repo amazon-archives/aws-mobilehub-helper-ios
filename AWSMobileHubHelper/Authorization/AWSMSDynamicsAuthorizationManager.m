@@ -9,6 +9,7 @@
 
 #import "AWSMSDynamicsAuthorizationManager.h"
 #import <AWSCore/AWSLogging.h>
+#import <AWSCore/AWSInfo.h>
 
 static NSString *const AWSMSDynamicsAuthorizationManagerAuthorizeURLString = @"https://login.microsoftonline.com/common/oauth2/authorize";
 static NSString *const AWSMSDynamicsAuthorizationManagerTokenURLString = @"https://login.microsoftonline.com/common/oauth2/token";
@@ -52,7 +53,7 @@ typedef void (^AWSCompletionBlock)(id result, NSError *error);
 
 - (instancetype)init {
     if (self = [super init]) {
-        NSDictionary *config = [[[[[NSBundle mainBundle] infoDictionary] objectForKey:@"AWS"] objectForKey:@"SaaS"] objectForKey:@"MSDynamics"];
+        NSDictionary *config = [[[AWSInfo defaultAWSInfo].rootInfoDictionary objectForKey:@"SaaS"] objectForKey:@"MSDynamics"];
         _clientID = [config objectForKey:@"ClientID"];
         _redirectURI = [config objectForKey:@"RedirectURI"];
         _resource = [config objectForKey:@"ResourceURL"];
@@ -65,9 +66,9 @@ typedef void (^AWSCompletionBlock)(id result, NSError *error);
 - (void)configureWithClientID:(NSString *)clientID
                   redirectURI:(NSString *)redirectURI
                      resource:(NSString *)resource {
-    self.clientID = clientID;
-    self.redirectURI = redirectURI;
-    self.resource = resource;
+    self.clientID = clientID ?: @"";
+    self.redirectURI = redirectURI ?: @"";
+    self.resource = resource ?: @"";
 }
 
 - (NSString *)getTokenType {
@@ -119,7 +120,6 @@ typedef void (^AWSCompletionBlock)(id result, NSError *error);
     
     NSURLSessionTask *task = [[NSURLSession sharedSession] dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
         if (error) {
-            AWSLogError(@"Error: %@", error);
             [weakSelf completeLoginWithResult:nil error:error];
             return;
         }
