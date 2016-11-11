@@ -51,14 +51,6 @@ typedef NS_ENUM(NSUInteger, AWSAuthorizationManagerError) {
 - (void)authorizeWithView:(UIViewController * _Nonnull)authorizeViewController completionHandler:(void (^ _Nullable)(id _Nullable result, NSError * _Nullable error)) completionHandler;
 
 /**
- * Starts the refresh flow or possibly run the same authorize flow again.
- * Does not check if current accessToken is expired or not.
- *
- * @param refreshCompletionHandler The code that will follow after refreshing accessToken.
- */
-- (void)refresh:(void (^ _Nullable)(id _Nullable result, NSError * _Nullable error))refreshCompletionHandler;
-
-/**
  * This method should be placed in the AppDelegate to listen for the redirect URI.
  *
  * - (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation

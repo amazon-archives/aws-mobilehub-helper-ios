@@ -52,6 +52,10 @@
 		E49544A91DD3929E008C17FC /* AWSZendeskAuthorizationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E49544A71DD3929E008C17FC /* AWSZendeskAuthorizationManager.m */; };
 		E49544AD1DD3B757008C17FC /* AWSMSDynamicsAuthorizationManager.h in Headers */ = {isa = PBXBuildFile; fileRef = E49544AB1DD3B757008C17FC /* AWSMSDynamicsAuthorizationManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E49544AE1DD3B757008C17FC /* AWSMSDynamicsAuthorizationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E49544AC1DD3B757008C17FC /* AWSMSDynamicsAuthorizationManager.m */; };
+		E49544B41DD4C2B6008C17FC /* AWSAuthorizationManager.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = E424BC591DCCE0F600E231E9 /* AWSAuthorizationManager.h */; };
+		E49544B51DD4C2B6008C17FC /* AWSSalesforceAuthorizationManager.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = E424BC551DCCE0B200E231E9 /* AWSSalesforceAuthorizationManager.h */; };
+		E49544B61DD4C2B6008C17FC /* AWSZendeskAuthorizationManager.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = E49544A61DD3929E008C17FC /* AWSZendeskAuthorizationManager.h */; };
+		E49544B71DD4C2B6008C17FC /* AWSMSDynamicsAuthorizationManager.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = E49544AB1DD3B757008C17FC /* AWSMSDynamicsAuthorizationManager.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -61,6 +65,10 @@
 			dstPath = "include/$(PRODUCT_NAME)";
 			dstSubfolderSpec = 16;
 			files = (
+				E49544B41DD4C2B6008C17FC /* AWSAuthorizationManager.h in CopyFiles */,
+				E49544B51DD4C2B6008C17FC /* AWSSalesforceAuthorizationManager.h in CopyFiles */,
+				E49544B61DD4C2B6008C17FC /* AWSZendeskAuthorizationManager.h in CopyFiles */,
+				E49544B71DD4C2B6008C17FC /* AWSMSDynamicsAuthorizationManager.h in CopyFiles */,
 				173208B71DBD52ED007DA836 /* AWSCognitoUserPoolsSignInProvider.h in CopyFiles */,
 				17FE6F391DB7E2750053299B /* AWSSAMLSignInProvider.h in CopyFiles */,
 				172C83EF1DB5869200217417 /* AWSSignInProviderFactory.h in CopyFiles */,

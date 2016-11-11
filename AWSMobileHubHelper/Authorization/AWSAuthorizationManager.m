@@ -51,14 +51,19 @@ typedef void (^AWSCompletionBlock)(id result, NSError *error);
 }
 
 + (NSDictionary *)constructParametersWithURI:(NSString *)formString {
-    
     NSMutableDictionary *queryStringDictionary = [[NSMutableDictionary alloc] init];
     NSArray *urlComponents = [formString componentsSeparatedByString:@"&"];
     
     for (NSString *keyValuePair in urlComponents) {
-        NSArray *pairComponents = [keyValuePair componentsSeparatedByString:@"="];
-        NSString *key = [[pairComponents firstObject] stringByRemovingPercentEncoding];
-        NSString *value = [[pairComponents lastObject] stringByRemovingPercentEncoding];
+        NSRange positionOfEqualSign = [keyValuePair rangeOfString:@"="];
+        
+        if (positionOfEqualSign.location == NSNotFound) {
+            [queryStringDictionary setObject:@"" forKey:keyValuePair];
+            continue;
+        }
+        
+        NSString *key = [[keyValuePair substringWithRange:NSMakeRange(0, positionOfEqualSign.location)] stringByRemovingPercentEncoding];
+        NSString *value = [[keyValuePair substringFromIndex:positionOfEqualSign.location + positionOfEqualSign.length] stringByRemovingPercentEncoding];
         
         [queryStringDictionary setObject:value forKey:key];
     }
@@ -130,8 +135,12 @@ typedef void (^AWSCompletionBlock)(id result, NSError *error);
     if (surfacedError) {
         AWSLogError(@"Error: %@", surfacedError);
     }
-    self.loginCompletionHandler(result, surfacedError);
-    self.loginCompletionHandler = nil;
+    
+    if (self.loginCompletionHandler) {
+        self.loginCompletionHandler(result, surfacedError);
+        self.loginCompletionHandler = nil;
+    }
+    
     dispatch_async(dispatch_get_main_queue(), ^{
         [self.safariVC dismissViewControllerAnimated:true completion: nil];
     });
@@ -139,11 +148,6 @@ typedef void (^AWSCompletionBlock)(id result, NSError *error);
 
 - (NSString *)getAccessToken {
     return self.accessToken;
-}
-
-- (void)refresh:(void (^)(id result, NSError *error))completionHandler {
-    self.refreshCompletionHandler = completionHandler;
-    // Design not determined yet.
 }
 
 - (void)destroyAccessToken {

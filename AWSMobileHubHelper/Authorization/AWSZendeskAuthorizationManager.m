@@ -73,7 +73,7 @@ static NSString *const AWSZendeskAuthorizationManagerAccessTokenKey = @"access_t
 }
 
 - (void)setScope:(NSString *)scope {
-    self.scope = scope;
+    _scope = scope;
 }
 
 - (NSString *)getTokenType {
