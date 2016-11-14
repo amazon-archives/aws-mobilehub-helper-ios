@@ -24,7 +24,6 @@
  * @param redirectURI The redirect URI you provided Zendesk
  *          i.e. https://mysampleapp.amazonaws.com/zendesk/success
  * @param subdomain The subdomain that you signed up for in Zendesk
- * @return the singleton
  */
 - (void)configureWithClientID:(NSString * _Nonnull)clientID
                   redirectURI:(NSString * _Nonnull)redirectURI

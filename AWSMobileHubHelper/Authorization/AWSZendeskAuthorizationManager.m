@@ -84,6 +84,12 @@ static NSString *const AWSZendeskAuthorizationManagerAccessTokenKey = @"access_t
     return self.subdomain;
 }
 
+#pragma mark - Override Custom Methods
+
+- (BOOL)usesImplicitGrant {
+    return YES;
+}
+
 - (NSURL *)generateAuthURL {
     if ([self.scope length] == 0) {
         [self completeLoginWithResult:nil error:[NSError errorWithDomain:AWSAuthorizationManagerErrorDomain

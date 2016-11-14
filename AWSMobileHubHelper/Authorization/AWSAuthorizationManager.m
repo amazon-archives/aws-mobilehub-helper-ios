@@ -102,10 +102,13 @@ typedef void (^AWSCompletionBlock)(id result, NSError *error);
     
     [self destroyAccessToken];
     
-    self.safariVC = [[SFSafariViewController alloc] initWithURL:[self generateLogoutURL] entersReaderIfAvailable:NO];
-    self.safariVC.delegate = self;
-    self.dismissOnLoad = YES;
-    [logoutViewController presentViewController:self.safariVC animated:NO completion:nil];
+    NSURL *logoutURL = [self generateLogoutURL];
+    if (logoutURL) {
+        self.safariVC = [[SFSafariViewController alloc] initWithURL:logoutURL entersReaderIfAvailable:NO];
+        self.safariVC.delegate = self;
+        self.dismissOnLoad = YES;
+        [logoutViewController presentViewController:self.safariVC animated:NO completion:nil];
+    }
 }
 
 - (BOOL)handleURL:(NSURL *)url {
@@ -131,7 +134,7 @@ typedef void (^AWSCompletionBlock)(id result, NSError *error);
     AWSLogVerbose(@"completeLoginWithResult called");
     NSError *surfacedError = result ? nil : (error ?: [NSError errorWithDomain:AWSAuthorizationManagerErrorDomain
                                                                           code:AWSAuthorizationErrorFailedToRetrieveAccessToken
-                                                                      userInfo:nil]);
+                                                                      userInfo:@{@"message": @"Failed to retrieve access token"}]);
     if (surfacedError) {
         AWSLogError(@"Error: %@", surfacedError);
     }
@@ -142,7 +145,10 @@ typedef void (^AWSCompletionBlock)(id result, NSError *error);
     }
     
     dispatch_async(dispatch_get_main_queue(), ^{
-        [self.safariVC dismissViewControllerAnimated:true completion: nil];
+        if (self.safariVC) {
+            [self.safariVC dismissViewControllerAnimated:YES completion: nil];
+            self.safariVC = nil;
+        }
     });
 }
 

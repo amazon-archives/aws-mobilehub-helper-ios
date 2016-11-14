@@ -14,6 +14,7 @@ extern NSString * _Nonnull const AWSAuthorizationManagerErrorDomain;
 
 typedef NS_ENUM(NSUInteger, AWSAuthorizationManagerError) {
     AWSAuthorizationErrorUserCancelledFlow,
+    AWSAuthorizationErrorConnectionError,
     AWSAuthorizationErrorFailedToRetrieveAccessToken,
     AWSAuthorizationErrorMissingRequiredParameter,
 };

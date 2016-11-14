@@ -75,6 +75,10 @@ static NSString *const AWSSalesforceAuthorizationManagerAccessTokenKey = @"acces
 
 #pragma mark - Override Custom Methods
 
+- (BOOL)usesImplicitGrant {
+    return YES;
+}
+
 - (NSURL *)generateAuthURL {
     NSDictionary *params = @{@"client_id" : self.clientID,
                              @"response_type" : @"token",

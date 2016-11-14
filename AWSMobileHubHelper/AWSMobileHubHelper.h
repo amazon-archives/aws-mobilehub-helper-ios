@@ -21,3 +21,5 @@
 #import "AWSSalesforceAuthorizationManager.h"
 #import "AWSZendeskAuthorizationManager.h"
 #import "AWSMSDynamicsAuthorizationManager.h"
+#import "AWSQuickbooksAuthorizationManager.h"
+#import "AWSHubspotAuthorizationManager.h"

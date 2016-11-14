@@ -48,6 +48,12 @@
 		E424BC581DCCE0B200E231E9 /* AWSSalesforceAuthorizationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E424BC561DCCE0B200E231E9 /* AWSSalesforceAuthorizationManager.m */; };
 		E424BC5B1DCCE0F600E231E9 /* AWSAuthorizationManager.h in Headers */ = {isa = PBXBuildFile; fileRef = E424BC591DCCE0F600E231E9 /* AWSAuthorizationManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E424BC5C1DCCE0F600E231E9 /* AWSAuthorizationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E424BC5A1DCCE0F600E231E9 /* AWSAuthorizationManager.m */; };
+		E44D19511DD95D8100255AD3 /* AWSHubspotAuthorizationManager.h in Headers */ = {isa = PBXBuildFile; fileRef = E44D194F1DD95D8100255AD3 /* AWSHubspotAuthorizationManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E44D19521DD95D8100255AD3 /* AWSHubspotAuthorizationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E44D19501DD95D8100255AD3 /* AWSHubspotAuthorizationManager.m */; };
+		E44D19531DD9619D00255AD3 /* AWSHubspotAuthorizationManager.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = E44D194F1DD95D8100255AD3 /* AWSHubspotAuthorizationManager.h */; };
+		E44D19611DDBCCE800255AD3 /* AWSQuickbooksAuthorizationManager.h in Headers */ = {isa = PBXBuildFile; fileRef = E44D195F1DDBCCE800255AD3 /* AWSQuickbooksAuthorizationManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E44D19621DDBCCE800255AD3 /* AWSQuickbooksAuthorizationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E44D19601DDBCCE800255AD3 /* AWSQuickbooksAuthorizationManager.m */; };
+		E480E0A01DDD07890050DA7B /* AWSQuickbooksAuthorizationManager.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = E44D195F1DDBCCE800255AD3 /* AWSQuickbooksAuthorizationManager.h */; };
 		E49544A81DD3929E008C17FC /* AWSZendeskAuthorizationManager.h in Headers */ = {isa = PBXBuildFile; fileRef = E49544A61DD3929E008C17FC /* AWSZendeskAuthorizationManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E49544A91DD3929E008C17FC /* AWSZendeskAuthorizationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E49544A71DD3929E008C17FC /* AWSZendeskAuthorizationManager.m */; };
 		E49544AD1DD3B757008C17FC /* AWSMSDynamicsAuthorizationManager.h in Headers */ = {isa = PBXBuildFile; fileRef = E49544AB1DD3B757008C17FC /* AWSMSDynamicsAuthorizationManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -65,6 +71,8 @@
 			dstPath = "include/$(PRODUCT_NAME)";
 			dstSubfolderSpec = 16;
 			files = (
+				E480E0A01DDD07890050DA7B /* AWSQuickbooksAuthorizationManager.h in CopyFiles */,
+				E44D19531DD9619D00255AD3 /* AWSHubspotAuthorizationManager.h in CopyFiles */,
 				E49544B41DD4C2B6008C17FC /* AWSAuthorizationManager.h in CopyFiles */,
 				E49544B51DD4C2B6008C17FC /* AWSSalesforceAuthorizationManager.h in CopyFiles */,
 				E49544B61DD4C2B6008C17FC /* AWSZendeskAuthorizationManager.h in CopyFiles */,
@@ -119,6 +127,10 @@
 		E424BC561DCCE0B200E231E9 /* AWSSalesforceAuthorizationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AWSSalesforceAuthorizationManager.m; path = Authorization/AWSSalesforceAuthorizationManager.m; sourceTree = "<group>"; };
 		E424BC591DCCE0F600E231E9 /* AWSAuthorizationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AWSAuthorizationManager.h; path = Authorization/AWSAuthorizationManager.h; sourceTree = "<group>"; };
 		E424BC5A1DCCE0F600E231E9 /* AWSAuthorizationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AWSAuthorizationManager.m; path = Authorization/AWSAuthorizationManager.m; sourceTree = "<group>"; };
+		E44D194F1DD95D8100255AD3 /* AWSHubspotAuthorizationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AWSHubspotAuthorizationManager.h; path = Authorization/AWSHubspotAuthorizationManager.h; sourceTree = "<group>"; };
+		E44D19501DD95D8100255AD3 /* AWSHubspotAuthorizationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AWSHubspotAuthorizationManager.m; path = Authorization/AWSHubspotAuthorizationManager.m; sourceTree = "<group>"; };
+		E44D195F1DDBCCE800255AD3 /* AWSQuickbooksAuthorizationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AWSQuickbooksAuthorizationManager.h; path = Authorization/AWSQuickbooksAuthorizationManager.h; sourceTree = "<group>"; };
+		E44D19601DDBCCE800255AD3 /* AWSQuickbooksAuthorizationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AWSQuickbooksAuthorizationManager.m; path = Authorization/AWSQuickbooksAuthorizationManager.m; sourceTree = "<group>"; };
 		E49544A61DD3929E008C17FC /* AWSZendeskAuthorizationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AWSZendeskAuthorizationManager.h; path = Authorization/AWSZendeskAuthorizationManager.h; sourceTree = "<group>"; };
 		E49544A71DD3929E008C17FC /* AWSZendeskAuthorizationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AWSZendeskAuthorizationManager.m; path = Authorization/AWSZendeskAuthorizationManager.m; sourceTree = "<group>"; };
 		E49544AA1DD3B0AC008C17FC /* AWSAuthorizer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = AWSAuthorizer.h; path = Authorization/AWSAuthorizer.h; sourceTree = "<group>"; };
@@ -267,6 +279,10 @@
 				E49544A71DD3929E008C17FC /* AWSZendeskAuthorizationManager.m */,
 				E49544AB1DD3B757008C17FC /* AWSMSDynamicsAuthorizationManager.h */,
 				E49544AC1DD3B757008C17FC /* AWSMSDynamicsAuthorizationManager.m */,
+				E44D194F1DD95D8100255AD3 /* AWSHubspotAuthorizationManager.h */,
+				E44D19501DD95D8100255AD3 /* AWSHubspotAuthorizationManager.m */,
+				E44D195F1DDBCCE800255AD3 /* AWSQuickbooksAuthorizationManager.h */,
+				E44D19601DDBCCE800255AD3 /* AWSQuickbooksAuthorizationManager.m */,
 			);
 			name = Authorization;
 			sourceTree = "<group>";
@@ -294,6 +310,8 @@
 				1851DD241D25CD090010B8AA /* AWSUserFileManager.h in Headers */,
 				173208B21DBC6E12007DA836 /* AWSCognitoUserPoolsSignInProvider.h in Headers */,
 				1851DD251D25CD0D0010B8AA /* AWSMobileHubHelper.h in Headers */,
+				E44D19611DDBCCE800255AD3 /* AWSQuickbooksAuthorizationManager.h in Headers */,
+				E44D19511DD95D8100255AD3 /* AWSHubspotAuthorizationManager.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -389,11 +407,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E44D19621DDBCCE800255AD3 /* AWSQuickbooksAuthorizationManager.m in Sources */,
 				1851DD141D25CC890010B8AA /* AWSCloudLogic.m in Sources */,
 				E49544AE1DD3B757008C17FC /* AWSMSDynamicsAuthorizationManager.m in Sources */,
 				173208B31DBC6E12007DA836 /* AWSCognitoUserPoolsSignInProvider.m in Sources */,
 				1851DD191D25CC890010B8AA /* AWSGoogleSignInProvider.m in Sources */,
 				1851DD171D25CC890010B8AA /* AWSPushManager.m in Sources */,
+				E44D19521DD95D8100255AD3 /* AWSHubspotAuthorizationManager.m in Sources */,
 				E424BC581DCCE0B200E231E9 /* AWSSalesforceAuthorizationManager.m in Sources */,
 				17FE6F361DB6CBE20053299B /* AWSSAMLSignInProvider.m in Sources */,
 				172C83EE1DB57F6C00217417 /* AWSSignInProviderFactory.m in Sources */,

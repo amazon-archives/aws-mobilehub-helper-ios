@@ -78,6 +78,16 @@ typedef void (^AWSCompletionBlock)(id result, NSError *error);
     return self.resource;
 }
 
+- (NSString *)getAccessToken {
+    return [self.valuesFromResponse objectForKey:AWSMSDynamicsAuthorizationManagerAccessTokenKey];
+}
+
+#pragma mark - Override Custom Methods
+
+- (BOOL)usesImplicitGrant {
+    return NO;
+}
+
 - (NSURL *)generateAuthURL {
     NSDictionary *params = @{@"client_id" : self.clientID,
                              @"response_type" : @"code",
@@ -93,7 +103,8 @@ typedef void (^AWSCompletionBlock)(id result, NSError *error);
 - (NSString *)findAccessCode:(NSURL *)url {
     NSString *urlHeadRemoved = [[url absoluteString] stringByReplacingOccurrencesOfString:[NSString stringWithFormat:@"%@?", self.redirectURI] withString:@""];
     NSDictionary *returnedValues = [AWSAuthorizationManager constructParametersWithURI:urlHeadRemoved];
-    return [self getAccessTokenUsingAuthorizationCode:[returnedValues objectForKey:AWSMSDynamicsAuthorizationManagerCodeKey]];
+    [self getAccessTokenUsingAuthorizationCode:[returnedValues objectForKey:AWSMSDynamicsAuthorizationManagerCodeKey]];
+    return nil;
 }
 
 - (NSString *)getAccessTokenUsingAuthorizationCode:(NSString *)authorizationCode {

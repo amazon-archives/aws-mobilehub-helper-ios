@@ -24,7 +24,6 @@
  * @param redirectURI The redirect URI you provided Microsoft Dynamics
  *          i.e. https://mysampleapp.amazonaws.com/msdynamics/success
  * @param resource The URL of the resource you will access
- * @return the singleton
  */
 - (void)configureWithClientID:(NSString * _Nonnull)clientID
                   redirectURI:(NSString * _Nonnull)redirectURI
@@ -41,5 +40,10 @@
  *         i.e. https://emhawsapps.crm.dynamics.com
  */
 - (NSString * _Nullable)getResourceURL;
+
+/**
+ * @return the accessToken used for API calls
+ */
+- (NSString * _Nullable)getAccessToken;
 
 @end
