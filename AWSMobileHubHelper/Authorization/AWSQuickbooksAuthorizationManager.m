@@ -123,20 +123,21 @@ typedef void (^AWSCompletionBlock)(id result, NSError *error);
 #pragma mark - Internal use
 
 - (void)generateOAuthRequestToken:(void (^)(NSError *error, NSDictionary *responseParams))completion {
-    NSString *formString = @"";
-    formString = [formString stringByAppendingFormat:@"oauth_callback=%@", [self escape:self.redirectURI]];
-    formString = [formString stringByAppendingFormat:@"&oauth_consumer_key=%@", self.key];
-    formString = [formString stringByAppendingFormat:@"&oauth_nonce=%u", arc4random_uniform(UINT32_MAX)];
-    formString = [formString stringByAppendingFormat:@"&oauth_signature_method=%@", @"HMAC-SHA1"];
-    formString = [formString stringByAppendingFormat:@"&oauth_timestamp=%d", (int) [[NSDate date] timeIntervalSince1970]];
-    formString = [formString stringByAppendingFormat:@"&oauth_version=%@", @"1.0"];
+    NSMutableString *formString = [NSMutableString new];
+    [formString appendFormat:@""];
+    [formString appendFormat:@"oauth_callback=%@", [self escape:self.redirectURI]];
+    [formString appendFormat:@"&oauth_consumer_key=%@", self.key];
+    [formString appendFormat:@"&oauth_nonce=%u", arc4random_uniform(UINT32_MAX)];
+    [formString appendFormat:@"&oauth_signature_method=%@", @"HMAC-SHA1"];
+    [formString appendFormat:@"&oauth_timestamp=%d", (int) [[NSDate date] timeIntervalSince1970]];
+    [formString appendFormat:@"&oauth_version=%@", @"1.0"];
     
     NSString *message = [NSString stringWithFormat:@"GET&%@&%@", [self escape:AWSQuickbooksAuthorizationManagerRequestTokenURLString], [self escape:formString]];
     NSString *secret = [NSString stringWithFormat:@"%@&", self.secret];
     NSString *signature = [self sha1HMacWithData:[message dataUsingEncoding:NSUTF8StringEncoding]
                                          withKey:[secret dataUsingEncoding:NSUTF8StringEncoding]];
     
-    formString = [formString stringByAppendingFormat:@"&oauth_signature=%@", [self escape:signature]];
+    [formString appendFormat:@"&oauth_signature=%@", [self escape:signature]];
     
     NSString *urlString = [NSString stringWithFormat:@"%@?%@", AWSQuickbooksAuthorizationManagerRequestTokenURLString, formString];
     
@@ -185,14 +186,14 @@ typedef void (^AWSCompletionBlock)(id result, NSError *error);
     NSDictionary *params =  [AWSAuthorizationManager constructParametersWithURI:[url query]];
     self.realmID = params[@"realmId"];
     
-    NSString *formString = @"";
-    formString = [formString stringByAppendingFormat:@"oauth_consumer_key=%@", self.key];
-    formString = [formString stringByAppendingFormat:@"&oauth_nonce=%u", arc4random_uniform(UINT32_MAX)];
-    formString = [formString stringByAppendingFormat:@"&oauth_signature_method=%@", @"HMAC-SHA1"];
-    formString = [formString stringByAppendingFormat:@"&oauth_timestamp=%d", (int) [[NSDate date] timeIntervalSince1970]];
-    formString = [formString stringByAppendingFormat:@"&oauth_token=%@", params[@"oauth_token"]];
-    formString = [formString stringByAppendingFormat:@"&oauth_verifier=%@", params[@"oauth_verifier"]];
-    formString = [formString stringByAppendingFormat:@"&oauth_version=%@", @"1.0"];
+    NSMutableString *formString = [NSMutableString new];
+    [formString appendFormat:@"oauth_consumer_key=%@", self.key];
+    [formString appendFormat:@"&oauth_nonce=%u", arc4random_uniform(UINT32_MAX)];
+    [formString appendFormat:@"&oauth_signature_method=%@", @"HMAC-SHA1"];
+    [formString appendFormat:@"&oauth_timestamp=%d", (int) [[NSDate date] timeIntervalSince1970]];
+    [formString appendFormat:@"&oauth_token=%@", params[@"oauth_token"]];
+    [formString appendFormat:@"&oauth_verifier=%@", params[@"oauth_verifier"]];
+    [formString appendFormat:@"&oauth_version=%@", @"1.0"];
     
     NSString *message = [NSString stringWithFormat:@"GET&%@&%@",
                          [self escape:AWSQuickbooksAuthorizationManagerAccessTokenURLString], [self escape:formString]];
@@ -200,7 +201,7 @@ typedef void (^AWSCompletionBlock)(id result, NSError *error);
     NSString *signature = [self sha1HMacWithData:[message dataUsingEncoding:NSUTF8StringEncoding]
                                          withKey:[secret dataUsingEncoding:NSUTF8StringEncoding]];
     
-    formString = [formString stringByAppendingFormat:@"&oauth_signature=%@",[self escape:signature]];
+    [formString appendFormat:@"&oauth_signature=%@",[self escape:signature]];
     NSString *urlString = [NSString stringWithFormat:@"%@?%@", AWSQuickbooksAuthorizationManagerAccessTokenURLString, formString];
     NSMutableURLRequest *urlRequest = [[NSMutableURLRequest alloc]initWithURL:[NSURL URLWithString:urlString]];
     
@@ -255,7 +256,7 @@ typedef void (^AWSCompletionBlock)(id result, NSError *error);
 }
 
 - (NSURL *)generateLogoutURL {
-    return [NSURL URLWithString:@"https://www.google.com"];
+    return nil;
 }
 
 - (void)destroyAccessToken {

@@ -11,15 +11,54 @@
 
 @interface AWSQuickbooksAuthorizationManager : AWSAuthorizationManager
 
+/**
+ * Singleton used to authorize user during OAuth1.0
+ * @return the singleton
+ */
++ (instancetype _Nonnull)sharedInstance;
+
+/**
+ * Customize the flow.
+ *
+ * @param key The API key provided by Quickbooks
+ * @param redirectURI The redirect URI you provided Zendesk
+ *          i.e. https://mysampleapp.amazonaws.com/zendesk/success
+ */
 - (void)configureWithAPIKey:(NSString * _Nonnull)key
                 redirectURI:(NSString * _Nonnull)redirectURI;
 
+/**
+ * The secret must be set before attempting to authorize.
+ * It is recommended that this secret be securely passed to this point.
+ *
+ * @param secret The API secret provided by Quickbooks
+ *          i.e. @"abc123"
+ */
 - (void)setAPISecret:(NSString * _Nonnull)secret;
 
+/**
+ * @return The API secret used to authorize
+ */
 - (NSString * _Nullable)getAPIKey;
+
+/**
+ * @return The API secret used to authorize
+ */
 - (NSString * _Nullable)getAPISecret;
+
+/**
+ * @return The access token, available after authorization
+ */
 - (NSString * _Nullable)getAccessToken;
+
+/**
+ * @return The token secret, available after authorization
+ */
 - (NSString * _Nullable)getAccessTokenSecret;
+
+/**
+ * @return The realm ID, available after authorization
+ */
 - (NSString * _Nullable)getRealmID;
 
 @end

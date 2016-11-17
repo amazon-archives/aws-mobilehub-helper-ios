@@ -108,6 +108,9 @@ typedef void (^AWSCompletionBlock)(id result, NSError *error);
         self.safariVC.delegate = self;
         self.dismissOnLoad = YES;
         [logoutViewController presentViewController:self.safariVC animated:NO completion:nil];
+    } else {
+        self.logoutCompletionHandler(@{@"didSucceed" : @YES}, nil);
+        self.logoutCompletionHandler = nil;
     }
 }
 
