@@ -44,6 +44,9 @@
 		1851DD511D25CF870010B8AA /* module.modulemap in CopyFiles */ = {isa = PBXBuildFile; fileRef = 1851DD501D25CF7C0010B8AA /* module.modulemap */; };
 		18A3E46C1D52AC5000A3AE26 /* libPods-AWSMobileHubHelper.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 18A3E46B1D52AC5000A3AE26 /* libPods-AWSMobileHubHelper.a */; };
 		5A1F46E8D136C85A0F66DBEB /* libPods-AWSMobileHubHelper.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F313F95C1A385D20A08A0F20 /* libPods-AWSMobileHubHelper.a */; };
+		E409712A1DDFA41F00624FDC /* AWSMarketoAuthorizationManager.h in Headers */ = {isa = PBXBuildFile; fileRef = E40971281DDFA41F00624FDC /* AWSMarketoAuthorizationManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E409712B1DDFA41F00624FDC /* AWSMarketoAuthorizationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E40971291DDFA41F00624FDC /* AWSMarketoAuthorizationManager.m */; };
+		E409712C1DDFA85A00624FDC /* AWSMarketoAuthorizationManager.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = E40971281DDFA41F00624FDC /* AWSMarketoAuthorizationManager.h */; };
 		E424BC571DCCE0B200E231E9 /* AWSSalesforceAuthorizationManager.h in Headers */ = {isa = PBXBuildFile; fileRef = E424BC551DCCE0B200E231E9 /* AWSSalesforceAuthorizationManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E424BC581DCCE0B200E231E9 /* AWSSalesforceAuthorizationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E424BC561DCCE0B200E231E9 /* AWSSalesforceAuthorizationManager.m */; };
 		E424BC5B1DCCE0F600E231E9 /* AWSAuthorizationManager.h in Headers */ = {isa = PBXBuildFile; fileRef = E424BC591DCCE0F600E231E9 /* AWSAuthorizationManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -71,6 +74,7 @@
 			dstPath = "include/$(PRODUCT_NAME)";
 			dstSubfolderSpec = 16;
 			files = (
+				E409712C1DDFA85A00624FDC /* AWSMarketoAuthorizationManager.h in CopyFiles */,
 				E480E0A01DDD07890050DA7B /* AWSQuickbooksAuthorizationManager.h in CopyFiles */,
 				E44D19531DD9619D00255AD3 /* AWSHubspotAuthorizationManager.h in CopyFiles */,
 				E49544B41DD4C2B6008C17FC /* AWSAuthorizationManager.h in CopyFiles */,
@@ -123,6 +127,8 @@
 		18A3E46B1D52AC5000A3AE26 /* libPods-AWSMobileHubHelper.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libPods-AWSMobileHubHelper.a"; path = "/Users/saligram/Library/Developer/Xcode/DerivedData/AWSMobileHubHelper-gyehtqpthehzduaonjwjnaptkadu/Build/Products/Debug-iphonesimulator/libPods-AWSMobileHubHelper.a"; sourceTree = "<absolute>"; };
 		9C8606474456ECAC0A2A47FB /* Pods-AWSMobileHubHelper.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AWSMobileHubHelper.release.xcconfig"; path = "Pods/Target Support Files/Pods-AWSMobileHubHelper/Pods-AWSMobileHubHelper.release.xcconfig"; sourceTree = "<group>"; };
 		B3EA1B7C4DAA1E2BB1B70928 /* Pods-AWSMobileHubHelper.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AWSMobileHubHelper.debug.xcconfig"; path = "Pods/Target Support Files/Pods-AWSMobileHubHelper/Pods-AWSMobileHubHelper.debug.xcconfig"; sourceTree = "<group>"; };
+		E40971281DDFA41F00624FDC /* AWSMarketoAuthorizationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AWSMarketoAuthorizationManager.h; path = Authorization/AWSMarketoAuthorizationManager.h; sourceTree = "<group>"; };
+		E40971291DDFA41F00624FDC /* AWSMarketoAuthorizationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AWSMarketoAuthorizationManager.m; path = Authorization/AWSMarketoAuthorizationManager.m; sourceTree = "<group>"; };
 		E424BC551DCCE0B200E231E9 /* AWSSalesforceAuthorizationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AWSSalesforceAuthorizationManager.h; path = Authorization/AWSSalesforceAuthorizationManager.h; sourceTree = "<group>"; };
 		E424BC561DCCE0B200E231E9 /* AWSSalesforceAuthorizationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AWSSalesforceAuthorizationManager.m; path = Authorization/AWSSalesforceAuthorizationManager.m; sourceTree = "<group>"; };
 		E424BC591DCCE0F600E231E9 /* AWSAuthorizationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AWSAuthorizationManager.h; path = Authorization/AWSAuthorizationManager.h; sourceTree = "<group>"; };
@@ -283,6 +289,8 @@
 				E44D19501DD95D8100255AD3 /* AWSHubspotAuthorizationManager.m */,
 				E44D195F1DDBCCE800255AD3 /* AWSQuickbooksAuthorizationManager.h */,
 				E44D19601DDBCCE800255AD3 /* AWSQuickbooksAuthorizationManager.m */,
+				E40971281DDFA41F00624FDC /* AWSMarketoAuthorizationManager.h */,
+				E40971291DDFA41F00624FDC /* AWSMarketoAuthorizationManager.m */,
 			);
 			name = Authorization;
 			sourceTree = "<group>";
@@ -311,6 +319,7 @@
 				173208B21DBC6E12007DA836 /* AWSCognitoUserPoolsSignInProvider.h in Headers */,
 				1851DD251D25CD0D0010B8AA /* AWSMobileHubHelper.h in Headers */,
 				E44D19611DDBCCE800255AD3 /* AWSQuickbooksAuthorizationManager.h in Headers */,
+				E409712A1DDFA41F00624FDC /* AWSMarketoAuthorizationManager.h in Headers */,
 				E44D19511DD95D8100255AD3 /* AWSHubspotAuthorizationManager.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -411,6 +420,7 @@
 				1851DD141D25CC890010B8AA /* AWSCloudLogic.m in Sources */,
 				E49544AE1DD3B757008C17FC /* AWSMSDynamicsAuthorizationManager.m in Sources */,
 				173208B31DBC6E12007DA836 /* AWSCognitoUserPoolsSignInProvider.m in Sources */,
+				E409712B1DDFA41F00624FDC /* AWSMarketoAuthorizationManager.m in Sources */,
 				1851DD191D25CC890010B8AA /* AWSGoogleSignInProvider.m in Sources */,
 				1851DD171D25CC890010B8AA /* AWSPushManager.m in Sources */,
 				E44D19521DD95D8100255AD3 /* AWSHubspotAuthorizationManager.m in Sources */,

@@ -141,7 +141,7 @@ static NSString *const AWSHubspotAuthorizationManagerAuthenticateURLString = @"h
 }
 
 - (NSURL *)generateLogoutURL {
-    return [NSURL URLWithString:@""];
+    return nil;
 }
 
 @end
