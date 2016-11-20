@@ -20,6 +20,7 @@ static NSString *const AWSZendeskAuthorizationManagerAccessTokenKey = @"access_t
 
 - (void)completeLoginWithResult:(id)result
                           error:(NSError *)error;
+- (void)destroyAccessToken;
 
 @end
 
@@ -28,9 +29,9 @@ static NSString *const AWSZendeskAuthorizationManagerAccessTokenKey = @"access_t
 @property (strong, nonatomic) NSString *authorizeURLString;
 @property (strong, nonatomic) NSString *logoutURLString;
 @property (strong, nonatomic) NSString *clientID;
-@property (strong, nonatomic) NSString *subdomain;
+@property (strong, nonatomic, getter=getSubdomain) NSString *subdomain;
 @property (strong, nonatomic) NSString *redirectURI;
-@property (strong, nonatomic) NSString *scope;
+@property (strong, nonatomic, setter=setScope:) NSString *scope;
 
 @property (strong, nonatomic) NSDictionary *valuesFromResponse;
 
@@ -72,16 +73,8 @@ static NSString *const AWSZendeskAuthorizationManagerAccessTokenKey = @"access_t
     self.subdomain = subdomain ?: @"";
 }
 
-- (void)setScope:(NSString *)scope {
-    _scope = scope;
-}
-
 - (NSString *)getTokenType {
     return [self.valuesFromResponse objectForKey:AWSZendeskAuthorizationManagerTokenTypeKey];
-}
-
-- (NSString *)getSubdomain {
-    return self.subdomain;
 }
 
 #pragma mark - Override Custom Methods
@@ -120,6 +113,11 @@ static NSString *const AWSZendeskAuthorizationManagerAccessTokenKey = @"access_t
 
 - (NSURL *)generateLogoutURL {
     return [NSURL URLWithString:self.logoutURLString];
+}
+
+- (void)destroyAccessToken {
+    [super destroyAccessToken];
+    self.valuesFromResponse = nil;
 }
 
 @end

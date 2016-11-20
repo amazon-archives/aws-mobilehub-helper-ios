@@ -17,6 +17,7 @@ static NSString *const AWSHubspotAuthorizationManagerAuthenticateURLString = @"h
 
 - (void)completeLoginWithResult:(id)result
                           error:(NSError *)error;
+- (void)destroyAccessToken;
 
 @end
 
@@ -26,7 +27,7 @@ static NSString *const AWSHubspotAuthorizationManagerAuthenticateURLString = @"h
 @property (strong, nonatomic) NSString *portalID;
 @property (strong, nonatomic) NSString *clientSecret;
 @property (strong, nonatomic) NSString *redirectURI;
-@property (strong, nonatomic) NSString *scope;
+@property (strong, nonatomic, setter=setScope:) NSString *scope;
 
 @property (strong, nonatomic) NSDictionary *valuesFromResponse;
 
@@ -63,10 +64,6 @@ static NSString *const AWSHubspotAuthorizationManagerAuthenticateURLString = @"h
     self.clientID = clientID ?: @"";
     self.portalID = portalID ?: @"";
     self.redirectURI = redirectURI ?: @"";
-}
-
-- (void)setScope:(NSString *)scope {
-    _scope = scope;
 }
 
 #pragma mark - Override Custom Methods
@@ -142,6 +139,11 @@ static NSString *const AWSHubspotAuthorizationManagerAuthenticateURLString = @"h
 
 - (NSURL *)generateLogoutURL {
     return nil;
+}
+
+- (void)destroyAccessToken {
+    [super destroyAccessToken];
+    self.valuesFromResponse = nil;
 }
 
 @end

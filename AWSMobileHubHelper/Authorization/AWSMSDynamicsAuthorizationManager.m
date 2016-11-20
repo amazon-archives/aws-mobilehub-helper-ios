@@ -24,6 +24,7 @@ typedef void (^AWSCompletionBlock)(id result, NSError *error);
 
 - (void)completeLoginWithResult:(id)result
                           error:(NSError *)error;
+- (void)destroyAccessToken;
 
 @end
 
@@ -32,7 +33,7 @@ typedef void (^AWSCompletionBlock)(id result, NSError *error);
 @property (strong, nonatomic) NSString *authorizeURLString;
 @property (strong, nonatomic) NSString *clientID;
 @property (strong, nonatomic) NSString *redirectURI;
-@property (strong, nonatomic) NSString *resource;
+@property (strong, nonatomic, getter=getResourceURL) NSString *resource;
 
 @property (strong, nonatomic) NSDictionary *valuesFromResponse;
 
@@ -72,10 +73,6 @@ typedef void (^AWSCompletionBlock)(id result, NSError *error);
 
 - (NSString *)getTokenType {
     return [self.valuesFromResponse objectForKey:AWSMSDynamicsAuthorizationManagerTokenTypeKey];
-}
-
-- (NSString *)getResourceURL {
-    return self.resource;
 }
 
 - (NSString *)getAccessToken {
@@ -148,6 +145,11 @@ typedef void (^AWSCompletionBlock)(id result, NSError *error);
 
 - (NSURL *)generateLogoutURL {
     return [NSURL URLWithString:AWSMSDynamicsAuthorizationManagerLogoutURLString];
+}
+
+- (void)destroyAccessToken {
+    [super destroyAccessToken];
+    self.valuesFromResponse = nil;
 }
 
 @end

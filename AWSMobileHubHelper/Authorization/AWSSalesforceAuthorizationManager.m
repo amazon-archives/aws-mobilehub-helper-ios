@@ -24,6 +24,7 @@ static NSString *const AWSSalesforceAuthorizationManagerAccessTokenKey = @"acces
 
 - (void)completeLoginWithResult:(id)result
                           error:(NSError *)error;
+- (void)destroyAccessToken;
 
 @end
 
@@ -141,6 +142,11 @@ static NSString *const AWSSalesforceAuthorizationManagerAccessTokenKey = @"acces
 - (NSURL *)generateLogoutURL {
     NSString *logoutURLString = [NSString stringWithFormat:@"%@%@", [self getInstanceURL], AWSSalesforceAuthorizationManagerLogoutURLPostfix];
     return [NSURL URLWithString:logoutURLString];
+}
+
+- (void)destroyAccessToken {
+    [super destroyAccessToken];
+    self.valuesFromResponse = nil;
 }
 
 @end

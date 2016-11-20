@@ -17,6 +17,14 @@ static NSString *const AWSQuickbooksAuthorizationManagerRequestTokenURLString = 
 static NSString *const AWSQuickbooksAuthorizationManagerAccessTokenURLString = @"https://oauth.intuit.com/oauth/v1/get_access_token";
 static NSString *const AWSSalesforceAuthorizationManagerAuthorizationURLString = @"https://appcenter.intuit.com/Connect/Begin";
 
+@interface AWSAuthorizationManager()
+
+- (void)completeLoginWithResult:(id)result
+                          error:(NSError *)error;
+- (void)destroyAccessToken;
+
+@end
+
 @interface AWSQuickbooksAuthorizationManager() <SFSafariViewControllerDelegate>
 
 typedef void (^AWSCompletionBlock)(id result, NSError *error);
@@ -31,11 +39,11 @@ typedef void (^AWSCompletionBlock)(id result, NSError *error);
 @property (strong, nonatomic) AWSCompletionBlock refreshCompletionHandler;
 
 @property (strong, nonatomic) NSString *redirectURI;
-@property (strong, nonatomic) NSString *key;
-@property (strong, nonatomic) NSString *secret;
-@property (strong, nonatomic) NSString *token;
-@property (strong, nonatomic) NSString *tokenSecret;
-@property (strong, nonatomic) NSString *realmID;
+@property (strong, nonatomic, getter=getAPIKey) NSString *key;
+@property (strong, nonatomic, getter=getAPISecret, setter=setAPISecret:) NSString *secret;
+@property (strong, nonatomic, getter=getAccessToken) NSString *token;
+@property (strong, nonatomic, getter=getAccessTokenSecret) NSString *tokenSecret;
+@property (strong, nonatomic, getter=getRealmID) NSString *realmID;
 @property (strong, nonatomic) NSString *intermediateTokenSecret;
 
 @end
@@ -68,30 +76,6 @@ typedef void (^AWSCompletionBlock)(id result, NSError *error);
                 redirectURI:(NSString *)redirectURI {
     self.key = key ?: @"";
     self.redirectURI = redirectURI ?: @"";
-}
-
-- (void)setAPISecret:(NSString *)secret {
-    self.secret = secret;
-}
-
-- (NSString *)getAPIKey {
-    return self.key;
-}
-
-- (NSString *)getAPISecret {
-    return self.secret;
-}
-
-- (NSString *)getAccessToken {
-    return self.token;
-}
-
-- (NSString *)getAccessTokenSecret {
-    return self.tokenSecret;
-}
-
-- (NSString *)getRealmID {
-    return _realmID;
 }
 
 - (void)authorizeWithView:(UIViewController * _Nonnull)authorizeViewController
@@ -198,6 +182,7 @@ typedef void (^AWSCompletionBlock)(id result, NSError *error);
     NSString *message = [NSString stringWithFormat:@"GET&%@&%@",
                          [self escape:AWSQuickbooksAuthorizationManagerAccessTokenURLString], [self escape:formString]];
     NSString *secret = [NSString stringWithFormat:@"%@&%@", self.secret, self.intermediateTokenSecret];
+    self.intermediateTokenSecret = nil;
     NSString *signature = [self sha1HMacWithData:[message dataUsingEncoding:NSUTF8StringEncoding]
                                          withKey:[secret dataUsingEncoding:NSUTF8StringEncoding]];
     
@@ -260,8 +245,11 @@ typedef void (^AWSCompletionBlock)(id result, NSError *error);
 }
 
 - (void)destroyAccessToken {
+    [super destroyAccessToken];
     self.token = nil;
     self.tokenSecret = nil;
+    self.secret = nil;
+    self.realmID = nil;
 }
 
 #pragma mark - SFSafariViewControllerDelegate

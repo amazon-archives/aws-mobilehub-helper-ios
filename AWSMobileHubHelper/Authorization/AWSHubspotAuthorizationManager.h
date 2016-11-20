@@ -31,8 +31,8 @@
 
 /**
  * @param scope Specify the amount of access the user would like.
- *          i.e. @"read"
- *               @"read tickets:write"
+ *          i.e. @"contacts"
+ *               @"contacts-rw+blog-rw"
  */
 - (void)setScope:(NSString * _Nonnull)scope;
 
