@@ -62,7 +62,7 @@ typedef void (^AWSCompletionBlock)(id result, NSError *error);
 
 - (instancetype)init {
     if (self = [super init]) {
-        NSDictionary *config = [[[AWSInfo defaultAWSInfo].rootInfoDictionary objectForKey:@"SaaS"] objectForKey:@"Quickbooks"];
+        NSDictionary *config = [[[AWSInfo defaultAWSInfo].rootInfoDictionary objectForKey:@"SaaS"] objectForKey:@"QuickBooks"];
         [self configureWithAPIKey:[config objectForKey:@"APIKey"]
                       redirectURI:[config objectForKey:@"RedirectURI"]];
         return self;

@@ -47,7 +47,7 @@ static NSString *const AWSHubspotAuthorizationManagerAuthenticateURLString = @"h
 
 - (instancetype)init {
     if (self = [super init]) {
-        NSDictionary *config = [[[AWSInfo defaultAWSInfo].rootInfoDictionary objectForKey:@"SaaS"] objectForKey:@"Hubspot"];
+        NSDictionary *config = [[[AWSInfo defaultAWSInfo].rootInfoDictionary objectForKey:@"SaaS"] objectForKey:@"HubSpot"];
         [self configureWithClientID:[config objectForKey:@"ClientID"]
                            portalID:[config objectForKey:@"PortalID"]
                         redirectURI:[config objectForKey:@"RedirectURI"]];

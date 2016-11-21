@@ -53,7 +53,7 @@ typedef void (^AWSCompletionBlock)(id result, NSError *error);
 
 - (instancetype)init {
     if (self = [super init]) {
-        NSDictionary *config = [[[AWSInfo defaultAWSInfo].rootInfoDictionary objectForKey:@"SaaS"] objectForKey:@"MSDynamics"];
+        NSDictionary *config = [[[AWSInfo defaultAWSInfo].rootInfoDictionary objectForKey:@"SaaS"] objectForKey:@"Dynamics"];
         _clientID = [config objectForKey:@"ClientID"];
         _redirectURI = [config objectForKey:@"RedirectURI"];
         _resource = [config objectForKey:@"ResourceURL"];
