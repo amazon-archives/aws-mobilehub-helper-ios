@@ -100,9 +100,10 @@ typedef void (^AWSCompletionBlock)(id result, NSError *error);
     AWSLogVerbose(@"logout called");
     self.logoutCompletionHandler = completionHandler;
     
+    NSURL *logoutURL = [self generateLogoutURL];
+    
     [self clearAccessToken];
     
-    NSURL *logoutURL = [self generateLogoutURL];
     if (logoutURL) {
         self.safariVC = [[SFSafariViewController alloc] initWithURL:logoutURL entersReaderIfAvailable:NO];
         self.safariVC.delegate = self;
