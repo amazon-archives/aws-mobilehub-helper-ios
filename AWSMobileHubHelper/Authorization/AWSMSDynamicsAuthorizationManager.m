@@ -66,9 +66,9 @@ typedef void (^AWSCompletionBlock)(id result, NSError *error);
 - (void)configureWithClientID:(NSString *)clientID
                   redirectURI:(NSString *)redirectURI
                      resource:(NSString *)resource {
-    self.clientID = clientID ?: @"";
-    self.redirectURI = redirectURI ?: @"";
-    self.resource = resource ?: @"";
+    self.clientID = clientID;
+    self.redirectURI = redirectURI;
+    self.resource = resource;
 }
 
 - (NSString *)getTokenType {
@@ -86,6 +86,27 @@ typedef void (^AWSCompletionBlock)(id result, NSError *error);
 }
 
 - (NSURL *)generateAuthURL {
+    NSMutableString *missingParams = [NSMutableString new];
+    
+    if (self.clientID == nil) {
+        [missingParams appendString:@"clientID "];
+    }
+    
+    if (self.redirectURI == nil) {
+        [missingParams appendString:@"redirectURI "];
+    }
+    
+    if (self.resource == nil) {
+        [missingParams appendString:@"resourceURL "];
+    }
+    
+    if ([missingParams length] > 0) {
+        NSString *message = [NSString stringWithFormat:@"Missing parameter(s): %@", missingParams];
+        [self completeLoginWithResult:nil error:[NSError errorWithDomain:AWSAuthorizationManagerErrorDomain
+                                                                    code:AWSAuthorizationErrorMissingRequiredParameter
+                                                                userInfo:@{@"message": message}]];
+    }
+    
     NSDictionary *params = @{@"client_id" : self.clientID,
                              @"response_type" : @"code",
                              @"response_mode" : @"query",

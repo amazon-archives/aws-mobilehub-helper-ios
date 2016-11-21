@@ -51,7 +51,6 @@ static NSString *const AWSHubspotAuthorizationManagerAuthenticateURLString = @"h
         [self configureWithClientID:[config objectForKey:@"ClientID"]
                            portalID:[config objectForKey:@"PortalID"]
                         redirectURI:[config objectForKey:@"RedirectURI"]];
-        _scope = @"contacts";
         
         return self;
     }
@@ -61,9 +60,9 @@ static NSString *const AWSHubspotAuthorizationManagerAuthenticateURLString = @"h
 - (void)configureWithClientID:(NSString *)clientID
                      portalID:(NSString *)portalID
                   redirectURI:(NSString *)redirectURI {
-    self.clientID = clientID ?: @"";
-    self.portalID = portalID ?: @"";
-    self.redirectURI = redirectURI ?: @"";
+    self.clientID = clientID;
+    self.portalID = portalID;
+    self.redirectURI = redirectURI;
 }
 
 #pragma mark - Override Custom Methods
@@ -73,10 +72,29 @@ static NSString *const AWSHubspotAuthorizationManagerAuthenticateURLString = @"h
 }
 
 - (NSURL *)generateAuthURL {
-    if ([self.scope length] == 0) {
+    NSMutableString *missingParams = [NSMutableString new];
+    
+    if (self.clientID == nil) {
+        [missingParams appendString:@"clientID "];
+    }
+    
+    if (self.portalID == nil) {
+        [missingParams appendString:@"portalID "];
+    }
+    
+    if (self.redirectURI == nil) {
+        [missingParams appendString:@"redirectURI "];
+    }
+    
+    if (self.scope == nil) {
+        [missingParams appendString:@"scope "];
+    }
+    
+    if ([missingParams length] > 0) {
+        NSString *message = [NSString stringWithFormat:@"Missing parameter(s): %@", missingParams];
         [self completeLoginWithResult:nil error:[NSError errorWithDomain:AWSAuthorizationManagerErrorDomain
                                                                     code:AWSAuthorizationErrorMissingRequiredParameter
-                                                                userInfo:@{@"message": @"Missing parameter: scope"}]];
+                                                                userInfo:@{@"message": message}]];
     }
     
     NSDictionary *params = @{

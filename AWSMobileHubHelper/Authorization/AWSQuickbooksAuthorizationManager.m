@@ -15,7 +15,7 @@
 
 static NSString *const AWSQuickbooksAuthorizationManagerRequestTokenURLString = @"https://oauth.intuit.com/oauth/v1/get_request_token";
 static NSString *const AWSQuickbooksAuthorizationManagerAccessTokenURLString = @"https://oauth.intuit.com/oauth/v1/get_access_token";
-static NSString *const AWSSalesforceAuthorizationManagerAuthorizationURLString = @"https://appcenter.intuit.com/Connect/Begin";
+static NSString *const AWSQuickbooksAuthorizationManagerAuthorizationURLString = @"https://appcenter.intuit.com/Connect/Begin";
 
 @interface AWSAuthorizationManager()
 
@@ -74,24 +74,58 @@ typedef void (^AWSCompletionBlock)(id result, NSError *error);
 
 - (void)configureWithAPIKey:(NSString *)key
                 redirectURI:(NSString *)redirectURI {
-    self.key = key ?: @"";
-    self.redirectURI = redirectURI ?: @"";
+    self.key = key;
+    self.redirectURI = redirectURI;
 }
 
 - (void)authorizeWithView:(UIViewController * _Nonnull)authorizeViewController
         completionHandler:(void (^_Nullable)(id _Nullable, NSError * _Nullable))completionHandler {
     self.loginCompletionHandler = completionHandler;
     
+    if ([self.key length] > 0 && [self.secret length] > 0
+        && [self.token length] > 0 && [self.tokenSecret length] > 0 && [self.realmID length] > 0) {
+        [self completeLoginWithResult:@{@"api_key": self.key,
+                                        @"api_secret": self.secret,
+                                        @"access_token": self.token,
+                                        @"access_token_secret": self.tokenSecret,
+                                        @"realm_id": self.realmID}
+                                error:nil];
+    }
+    
+    NSMutableString *missingParams = [NSMutableString new];
+    
+    if (self.key == nil) {
+        [missingParams appendString:@"apiKey "];
+    }
+    
+    if (self.secret == nil) {
+        [missingParams appendString:@"apiSecret "];
+    }
+    
+    if (self.redirectURI == nil) {
+        [missingParams appendString:@"redirectURI "];
+    }
+    
+    if ([missingParams length] > 0) {
+        NSString *message = [NSString stringWithFormat:@"Missing parameter(s): %@", missingParams];
+        [self completeLoginWithResult:nil error:[NSError errorWithDomain:AWSAuthorizationManagerErrorDomain
+                                                                    code:AWSAuthorizationErrorMissingRequiredParameter
+                                                                userInfo:@{@"message": message}]];
+    }
+    
     [self generateOAuthRequestToken:^(NSError *error, NSDictionary *responseParams) {
         if (error) {
-            [self completeLoginWithResult:nil error:error];
+            [self completeLoginWithResult:nil error:[NSError errorWithDomain:AWSAuthorizationManagerErrorDomain
+                                                                        code:AWSAuthorizationErrorConnectionError
+                                                                    userInfo:@{@"error": error}]];
         }
+        AWSLogVerbose(@"%@", responseParams);
         
         self.intermediateTokenSecret = responseParams[@"oauth_token_secret"];
         NSString *oauth_token = responseParams[@"oauth_token"];
         
         if (self.intermediateTokenSecret && oauth_token) {
-            NSString *authenticationUrl = [NSString stringWithFormat:@"%@?oauth_token=%@", AWSSalesforceAuthorizationManagerAuthorizationURLString, oauth_token];
+            NSString *authenticationUrl = [NSString stringWithFormat:@"%@?oauth_token=%@", AWSQuickbooksAuthorizationManagerAuthorizationURLString, oauth_token];
             
             self.safariVC = [[SFSafariViewController alloc] initWithURL:[NSURL URLWithString:authenticationUrl]
                                                 entersReaderIfAvailable:NO];
@@ -170,6 +204,12 @@ typedef void (^AWSCompletionBlock)(id result, NSError *error);
     NSDictionary *params =  [AWSAuthorizationManager constructParametersWithURI:[url query]];
     self.realmID = params[@"realmId"];
     
+    if ([self.realmID length] == 0) {
+        [self completeLoginWithResult:nil error:[NSError errorWithDomain:AWSAuthorizationManagerErrorDomain
+                                                                    code:AWSAuthorizationErrorFailedToRetrieveAccessToken
+                                                                userInfo:nil]];
+    }
+    
     NSMutableString *formString = [NSMutableString new];
     [formString appendFormat:@"oauth_consumer_key=%@", self.key];
     [formString appendFormat:@"&oauth_nonce=%u", arc4random_uniform(UINT32_MAX)];
@@ -193,7 +233,9 @@ typedef void (^AWSCompletionBlock)(id result, NSError *error);
     [NSURLConnection sendAsynchronousRequest:urlRequest queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse * _Nullable response, NSData * _Nullable data, NSError * _Nullable connectionError) {
         if (connectionError) {
             AWSLogVerbose(@"Error: %@", connectionError.description);
-            [self completeLoginWithResult:nil error:connectionError];
+            [self completeLoginWithResult:nil error:[NSError errorWithDomain:AWSAuthorizationManagerErrorDomain
+                                                                        code:AWSAuthorizationErrorConnectionError
+                                                                    userInfo:@{@"connectionError": connectionError}]];
             return;
         }
         AWSLogVerbose(@"Completed Quickbooks third leg.");
@@ -201,6 +243,12 @@ typedef void (^AWSCompletionBlock)(id result, NSError *error);
         NSDictionary *oauthTokens = [AWSAuthorizationManager constructParametersWithURI:responseString];
         self.token = oauthTokens[@"oauth_token"];
         self.tokenSecret = oauthTokens[@"oauth_token_secret"];
+        
+        if ([self.token length] == 0 || [self.tokenSecret length] == 0) {
+            [self completeLoginWithResult:nil error:[NSError errorWithDomain:AWSAuthorizationManagerErrorDomain
+                                                                        code:AWSAuthorizationErrorFailedToRetrieveAccessToken
+                                                                    userInfo:@{@"message": responseString}]];
+        }
         [self completeLoginWithResult:@{@"api_key": self.key,
                                         @"api_secret": self.secret,
                                         @"access_token": self.token,

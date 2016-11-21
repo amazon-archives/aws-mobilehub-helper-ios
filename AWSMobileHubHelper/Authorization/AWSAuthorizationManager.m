@@ -84,8 +84,8 @@ typedef void (^AWSCompletionBlock)(id result, NSError *error);
     AWSLogVerbose(@"authorizeWithView called");
     self.loginCompletionHandler = completionHandler;
     
-    if (self.accessToken != nil) {
-        self.loginCompletionHandler(self.accessToken, nil);
+    if ([[self getAccessToken] length] > 0) {
+        self.loginCompletionHandler([self getAccessToken], nil);
         return;
     }
     

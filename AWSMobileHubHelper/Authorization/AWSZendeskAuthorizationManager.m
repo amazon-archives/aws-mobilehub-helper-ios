@@ -56,7 +56,6 @@ static NSString *const AWSZendeskAuthorizationManagerAccessTokenKey = @"access_t
         [self configureWithClientID:[config objectForKey:@"ClientID"]
                         redirectURI:[config objectForKey:@"RedirectURI"]
                           subdomain:[config objectForKey:@"Subdomain"]];
-        _scope = @"";
         
         return self;
     }
@@ -66,11 +65,11 @@ static NSString *const AWSZendeskAuthorizationManagerAccessTokenKey = @"access_t
 - (void)configureWithClientID:(NSString *)clientID
                   redirectURI:(NSString *)redirectURI
                     subdomain:(NSString *)subdomain {
-    self.clientID = clientID ?: @"";
-    self.redirectURI = redirectURI ?: @"";
+    self.clientID = clientID;
+    self.redirectURI = redirectURI;
     self.authorizeURLString = [NSString stringWithFormat:AWSZendeskAuthorizationManagerAuthorizeURLFormatString, subdomain];
     self.logoutURLString = [NSString stringWithFormat:AWSZendeskAuthorizationManagerLogoutURLFormatString, subdomain];
-    self.subdomain = subdomain ?: @"";
+    self.subdomain = subdomain;
 }
 
 - (NSString *)getTokenType {
@@ -84,11 +83,31 @@ static NSString *const AWSZendeskAuthorizationManagerAccessTokenKey = @"access_t
 }
 
 - (NSURL *)generateAuthURL {
-    if ([self.scope length] == 0) {
+    NSMutableString *missingParams = [NSMutableString new];
+    
+    if (self.clientID == nil) {
+        [missingParams appendString:@"clientID "];
+    }
+    
+    if (self.redirectURI == nil) {
+        [missingParams appendString:@"redirectURI "];
+    }
+    
+    if (self.subdomain == nil) {
+        [missingParams appendString:@"subdomain "];
+    }
+    
+    if (self.scope == nil) {
+        [missingParams appendString:@"scope "];
+    }
+    
+    if ([missingParams length] > 0) {
+        NSString *message = [NSString stringWithFormat:@"Missing parameter(s): %@", missingParams];
         [self completeLoginWithResult:nil error:[NSError errorWithDomain:AWSAuthorizationManagerErrorDomain
                                                                     code:AWSAuthorizationErrorMissingRequiredParameter
-                                                                userInfo:@{@"message": @"Missing parameter: scope"}]];
+                                                                userInfo:@{@"message": message}]];
     }
+    
     NSDictionary *params = @{
                              @"response_type" : @"token",
                              @"client_id" : self.clientID,

@@ -10,11 +10,8 @@
 #import "AWSMarketoAuthorizationManager.h"
 #import <AWSCore/AWSCore.h>
 
-static NSString *const AWSHubspotAuthorizationManagerAuthorizeURLString = @"https://app.hubspot.com/oauth/authorize";
-static NSString *const AWSHubspotAuthorizationManagerAuthenticateURLString = @"https://app.hubspot.com/auth/authenticate";
-
-static NSString *const AWSHubspotAuthorizationManagerAccessTokenKey = @"access_token";
-static NSString *const AWSHubspotAuthorizationManagerTokenTypeKey = @"token_type";
+static NSString *const AWSMarketoAuthorizationManagerAccessTokenKey = @"access_token";
+static NSString *const AWSMarketoAuthorizationManagerTokenTypeKey = @"token_type";
 
 typedef void (^AWSCompletionBlock)(id result, NSError *error);
 
@@ -69,8 +66,8 @@ typedef void (^AWSCompletionBlock)(id result, NSError *error);
 
 - (void)configureWithIdentityURI:(NSString *)identityURI
                       restApiURI:(NSString *)restApiURI {
-    self.identityURI = identityURI ?: @"";
-    self.restApiURI = restApiURI ?: @"";
+    self.identityURI = identityURI;
+    self.restApiURI = restApiURI;
 }
 
 #pragma mark - Override Custom Methods
@@ -80,16 +77,45 @@ typedef void (^AWSCompletionBlock)(id result, NSError *error);
 }
 
 - (NSString *)getAccessToken {
-    return [self.valuesFromResponse objectForKey:AWSHubspotAuthorizationManagerAccessTokenKey];
+    return [self.valuesFromResponse objectForKey:AWSMarketoAuthorizationManagerAccessTokenKey];
 }
 
 - (NSString *)getTokenType {
-    return [self.valuesFromResponse objectForKey:AWSHubspotAuthorizationManagerTokenTypeKey];
+    return [self.valuesFromResponse objectForKey:AWSMarketoAuthorizationManagerTokenTypeKey];
 }
 
 - (void)authorizeWithView:(UIViewController *)authorizeViewController
         completionHandler:(void (^)(id _Nullable, NSError * _Nullable))completionHandler {
     self.loginCompletionHandler = completionHandler;
+    
+    if ([[self getTokenType] length] > 0 && [[self getAccessToken] length] > 0) {
+        [self completeLoginWithResult:[self getAccessToken] error:nil];
+    }
+    
+    NSMutableString *missingParams = [NSMutableString new];
+    
+    if (self.identityURI == nil) {
+        [missingParams appendString:@"identityURI "];
+    }
+    
+    if (self.restApiURI == nil) {
+        [missingParams appendString:@"restApiURI "];
+    }
+    
+    if (self.clientID == nil) {
+        [missingParams appendString:@"clientID "];
+    }
+    
+    if (self.clientSecret == nil) {
+        [missingParams appendString:@"clientSecret "];
+    }
+    
+    if ([missingParams length] > 0) {
+        NSString *message = [NSString stringWithFormat:@"Missing parameter(s): %@", missingParams];
+        [self completeLoginWithResult:nil error:[NSError errorWithDomain:AWSAuthorizationManagerErrorDomain
+                                                                    code:AWSAuthorizationErrorMissingRequiredParameter
+                                                                userInfo:@{@"message": message}]];
+    }
     
     NSString *urlString = [NSString stringWithFormat:@"%@/oauth/token?grant_type=client_credentials&client_id=%@&client_secret=%@", self.identityURI, self.clientID, self.clientSecret];
     NSURLRequest *urlRequest = [[NSURLRequest alloc] initWithURL:[NSURL URLWithString:urlString]];
@@ -99,16 +125,20 @@ typedef void (^AWSCompletionBlock)(id result, NSError *error);
     [NSURLConnection sendAsynchronousRequest:urlRequest queue:[NSOperationQueue mainQueue] completionHandler:^(NSURLResponse * _Nullable response, NSData * _Nullable data, NSError * _Nullable connectionError) {
         if (connectionError) {
             AWSLogVerbose(@"Error: %@", connectionError.description);
-            [weakSelf completeLoginWithResult:nil error:connectionError];
+            [weakSelf completeLoginWithResult:nil error:[NSError errorWithDomain:AWSAuthorizationManagerErrorDomain
+                                                                            code:AWSAuthorizationErrorConnectionError
+                                                                        userInfo:@{@"connectionError": connectionError}]];
             return;
         }
         
         NSError *parseError;
         weakSelf.valuesFromResponse = [NSJSONSerialization JSONObjectWithData:data options:0 error:&parseError];
-        [weakSelf completeLoginWithResult:[weakSelf.valuesFromResponse objectForKey:AWSHubspotAuthorizationManagerAccessTokenKey] error:parseError];
+        [weakSelf completeLoginWithResult:[weakSelf.valuesFromResponse objectForKey:AWSMarketoAuthorizationManagerAccessTokenKey] error:[NSError errorWithDomain:AWSAuthorizationManagerErrorDomain
+                                                                                                                                                            code:AWSAuthorizationErrorFailedToRetrieveAccessToken
+                                                                                                                                                        userInfo:@{@"parseError": parseError}]];
         
         NSString *responseString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-        AWSLogVerbose(@"Received response from Hubspot: %@", responseString);
+        AWSLogVerbose(@"Received response from Marketo: %@", responseString);
     }];
 }
 

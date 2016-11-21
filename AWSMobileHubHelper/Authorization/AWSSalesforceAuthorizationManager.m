@@ -62,8 +62,8 @@ static NSString *const AWSSalesforceAuthorizationManagerAccessTokenKey = @"acces
 
 - (void)configureWithClientID:(NSString *)clientID
                   redirectURI:(NSString *)redirectURI {
-    self.clientID = clientID ?: @"";
-    self.redirectURI = redirectURI ?: @"";
+    self.clientID = clientID;
+    self.redirectURI = redirectURI;
 }
 
 - (NSString *)getInstanceURL {
@@ -81,6 +81,23 @@ static NSString *const AWSSalesforceAuthorizationManagerAccessTokenKey = @"acces
 }
 
 - (NSURL *)generateAuthURL {
+    NSMutableString *missingParams = [NSMutableString new];
+    
+    if (self.clientID == nil) {
+        [missingParams appendString:@"clientID "];
+    }
+    
+    if (self.redirectURI == nil) {
+        [missingParams appendString:@"redirectURI "];
+    }
+    
+    if ([missingParams length] > 0) {
+        NSString *message = [NSString stringWithFormat:@"Missing parameter(s): %@", missingParams];
+        [self completeLoginWithResult:nil error:[NSError errorWithDomain:AWSAuthorizationManagerErrorDomain
+                                                                    code:AWSAuthorizationErrorMissingRequiredParameter
+                                                                userInfo:@{@"message": message}]];
+    }
+    
     NSDictionary *params = @{@"client_id" : self.clientID,
                              @"response_type" : @"token",
                              @"redirect_uri" : [self.redirectURI stringByAddingPercentEncodingWithAllowedCharacters:[NSCharacterSet URLHostAllowedCharacterSet]],
