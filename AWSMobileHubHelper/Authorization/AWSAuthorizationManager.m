@@ -100,7 +100,7 @@ typedef void (^AWSCompletionBlock)(id result, NSError *error);
     AWSLogVerbose(@"logout called");
     self.logoutCompletionHandler = completionHandler;
     
-    [self destroyAccessToken];
+    [self clearAccessToken];
     
     NSURL *logoutURL = [self generateLogoutURL];
     if (logoutURL) {
@@ -159,7 +159,7 @@ typedef void (^AWSCompletionBlock)(id result, NSError *error);
     return self.accessToken;
 }
 
-- (void)destroyAccessToken {
+- (void)clearAccessToken {
     self.accessToken = nil;
 }
 

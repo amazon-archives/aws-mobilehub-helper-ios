@@ -30,8 +30,26 @@
                   redirectURI:(NSString * _Nonnull)redirectURI;
 
 /**
+ * Offline Access       offline         This application can make API requests on behalf of the user when
+ *                                      the user is offline (not actively using the app). You will receive
+ *                                      a refresh token when the user authenticates that you can store to
+ *                                      gain access to a new, valid access token programtically using the
+ *                                      refresh token method.
+ * Contacts Read/Write 	contacts-rw 	This application reads your contact information, as well as creates 
+ *                                      new contacts, contact lists, and contact properties. It can also 
+ *                                      modify existing contacts, properties, and contact lists.
+ * Contacts Read-Only 	contacts-ro 	This application can read your contact information, as well as 
+ *                                      information about your contact properties and contact lists.
+ * Blog Read/Write      blog-rw         This application can read your blog data, including posts and 
+ *                                      comments, as well as create new blog posts and comments.
+ * Blog Read-Only       blog-ro         This application can read your blog data, including posts and comments.
+ * Events Read/Write 	events-rw       This application can read your marketing events, as well as post 
+ *                                      new ones into your HubSpot account.
+ * Keywords Read/Write 	keyword-rw      This application can read your keyword data, as well as insert new 
+ *                                      ones into your HubSpot account.
+ *
  * @param scope Specify the amount of access the user would like.
- *          i.e. @"contacts"
+ *          i.e. @"contacts-rw"
  *               @"contacts-rw+blog-rw"
  */
 - (void)setScope:(NSString * _Nonnull)scope;

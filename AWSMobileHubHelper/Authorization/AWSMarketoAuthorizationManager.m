@@ -26,7 +26,7 @@ typedef void (^AWSCompletionBlock)(id result, NSError *error);
 - (void)completeLoginWithResult:(id)result
                           error:(NSError *)error;
 
-- (void)destroyAccessToken;
+- (void)clearAccessToken;
 
 @end
 
@@ -94,19 +94,19 @@ typedef void (^AWSCompletionBlock)(id result, NSError *error);
     
     NSMutableString *missingParams = [NSMutableString new];
     
-    if (self.identityURI == nil) {
+    if ([self.identityURI length] == 0) {
         [missingParams appendString:@"identityURI "];
     }
     
-    if (self.restApiURI == nil) {
+    if ([self.restApiURI length] == 0) {
         [missingParams appendString:@"restApiURI "];
     }
     
-    if (self.clientID == nil) {
+    if ([self.clientID length] == 0) {
         [missingParams appendString:@"clientID "];
     }
     
-    if (self.clientSecret == nil) {
+    if ([self.clientSecret length] == 0) {
         [missingParams appendString:@"clientSecret "];
     }
     
@@ -146,8 +146,8 @@ typedef void (^AWSCompletionBlock)(id result, NSError *error);
     return nil;
 }
 
-- (void)destroyAccessToken {
-    [super destroyAccessToken];
+- (void)clearAccessToken {
+    [super clearAccessToken];
     
     self.valuesFromResponse = nil;
 }

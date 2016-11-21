@@ -14,7 +14,7 @@ typedef void (^AWSCompletionBlock)(id result, NSError *error);
 
 static NSString *const AWSSalesforceAuthorizationManagerAuthorizeURLString = @"https://login.salesforce.com/services/oauth2/authorize";
 static NSString *const AWSSalesforceAuthorizationManagerTokenURLString = @"https://login.salesforce.com/services/oauth2/token";
-static NSString *const AWSSalesforceAuthorizationManagerLogoutURLPostfix = @"https://login.salesforce.com/services/oauth2/token";
+static NSString *const AWSSalesforceAuthorizationManagerLogoutURLPostfix = @"/secur/logout.jsp";
 
 static NSString *const AWSSalesforceAuthorizationManagerInstanceURLKey = @"instance_url";
 static NSString *const AWSSalesforceAuthorizationManagerTokenTypeKey = @"token_type";
@@ -24,7 +24,7 @@ static NSString *const AWSSalesforceAuthorizationManagerAccessTokenKey = @"acces
 
 - (void)completeLoginWithResult:(id)result
                           error:(NSError *)error;
-- (void)destroyAccessToken;
+- (void)clearAccessToken;
 
 @end
 
@@ -83,11 +83,11 @@ static NSString *const AWSSalesforceAuthorizationManagerAccessTokenKey = @"acces
 - (NSURL *)generateAuthURL {
     NSMutableString *missingParams = [NSMutableString new];
     
-    if (self.clientID == nil) {
+    if ([self.clientID length] == 0) {
         [missingParams appendString:@"clientID "];
     }
     
-    if (self.redirectURI == nil) {
+    if ([self.redirectURI length] == 0) {
         [missingParams appendString:@"redirectURI "];
     }
     
@@ -145,6 +145,14 @@ static NSString *const AWSSalesforceAuthorizationManagerAccessTokenKey = @"acces
         
         NSError *parseError;
         weakSelf.valuesFromResponse = [NSJSONSerialization JSONObjectWithData:data options:0 error:&parseError];
+        
+        if ([[weakSelf.valuesFromResponse objectForKey:AWSSalesforceAuthorizationManagerAccessTokenKey] length] == 0) {
+            [weakSelf completeLoginWithResult:nil error:[NSError errorWithDomain:AWSAuthorizationManagerErrorDomain
+                                                                            code:AWSAuthorizationErrorFailedToRetrieveAccessToken
+                                                                        userInfo:@{@"response": weakSelf.valuesFromResponse,
+                                                                                   @"parseError": parseError}]];
+        }
+        
         [weakSelf completeLoginWithResult:[weakSelf.valuesFromResponse objectForKey:AWSSalesforceAuthorizationManagerAccessTokenKey] error:parseError];
     }];
     [task resume];
@@ -158,11 +166,12 @@ static NSString *const AWSSalesforceAuthorizationManagerAccessTokenKey = @"acces
 
 - (NSURL *)generateLogoutURL {
     NSString *logoutURLString = [NSString stringWithFormat:@"%@%@", [self getInstanceURL], AWSSalesforceAuthorizationManagerLogoutURLPostfix];
+    AWSLogVerbose(@"Logout: %@", logoutURLString);
     return [NSURL URLWithString:logoutURLString];
 }
 
-- (void)destroyAccessToken {
-    [super destroyAccessToken];
+- (void)clearAccessToken {
+    [super clearAccessToken];
     self.valuesFromResponse = nil;
 }
 

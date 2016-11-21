@@ -21,7 +21,7 @@ static NSString *const AWSQuickbooksAuthorizationManagerAuthorizationURLString =
 
 - (void)completeLoginWithResult:(id)result
                           error:(NSError *)error;
-- (void)destroyAccessToken;
+- (void)clearAccessToken;
 
 @end
 
@@ -94,15 +94,15 @@ typedef void (^AWSCompletionBlock)(id result, NSError *error);
     
     NSMutableString *missingParams = [NSMutableString new];
     
-    if (self.key == nil) {
+    if ([self.key length] == 0) {
         [missingParams appendString:@"apiKey "];
     }
     
-    if (self.secret == nil) {
+    if ([self.secret length] == 0) {
         [missingParams appendString:@"apiSecret "];
     }
     
-    if (self.redirectURI == nil) {
+    if ([self.redirectURI length] == 0) {
         [missingParams appendString:@"redirectURI "];
     }
     
@@ -292,8 +292,8 @@ typedef void (^AWSCompletionBlock)(id result, NSError *error);
     return nil;
 }
 
-- (void)destroyAccessToken {
-    [super destroyAccessToken];
+- (void)clearAccessToken {
+    [super clearAccessToken];
     self.token = nil;
     self.tokenSecret = nil;
     self.secret = nil;

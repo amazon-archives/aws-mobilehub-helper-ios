@@ -24,7 +24,7 @@ typedef void (^AWSCompletionBlock)(id result, NSError *error);
 
 - (void)completeLoginWithResult:(id)result
                           error:(NSError *)error;
-- (void)destroyAccessToken;
+- (void)clearAccessToken;
 
 @end
 
@@ -88,15 +88,15 @@ typedef void (^AWSCompletionBlock)(id result, NSError *error);
 - (NSURL *)generateAuthURL {
     NSMutableString *missingParams = [NSMutableString new];
     
-    if (self.clientID == nil) {
+    if ([self.clientID length] == 0) {
         [missingParams appendString:@"clientID "];
     }
     
-    if (self.redirectURI == nil) {
+    if ([self.redirectURI length] == 0) {
         [missingParams appendString:@"redirectURI "];
     }
     
-    if (self.resource == nil) {
+    if ([self.resource length] == 0) {
         [missingParams appendString:@"resourceURL "];
     }
     
@@ -168,8 +168,8 @@ typedef void (^AWSCompletionBlock)(id result, NSError *error);
     return [NSURL URLWithString:AWSMSDynamicsAuthorizationManagerLogoutURLString];
 }
 
-- (void)destroyAccessToken {
-    [super destroyAccessToken];
+- (void)clearAccessToken {
+    [super clearAccessToken];
     self.valuesFromResponse = nil;
 }
 

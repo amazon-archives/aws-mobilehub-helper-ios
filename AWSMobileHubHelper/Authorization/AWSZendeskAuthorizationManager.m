@@ -20,7 +20,7 @@ static NSString *const AWSZendeskAuthorizationManagerAccessTokenKey = @"access_t
 
 - (void)completeLoginWithResult:(id)result
                           error:(NSError *)error;
-- (void)destroyAccessToken;
+- (void)clearAccessToken;
 
 @end
 
@@ -85,19 +85,19 @@ static NSString *const AWSZendeskAuthorizationManagerAccessTokenKey = @"access_t
 - (NSURL *)generateAuthURL {
     NSMutableString *missingParams = [NSMutableString new];
     
-    if (self.clientID == nil) {
+    if ([self.clientID length] == 0) {
         [missingParams appendString:@"clientID "];
     }
     
-    if (self.redirectURI == nil) {
+    if ([self.redirectURI length] == 0) {
         [missingParams appendString:@"redirectURI "];
     }
     
-    if (self.subdomain == nil) {
+    if ([self.subdomain length] == 0) {
         [missingParams appendString:@"subdomain "];
     }
     
-    if (self.scope == nil) {
+    if ([self.scope length] == 0) {
         [missingParams appendString:@"scope "];
     }
     
@@ -134,8 +134,8 @@ static NSString *const AWSZendeskAuthorizationManagerAccessTokenKey = @"access_t
     return [NSURL URLWithString:self.logoutURLString];
 }
 
-- (void)destroyAccessToken {
-    [super destroyAccessToken];
+- (void)clearAccessToken {
+    [super clearAccessToken];
     self.valuesFromResponse = nil;
 }
 

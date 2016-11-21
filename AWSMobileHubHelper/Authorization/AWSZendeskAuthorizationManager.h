@@ -30,9 +30,22 @@
                     subdomain:(NSString * _Nonnull)subdomain;
 
 /**
+ *
+ * Available scopes:
+ *  tickets
+ *  users
+ *  auditlogs (read only)
+ *  organizations
+ *  hc
+ *  apps
+ *  triggers
+ *  automations
+ *  targets
+ *
  * @param scope Specify the amount of access the user would like.
  *          i.e. @"read"
  *               @"read tickets:write"
+ *               @"tickets:read tickets:write"
  */
 - (void)setScope:(NSString * _Nonnull)scope;
 

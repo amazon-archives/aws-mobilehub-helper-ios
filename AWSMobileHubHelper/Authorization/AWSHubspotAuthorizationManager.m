@@ -17,7 +17,7 @@ static NSString *const AWSHubspotAuthorizationManagerAuthenticateURLString = @"h
 
 - (void)completeLoginWithResult:(id)result
                           error:(NSError *)error;
-- (void)destroyAccessToken;
+- (void)clearAccessToken;
 
 @end
 
@@ -27,7 +27,7 @@ static NSString *const AWSHubspotAuthorizationManagerAuthenticateURLString = @"h
 @property (strong, nonatomic) NSString *portalID;
 @property (strong, nonatomic) NSString *clientSecret;
 @property (strong, nonatomic) NSString *redirectURI;
-@property (strong, nonatomic, setter=setScope:) NSString *scope;
+@property (strong, nonatomic) NSString *scope;
 
 @property (strong, nonatomic) NSDictionary *valuesFromResponse;
 
@@ -74,19 +74,19 @@ static NSString *const AWSHubspotAuthorizationManagerAuthenticateURLString = @"h
 - (NSURL *)generateAuthURL {
     NSMutableString *missingParams = [NSMutableString new];
     
-    if (self.clientID == nil) {
+    if ([self.clientID length] == 0) {
         [missingParams appendString:@"clientID "];
     }
     
-    if (self.portalID == nil) {
+    if ([self.portalID length] == 0) {
         [missingParams appendString:@"portalID "];
     }
     
-    if (self.redirectURI == nil) {
+    if ([self.redirectURI length] == 0) {
         [missingParams appendString:@"redirectURI "];
     }
     
-    if (self.scope == nil) {
+    if ([self.scope length] == 0) {
         [missingParams appendString:@"scope "];
     }
     
@@ -159,8 +159,8 @@ static NSString *const AWSHubspotAuthorizationManagerAuthenticateURLString = @"h
     return nil;
 }
 
-- (void)destroyAccessToken {
-    [super destroyAccessToken];
+- (void)clearAccessToken {
+    [super clearAccessToken];
     self.valuesFromResponse = nil;
 }
 
