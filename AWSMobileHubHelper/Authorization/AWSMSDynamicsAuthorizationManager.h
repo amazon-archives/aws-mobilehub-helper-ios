@@ -28,6 +28,11 @@
 - (void)configureWithClientID:(NSString * _Nonnull)clientID
                   redirectURI:(NSString * _Nonnull)redirectURI
                      resource:(NSString * _Nonnull)resource;
+/**
+ * @param The version of Microsoft Dynamics API you are using.
+ *        The default value is "v8.0"
+ */
+- (void)setAPIVersion:(NSString * _Nonnull)apiVersion;
 
 /**
  * @return The token type. Available after user authorizes app.
@@ -36,7 +41,8 @@
 - (NSString * _Nullable)getTokenType;
 
 /**
- * @return The resource you will access in Microsoft Dynamics.
+ * @return The resource you will access in Microsoft Dynamics
+ *         with the API version attached to the end
  *         i.e. https://emhawsapps.crm.dynamics.com
  */
 - (NSString * _Nullable)getResourceURL;

@@ -33,7 +33,8 @@ typedef void (^AWSCompletionBlock)(id result, NSError *error);
 @property (strong, nonatomic) NSString *authorizeURLString;
 @property (strong, nonatomic) NSString *clientID;
 @property (strong, nonatomic) NSString *redirectURI;
-@property (strong, nonatomic, getter=getResourceURL) NSString *resource;
+@property (strong, nonatomic) NSString *resource;
+@property (strong, nonatomic) NSString *apiVersion;
 
 @property (strong, nonatomic) NSDictionary *valuesFromResponse;
 
@@ -57,6 +58,7 @@ typedef void (^AWSCompletionBlock)(id result, NSError *error);
         _clientID = [config objectForKey:@"ClientID"];
         _redirectURI = [config objectForKey:@"RedirectURI"];
         _resource = [config objectForKey:@"ResourceURL"];
+        _apiVersion = @"v8.0";
         
         return self;
     }
@@ -77,6 +79,10 @@ typedef void (^AWSCompletionBlock)(id result, NSError *error);
 
 - (NSString *)getAccessToken {
     return [self.valuesFromResponse objectForKey:AWSMSDynamicsAuthorizationManagerAccessTokenKey];
+}
+
+- (NSString *)getResourceURL {
+    return [NSString stringWithFormat:@"%@/api/data/%@", self.resource, self.apiVersion];
 }
 
 #pragma mark - Override Custom Methods
