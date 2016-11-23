@@ -115,7 +115,7 @@ static NSString *const AWSHubspotAuthorizationManagerAuthenticateURLString = @"h
 
 - (NSString *)findAccessCode:(NSURL *)url {
     NSLog(@"findAccessCode %@", [url absoluteString]);
-    NSString *prefix = [NSString stringWithFormat:@"%@&", self.redirectURI];
+    NSString *prefix = [NSString stringWithFormat:@"%@?", self.redirectURI];
     NSString *formString = [[url absoluteString] stringByReplacingOccurrencesOfString:prefix withString:@""];
     self.valuesFromResponse = [AWSAuthorizationManager constructParametersWithURI:formString];
     return [self.valuesFromResponse objectForKey:@"access_token"];

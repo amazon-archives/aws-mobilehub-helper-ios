@@ -34,7 +34,7 @@ typedef void (^AWSCompletionBlock)(id result, NSError *error);
 @property (strong, nonatomic) NSString *clientID;
 @property (strong, nonatomic) NSString *redirectURI;
 @property (strong, nonatomic) NSString *resource;
-@property (strong, nonatomic) NSString *apiVersion;
+@property (strong, nonatomic, setter=setAPIVersion:) NSString *apiVersion;
 
 @property (strong, nonatomic) NSDictionary *valuesFromResponse;
 

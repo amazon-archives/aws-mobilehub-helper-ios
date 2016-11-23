@@ -133,12 +133,19 @@ typedef void (^AWSCompletionBlock)(id result, NSError *error);
         
         NSError *parseError;
         weakSelf.valuesFromResponse = [NSJSONSerialization JSONObjectWithData:data options:0 error:&parseError];
-        [weakSelf completeLoginWithResult:[weakSelf.valuesFromResponse objectForKey:AWSMarketoAuthorizationManagerAccessTokenKey] error:[NSError errorWithDomain:AWSAuthorizationManagerErrorDomain
-                                                                                                                                                            code:AWSAuthorizationErrorFailedToRetrieveAccessToken
-                                                                                                                                                        userInfo:@{@"parseError": parseError}]];
+        NSString *accessToken = [weakSelf.valuesFromResponse objectForKey:AWSMarketoAuthorizationManagerAccessTokenKey];
+        if (accessToken) {
+            [weakSelf completeLoginWithResult:accessToken error:nil];
+        } else {
+            [weakSelf completeLoginWithResult:nil error:[NSError errorWithDomain:AWSAuthorizationManagerErrorDomain
+                                                                                    code:AWSAuthorizationErrorFailedToRetrieveAccessToken
+                                                                                userInfo:@{@"parseError": parseError}]];
+        }
         
-        NSString *responseString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-        AWSLogVerbose(@"Received response from Marketo: %@", responseString);
+        if (data) {
+            NSString *responseString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+            AWSLogVerbose(@"Received response from Marketo: %@", responseString);
+        }
     }];
 }
 
