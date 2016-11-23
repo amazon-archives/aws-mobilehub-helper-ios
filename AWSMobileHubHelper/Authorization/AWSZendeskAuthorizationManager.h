@@ -18,7 +18,7 @@
 + (instancetype _Nonnull)sharedInstance;
 
 /**
- * Customize the flow.
+ * Customize the flow. This relies on the redirectURI being an Universal link.
  *
  * @param clientID The client ID that you signed up for in Zendesk
  * @param redirectURI The redirect URI you provided Zendesk
@@ -28,6 +28,28 @@
 - (void)configureWithClientID:(NSString * _Nonnull)clientID
                   redirectURI:(NSString * _Nonnull)redirectURI
                     subdomain:(NSString * _Nonnull)subdomain;
+
+/**
+ * Zendesk requires that your redirectURI use HTTPS.
+ * If you are unable to setup Universal links, then you may consider use a HTTPS endpoint
+ * that you control to redirect to a custom app scheme url.
+ *
+ * Example:
+ *   Endpoint HTML content at https://awsmobilehub.s3-us-west-2.amazonaws.com/zendesk
+ *      <html>
+ *          <script>window.location.href = "com.amazon.mysampleapp://zendesk/oauth2" + window.location.href;</script>
+ *      </html>
+ *
+ *   customSchemeRedirectURI = @"com.amazon.mysampleapp://zendesk/oauth2";
+ *   httpsEndpoint = @"ttps://awsmobilehub.s3-us-west-2.amazonaws.com/zendesk";
+ *
+ * @param customSchemeRedirectURI The redirectURI that has the custom app scheme
+ * @param httpsEndpoint The HTTPS endpoint that needs to be registered with Zendesk.
+ *                      This endpoint must redirect the page to the customSchemeRedirectURI
+ *                      provided here.
+ */
+- (void)setCustomSchemeRedirectURI:(NSString * _Nonnull)customSchemeRedirectURI
+                  httpsEndpoint:(NSString * _Nonnull)httpsEndpoint;
 
 /**
  *

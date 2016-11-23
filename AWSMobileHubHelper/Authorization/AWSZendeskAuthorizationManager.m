@@ -31,6 +31,7 @@ static NSString *const AWSZendeskAuthorizationManagerAccessTokenKey = @"access_t
 @property (strong, nonatomic) NSString *clientID;
 @property (strong, nonatomic, getter=getSubdomain) NSString *subdomain;
 @property (strong, nonatomic) NSString *redirectURI;
+@property (strong, nonatomic) NSString *customSchemeRedirect;
 @property (strong, nonatomic, setter=setScope:) NSString *scope;
 
 @property (strong, nonatomic) NSDictionary *valuesFromResponse;
@@ -70,6 +71,13 @@ static NSString *const AWSZendeskAuthorizationManagerAccessTokenKey = @"access_t
     self.authorizeURLString = [NSString stringWithFormat:AWSZendeskAuthorizationManagerAuthorizeURLFormatString, subdomain];
     self.logoutURLString = [NSString stringWithFormat:AWSZendeskAuthorizationManagerLogoutURLFormatString, subdomain];
     self.subdomain = subdomain;
+    self.customSchemeRedirect = nil;
+}
+
+- (void)setCustomSchemeRedirect:(NSString * _Nonnull)customSchemeRedirect
+                  httpsEndpoint:(NSString * _Nonnull)httpsEndpoint {
+    self.redirectURI = httpsEndpoint;
+    self.customSchemeRedirect = customSchemeRedirect;
 }
 
 - (NSString *)getTokenType {
@@ -120,12 +128,30 @@ static NSString *const AWSZendeskAuthorizationManagerAccessTokenKey = @"access_t
 }
 
 - (BOOL)isAcceptedURL:(NSURL *)url {
-    return [[url absoluteString] hasPrefix:self.redirectURI];
+    if (self.customSchemeRedirect) {
+        return [[url absoluteString] hasPrefix:self.customSchemeRedirect];
+    } else if (self.redirectURI) {
+        return [[url absoluteString] hasPrefix:self.redirectURI];
+    }
+    return NO;
 }
 
 - (NSString *)findAccessCode:(NSURL *)url {
-    NSString *prefix = [NSString stringWithFormat:@"%@#", self.redirectURI];
-    NSString *formString = [[url absoluteString] stringByReplacingOccurrencesOfString:prefix withString:@""];
+    NSString *prefix;
+    NSString *formString = [url absoluteString];
+    
+    if (self.customSchemeRedirect) {
+        formString = [formString stringByReplacingOccurrencesOfString:self.customSchemeRedirect withString:@""];
+    }
+    
+    if (self.redirectURI) {
+        formString = [formString stringByReplacingOccurrencesOfString:self.redirectURI withString:@""];
+    }
+    
+    if ([formString length] > 2) {
+        formString = [formString substringFromIndex:1];
+    }
+    
     self.valuesFromResponse = [AWSAuthorizationManager constructParametersWithURI:formString];
     return [self.valuesFromResponse objectForKey:AWSZendeskAuthorizationManagerAccessTokenKey];
 }
