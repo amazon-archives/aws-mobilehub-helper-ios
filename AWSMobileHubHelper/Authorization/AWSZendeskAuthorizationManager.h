@@ -43,13 +43,17 @@
  *   customSchemeRedirectURI = @"com.amazon.mysampleapp://zendesk/oauth2";
  *   httpsEndpoint = @"ttps://awsmobilehub.s3-us-west-2.amazonaws.com/zendesk";
  *
+ * @param clientID The client ID that you signed up for in Zendesk
  * @param customSchemeRedirectURI The redirectURI that has the custom app scheme
  * @param httpsEndpoint The HTTPS endpoint that needs to be registered with Zendesk.
  *                      This endpoint must redirect the page to the customSchemeRedirectURI
  *                      provided here.
+ * @param subdomain The subdomain that you signed up for in Zendesk
  */
-- (void)setCustomSchemeRedirectURI:(NSString * _Nonnull)customSchemeRedirectURI
-                  httpsEndpoint:(NSString * _Nonnull)httpsEndpoint;
+- (void)configureWithClientID:(NSString * _Nonnull)clientID
+   setCustomSchemeRedirectURI:(NSString * _Nonnull)customSchemeRedirectURI
+                httpsEndpoint:(NSString * _Nonnull)httpsEndpoint
+                    subdomain:(NSString * _Nonnull)subdomain;
 
 /**
  *

@@ -74,10 +74,16 @@ static NSString *const AWSZendeskAuthorizationManagerAccessTokenKey = @"access_t
     self.customSchemeRedirect = nil;
 }
 
-- (void)setCustomSchemeRedirect:(NSString * _Nonnull)customSchemeRedirect
-                  httpsEndpoint:(NSString * _Nonnull)httpsEndpoint {
+- (void)configureWithClientID:(NSString * _Nonnull)clientID
+   setCustomSchemeRedirectURI:(NSString * _Nonnull)customSchemeRedirectURI
+                httpsEndpoint:(NSString * _Nonnull)httpsEndpoint
+                    subdomain:(NSString * _Nonnull)subdomain {
+    self.clientID = clientID;
     self.redirectURI = httpsEndpoint;
-    self.customSchemeRedirect = customSchemeRedirect;
+    self.customSchemeRedirect = customSchemeRedirectURI;
+    self.authorizeURLString = [NSString stringWithFormat:AWSZendeskAuthorizationManagerAuthorizeURLFormatString, subdomain];
+    self.logoutURLString = [NSString stringWithFormat:AWSZendeskAuthorizationManagerLogoutURLFormatString, subdomain];
+    self.subdomain = subdomain;
 }
 
 - (NSString *)getTokenType {
@@ -137,7 +143,6 @@ static NSString *const AWSZendeskAuthorizationManagerAccessTokenKey = @"access_t
 }
 
 - (NSString *)findAccessCode:(NSURL *)url {
-    NSString *prefix;
     NSString *formString = [url absoluteString];
     
     if (self.customSchemeRedirect) {
