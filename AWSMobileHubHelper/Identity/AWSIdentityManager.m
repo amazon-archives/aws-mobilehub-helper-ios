@@ -60,7 +60,6 @@ static NSString *const AWSInfoProjectClientId = @"ProjectClientId";
 
 - (instancetype)initWithCredentialProvider:(AWSServiceInfo *)serviceInfo {
     if (self = [super init]) {
-        [AWSLogger defaultLogger].logLevel = AWSLogLevelVerbose;
         
         self.credentialsProvider = serviceInfo.cognitoCredentialsProvider;
         [self.credentialsProvider setIdentityProviderManagerOnce:self];
