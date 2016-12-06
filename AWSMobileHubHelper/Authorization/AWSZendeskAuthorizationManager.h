@@ -30,9 +30,8 @@
                     subdomain:(NSString * _Nonnull)subdomain;
 
 /**
- * Zendesk requires that your redirectURI use HTTPS.
- * If you are unable to setup Universal links, then you may consider use a HTTPS endpoint
- * that you control to redirect to a custom app scheme url.
+ * If you are unable to setup Universal links at this moment, then for development purposes
+ * you may consider use a HTTPS endpoint that you control to redirect to a custom app scheme url.
  *
  * Example:
  *   Endpoint HTML content at https://awsmobilehub.s3-us-west-2.amazonaws.com/zendesk
@@ -41,7 +40,7 @@
  *      </html>
  *
  *   customSchemeRedirectURI = @"com.amazon.mysampleapp://zendesk/oauth2";
- *   httpsEndpoint = @"ttps://awsmobilehub.s3-us-west-2.amazonaws.com/zendesk";
+ *   httpsEndpoint = @"https://awsmobilehub.s3-us-west-2.amazonaws.com/zendesk";
  *
  * @param clientID The client ID that you signed up for in Zendesk
  * @param customSchemeRedirectURI The redirectURI that has the custom app scheme
