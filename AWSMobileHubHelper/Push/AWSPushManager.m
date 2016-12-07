@@ -139,7 +139,7 @@ static NSString *const AWSPushTopics = @"SNSConfiguredTopics";
         
         NSString *previousPlatformAppArn = [[NSUserDefaults standardUserDefaults] stringForKey: AWSPushManagerUserDefaultsPlatformARNKey];
         
-        if (!previousPlatformAppArn
+        if (previousPlatformAppArn
             && ![previousPlatformAppArn isEqualToString:_pushManagerConfiguration.platformARN]) {
             AWSLogDebug(@"Application ran previously with this ARN: [%@].  New ARN: [%@]", previousPlatformAppArn, _pushManagerConfiguration.platformARN);
             [self setDeviceToken:nil];
