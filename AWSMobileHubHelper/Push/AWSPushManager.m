@@ -185,7 +185,6 @@ static NSString *const AWSPushTopics = @"SNSConfiguredTopics";
 - (void)setEnabled:(BOOL)enabled {
     [[NSUserDefaults standardUserDefaults] setBool:enabled
                                             forKey:AWSPushManagerUserDefaultsIsEnabledKey];
-    [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
 - (NSString *)deviceToken {
@@ -195,7 +194,6 @@ static NSString *const AWSPushTopics = @"SNSConfiguredTopics";
 - (void)setDeviceToken:(NSString *)deviceToken {
     [[NSUserDefaults standardUserDefaults] setObject:deviceToken
                                               forKey:AWSPushManagerUserDefaultsDeviceTokenKey];
-    [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
 - (NSString *)endpointARN {
@@ -205,7 +203,6 @@ static NSString *const AWSPushTopics = @"SNSConfiguredTopics";
 - (void)setEndpointARN:(NSString *)endpointARN {
     [[NSUserDefaults standardUserDefaults] setObject:endpointARN
                                               forKey:AWSPushManagerUserDefaultsEndpointARNKey];
-    [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
 - (NSString *)platformARN {
@@ -218,7 +215,6 @@ static NSString *const AWSPushTopics = @"SNSConfiguredTopics";
 
 - (void)setPlatformARN:(NSString *)platformARN {
     [[NSUserDefaults standardUserDefaults] setObject:platformARN forKey:AWSPushManagerUserDefaultsPlatformARNKey];
-    [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
 #pragma mark - User action methods
@@ -437,7 +433,6 @@ NSString *const AWSPushTopicDictionaryTopicARNKey = @"topicARN";
     [topicDictionary setValue:subscriptionARN forKey:AWSPushTopicDictionarySubscriptionARNKey];
     
     [userDefaults setObject:topicDictionary forKey:self.topicARN];
-    [userDefaults synchronize];
     
     _subscriptionARN = subscriptionARN;
 }
