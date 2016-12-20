@@ -165,6 +165,14 @@ typedef void (^AWSIdentityManagerCompletionBlock)(id result, NSError *error);
     [[NSUserDefaults standardUserDefaults] removeObjectForKey:AWSFacebookSignInProviderKey];
 }
 
+- (void)clearUserName {
+    [[NSUserDefaults standardUserDefaults] removeObjectForKey:AWSFacebookSignInProviderUserNameKey];
+}
+
+- (void)clearImageURL {
+    [[NSUserDefaults standardUserDefaults] removeObjectForKey:AWSFacebookSignInProviderImageURLKey];
+}
+
 - (void)reloadSession {
     if ([[NSUserDefaults standardUserDefaults] objectForKey:AWSFacebookSignInProviderKey]
         && [FBSDKAccessToken currentAccessToken]) {
@@ -214,7 +222,6 @@ typedef void (^AWSIdentityManagerCompletionBlock)(id result, NSError *error);
                               fromViewController:self.signInViewController
                                          handler:^(FBSDKLoginManagerLoginResult *result, NSError *error) {
                                              if (error) {
-                                                 //[[AWSIdentityManager errorAlert:[NSString stringWithFormat:@"Error logging in with FB: %@", error.localizedDescription]] show];
                                                  self.completionHandler(result, error);
                                              } else if (result.isCancelled) {
                                                  // Login canceled, allow completionhandler to know about it
@@ -228,12 +235,18 @@ typedef void (^AWSIdentityManagerCompletionBlock)(id result, NSError *error);
                                          }];
 }
 
-- (void)logout {
+- (void)clearLoginInformation {
     [self clearCachedLoginFlag];
+    [self clearUserName];
+    [self clearImageURL];
+}
+
+- (void)logout {
+    
     if (!self.facebookLogin) {
         [self createFBSDKLoginManager];
     }
-    
+    [self clearLoginInformation];
     [self.facebookLogin logOut];
 }
 

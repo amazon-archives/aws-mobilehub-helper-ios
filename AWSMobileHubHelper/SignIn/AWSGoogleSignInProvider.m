@@ -192,6 +192,14 @@ static NSString *const AWSInfoGoogleClientId = @"ClientId";
     [[NSUserDefaults standardUserDefaults] removeObjectForKey:AWSGoogleSignInProviderKey];
 }
 
+- (void)clearUserName {
+    [[NSUserDefaults standardUserDefaults] removeObjectForKey:AWSGoogleSignInProviderUserNameKey];
+}
+
+- (void)clearImageURL {
+    [[NSUserDefaults standardUserDefaults] removeObjectForKey:AWSGoogleSignInProviderImageURLKey];
+}
+
 - (void)completeLoginWithToken:(GIDGoogleUser *)googleUser {
     [self setCachedLoginFlag];
     [[AWSIdentityManager defaultIdentityManager] completeLogin];
@@ -206,9 +214,15 @@ static NSString *const AWSInfoGoogleClientId = @"ClientId";
     [signIn signIn];
 }
 
-- (void)logout {
+- (void)clearLoginInformation {
     [self clearCachedLoginFlag];
+    [self clearUserName];
+    [self clearImageURL];
+}
+
+- (void)logout {
     GIDSignIn *signIn = [GIDSignIn sharedInstance];
+    [self clearLoginInformation];
     [signIn disconnect];
 }
 
