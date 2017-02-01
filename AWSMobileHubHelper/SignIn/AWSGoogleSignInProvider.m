@@ -121,7 +121,7 @@ static NSString *const AWSInfoGoogleClientId = @"ClientId";
             // Waits up to 60 seconds for the Google SDK to refresh a token.
             if (dispatch_semaphore_wait(self.semaphore, dispatch_time(DISPATCH_TIME_NOW, AWSGoogleSignInProviderTokenRefreshTimeout)) != 0) {
                 NSError *error = [NSError errorWithDomain:AWSCognitoCredentialsProviderHelperErrorDomain
-                                                     code:AWSCognitoCredentialsProviderHelperErrorTokenRefreshTimeout
+                                                     code:AWSCognitoCredentialsProviderHelperErrorTypeTokenRefreshTimeout
                                                  userInfo:nil];
                 return [AWSTask taskWithError:error];
             }

@@ -28,7 +28,7 @@ NS_ASSUME_NONNULL_BEGIN
  @param  key               A string to identify the signInProvider.
  **/
 -(void)registerAWSSignInProvider:(id<AWSSignInProvider>)signInProvider
-                          forKey:(NSString *)key;
+                          forKey:(NSString *)key NS_SWIFT_NAME(register(signInProvider:forKey:));
 
 /**
  Fetches the shared instance of sign in provider implementing `AWSSignInProvider` with specified key.

@@ -89,13 +89,13 @@ typedef NS_ENUM(NSInteger, AWSPushManagerErrorType){
  
  *Swift*
  
-    let pushManager = AWSPushManager.defaultPushManager()
+    let pushManager = AWSPushManager.default()
  
  *Objective-C*
  
     AWSPushManager *pushManager = [AWSPushManager defaultPushManager];
  */
-+ (instancetype)defaultPushManager NS_SWIFT_NAME(defaultPushManager());
++ (instancetype)defaultPushManager;
 
 /**
  Creates a helper client for `AWSPushManager` for specified configuration with mentioned key.
@@ -105,14 +105,14 @@ typedef NS_ENUM(NSInteger, AWSPushManagerErrorType){
  
  *Swift*
  
-     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
+     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
 		 let credentialProvider = AWSCognitoCredentialsProvider(regionType: .USEast1, identityPoolId: "YourIdentityPoolId")
 		 let configuration = AWSServiceConfiguration(region: .USWest2, credentialsProvider: credentialProvider)
-		 AWSServiceManager.defaultServiceManager().defaultServiceConfiguration = configuration
+		 AWSServiceManager.default().defaultServiceConfiguration = configuration
  
 		 let pushManagerConfiguration = AWSPushManagerConfiguration(snsPlatformARN: "SNS_PLATFORM_ARN")
  
-		 AWSPushManager.registerPushManagerWithConfiguration(pushManagerConfiguration, forKey: "defaultPushManager")
+		 AWSPushManager.register(with: pushManagerConfiguration, forKey: "defaultPushManager")
      
     	 return true
      }
@@ -157,11 +157,11 @@ typedef NS_ENUM(NSInteger, AWSPushManagerErrorType){
 
 	 let credentialProvider = AWSCognitoCredentialsProvider(regionType: .USEast1, identityPoolId: "YourIdentityPoolId")
 	 let configuration = AWSServiceConfiguration(region: .USWest2, credentialsProvider: credentialProvider)
-	 AWSServiceManager.defaultServiceManager().defaultServiceConfiguration = configuration
+	 AWSServiceManager.default().defaultServiceConfiguration = configuration
 
 	 let pushManagerConfiguration = AWSPushManagerConfiguration(snsPlatformARN: "SNS_PLATFORM_ARN")
 
-	 AWSPushManager.registerPushManagerWithConfiguration(pushManagerConfiguration, forKey: "defaultPushManager")
+	 AWSPushManager.register(with: pushManagerConfiguration, forKey: "defaultPushManager")
  
  
  *Objective-C*
@@ -179,7 +179,7 @@ typedef NS_ENUM(NSInteger, AWSPushManagerErrorType){
  
  *Swift*
  
-    let Pushmanager = AWSPushManager.PushManager(forKey: "defaultPushManager")
+    let Pushmanager = AWSPushManager(forKey: "defaultPushManager")
  
  *Objective-C*
  
@@ -188,14 +188,14 @@ typedef NS_ENUM(NSInteger, AWSPushManagerErrorType){
  @param  key  A string to identify the helper client.
  @return An instance of AWSPushManager for specified key.
  */
-+ (instancetype)PushManagerForKey:(NSString *)key NS_SWIFT_NAME(PushManager(forKey:));
++ (instancetype)PushManagerForKey:(NSString *)key;
 
 /**
  Removes the helper client associated with the key and release it.
  
  *Swift*
  
-    AWSPushManager.removePushManagerForKey("USWest2PushManager")
+    AWSPushManager.remove(forKey: "USWest2PushManager")
  
  *Objective-C*
  
@@ -438,11 +438,11 @@ didFailToUnsubscribeWithError:(NSError *)error;
  
      let credentialProvider = AWSCognitoCredentialsProvider(regionType: .USEast1, identityPoolId: "YourIdentityPoolId")
      let configuration = AWSServiceConfiguration(region: .USWest2, credentialsProvider: credentialProvider)
-     AWSServiceManager.defaultServiceManager().defaultServiceConfiguration = configuration
+     AWSServiceManager.default().defaultServiceConfiguration = configuration
  
      let pushManagerConfiguration = AWSPushManagerConfiguration(snsPlatformARN: "SNS_PLATFORM_ARN")
  
-     AWSPushManager.registerPushManagerWithConfiguration(pushManagerConfiguration, forKey: "defaultPushManager")
+     AWSPushManager.register(with: pushManagerConfiguration, forKey: "defaultPushManager")
  
  *Objective-C*
  
@@ -469,9 +469,9 @@ didFailToUnsubscribeWithError:(NSError *)error;
      let credentialProvider = AWSCognitoCredentialsProvider(regionType: .USEast1, identityPoolId: "YourIdentityPoolId")
      let configuration = AWSServiceConfiguration(region: .USEast1, credentialsProvider: credentialProvider)
  
-     let pushManagerConfiguration = AWSPushManagerConfiguration(snsPlatformARN: "SNS_PLATFORM_ARN", topicARNs: nil,serviceConfiguration: configuration)
+     let pushManagerConfiguration = AWSPushManagerConfiguration(snsPlatformARN: "SNS_PLATFORM_ARN", topicARNs: nil, serviceConfiguration: configuration)
  
-     AWSPushManager.registerPushManagerWithConfiguration(pushManagerConfiguration, forKey: "defaultPushManager")
+     AWSPushManager.register(with: pushManagerConfiguration, forKey: "defaultPushManager")
  
  *Objective-C*
  

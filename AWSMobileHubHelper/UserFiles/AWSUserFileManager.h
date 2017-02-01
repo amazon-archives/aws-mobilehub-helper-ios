@@ -44,7 +44,7 @@ NS_ASSUME_NONNULL_BEGIN
  
  *Objective-C*
  
-    AWSUserFileManager *userFileManager = [AWSUserFileManager defaultFileManager];
+    AWSUserFileManager *userFileManager = [AWSUserFileManager defaultUserFileManager];
  
  */
 + (instancetype)defaultUserFileManager NS_SWIFT_NAME(defaultUserFileManager());
@@ -57,11 +57,11 @@ NS_ASSUME_NONNULL_BEGIN
  
  *Swift*
  
-     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
+     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         let credentialProvider = AWSCognitoCredentialsProvider(regionType: .USEast1, identityPoolId: "YourIdentityPoolId")
         let configuration = AWSServiceConfiguration(region: .USWest2, credentialsProvider: credentialProvider)
         let userFileManagerConfiguration = AWSUserFileManagerConfiguration(bucketName: "myBucket", serviceConfiguration: configuration)
-        AWSUserFileManager.registerUserFileManagerWithConfiguration(userFileManagerConfiguration, forKey: "USWest2BucketManager")
+        AWSUserFileManager.register(with: userFileManagerConfiguration, forKey: "USWest2BucketManager")
      
         return true
      }
@@ -107,7 +107,7 @@ NS_ASSUME_NONNULL_BEGIN
 	let credentialProvider = AWSCognitoCredentialsProvider(regionType: .USEast1, identityPoolId: "YourIdentityPoolId")
 	let configuration = AWSServiceConfiguration(region: .USWest2, credentialsProvider: credentialProvider)
 	let userFileManagerConfiguration = AWSUserFileManagerConfiguration(bucketName: "myBucket", serviceConfiguration: configuration)
-	AWSUserFileManager.registerUserFileManagerWithConfiguration(userFileManagerConfiguration, forKey: "USWest2BucketManager")
+	AWSUserFileManager.register(with: userFileManagerConfiguration, forKey: "USWest2BucketManager")
  
  *Objective-C*
  
@@ -124,7 +124,7 @@ NS_ASSUME_NONNULL_BEGIN
  
  *Swift*
  
- let UserFilemanager = AWSUserFileManager.UserFileManager(forKey: "USWest2BucketManager")
+ let UserFilemanager = AWSUserFileManager(forKey: "USWest2BucketManager")
  
  *Objective-C*
  
@@ -134,14 +134,14 @@ NS_ASSUME_NONNULL_BEGIN
  @param  key  A string to identify the helper client.
  @return An instance of AWSUserFileManager for specified key.
  */
-+ (instancetype)UserFileManagerForKey:(NSString *)key NS_SWIFT_NAME(UserFileManager(forKey:));
++ (instancetype)UserFileManagerForKey:(NSString *)key;
 
 /**
  Removes the helper client associated with the key and release it.
  
  *Swift*
  
-    AWSUserFileManager.removeUserFileManagerForKey("USWest2BucketManager")
+    AWSUserFileManager.remove(forKey: "USWest2BucketManager")
  
  *Objective-C*
  
@@ -161,7 +161,7 @@ NS_ASSUME_NONNULL_BEGIN
     func uploadWithData(data: NSData, forKey key: String) {
  
         let userFilemanager = AWSUserFileManager(forKey: "KeyUsedToRegister")
-        let localContent = userFilemanager.localContentWithData(data, key: key)
+        let localContent = userFilemanager.localContent(with: data, key: key)
         localContent.uploadWithPinOnCompletion(..., progressBlock: ..., completionHandler: ...)
     }
  
@@ -198,7 +198,7 @@ NS_ASSUME_NONNULL_BEGIN
  *Swift*
  
     func removeContent(content: AWSContent) {
-        content.removeRemoteContentWithCompletionHandler({(content: AWSContent?, error: NSError?) -> Void in
+        content.removeRemoteContent(completionHandler: {(content: AWSContent?, error: NSError?) -> Void in
             if let error = error {
                 print("Failed to delete an object from the remote server. \(error)")
             } else {
@@ -240,10 +240,10 @@ NS_ASSUME_NONNULL_BEGIN
     func uploadWithData(data: NSData, forKey key: String) {
  
         let userFilemanager = AWSUserFileManager(forKey: "KeyUsedToRegister")
-        let localContent = userFilemanager.localContentWithData(data, key: key)
+        let localContent = userFilemanager.localContent(with: data, key: key)
         localContent.uploadWithPinOnCompletion(false, progressBlock: {(content: AWSLocalContent?, progress: NSProgress?) -> Void in
             // handle progress here
-            }, completionHandler: {(content: AWSContent?, error: NSError?) -> Void in
+            }, completionHandler: {(content: AWSContent?, error: Error?) -> Void in
                 if let error = error {
                     // handle error here
                     print("Error occured in uploading: \(error)")

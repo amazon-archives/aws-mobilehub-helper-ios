@@ -242,9 +242,6 @@ static NSString *const AWSPushTopics = @"SNSConfiguredTopics";
                      didFailToDisableWithError:error];
             });
         }
-        if (task.exception) {
-            @throw task.exception;
-        }
         if (task.result) {
             weakSelf.enabled = NO;
             dispatch_async(dispatch_get_main_queue(), ^{
@@ -366,8 +363,6 @@ didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
                 [weakSelf.delegate pushManager:weakSelf
                     didFailToRegisterWithError:task.error];
             });
-        } else if (task.exception) {
-            @throw task.exception;
         } else {
             weakSelf.enabled = YES;
             

@@ -24,14 +24,14 @@ NS_ASSUME_NONNULL_BEGIN
  
  *Swift*
  
-    let cloudLogic = AWSCloudLogic.defaultCloudLogic()
+    let cloudLogic = AWSCloudLogic.default()
  
  *Objective-C*
 
     AWSCloudLogic *cloudLogic =  [AWSCloudLogic defaultCloudLogic];
  
  */
-+ (instancetype)defaultCloudLogic NS_SWIFT_NAME(defaultCloudLogic());
++ (instancetype)defaultCloudLogic;
 
 /**
  Creates a helper client for `AWSCloud` for specified configuration with mentioned key.
@@ -44,7 +44,7 @@ NS_ASSUME_NONNULL_BEGIN
     let credentialProvider = AWSCognitoCredentialsProvider(regionType: .USEast1, identityPoolId: "YourIdentityPoolId")
     let configuration = AWSServiceConfiguration(region: .USWest2, credentialsProvider: credentialProvider)
  
-    AWSCloudLogic.registercloudLogicWithConfiguration(configuration, forKey: "USWest2cloudLogic")
+    AWSCloudLogic.register(with: configuration, forKey: "USWest2CloudLogic")
  
  *Objective-C*
  
@@ -52,18 +52,18 @@ NS_ASSUME_NONNULL_BEGIN
                                                                                                     identityPoolId:@"YourIdentityPoolId"];
     AWSServiceConfiguration *configuration = [[AWSServiceConfiguration alloc] initWithRegion:AWSRegionUSWest2
                                                                          credentialsProvider:credentialsProvider];
-    [AWSCloudLogic registercloudLogicWithConfiguration:configuration
-                                                forKey:@"USWest2cloudLogic"];
+    [AWSCloudLogic registerCloudLogicWithConfiguration:configuration
+                                                forKey:@"USWest2CloudLogic"];
  
  Then call the following to get the helper client:
  
  *Swift*
  
- 	let cloudLogic = AWSCloudLogic(forKey: "USWest2cloudLogic")
+ 	let cloudLogic = AWSCloudLogic(forKey: "USWest2CloudLogic")
  
  *Objective-C*
  
- 	AWSCloudLogic *cloudLogic = [AWSCloudLogic cloudLogicForKey:@"USWest2cloudLogic"];
+ 	AWSCloudLogic *cloudLogic = [AWSCloudLogic cloudLogicForKey:@"USWest2CloudLogic"];
  
  @warning After calling this method, do not modify the configuration object. It may cause unspecified behaviors.
  
@@ -96,7 +96,7 @@ NS_ASSUME_NONNULL_BEGIN
  
  *Swift*
  
- 	let CloudLogic = AWSCloudLogic.CloudLogic(forKey: "USWest2cloudLogic")
+ 	let CloudLogic = AWSCloudLogic(forKey: "USWest2cloudLogic")
  
  *Objective-C*
  
@@ -105,18 +105,18 @@ NS_ASSUME_NONNULL_BEGIN
  @param  key  A string to identify the helper client.
  @return An instance of AWSCloudLogic for specified key.
  */
-+ (instancetype)CloudLogicForKey:(NSString *)key NS_SWIFT_NAME(CloudLogic(forKey:));
++ (instancetype)CloudLogicForKey:(NSString *)key;
 
 /**
  Removes the helper client associated with the key and release it.
  
  *Swift*
  
-    AWSCloudLogic.removecloudLogicForKey("USWest2cloudLogic")
+    AWSCloudLogic.remove(forKey: "USWest2CloudLogic")
  
  *Objective-C*
  
-    [AWSCloudLogic removecloudLogicForKey:@"USWest2cloudLogic"];
+    [AWSCloudLogic removeCloudLogicForKey:@"USWest2CloudLogic"];
  
  @warning Before calling this method, make sure no method is running on this client.
  
@@ -133,7 +133,7 @@ NS_ASSUME_NONNULL_BEGIN
  */
 - (void)invokeFunction:(NSString *)name
         withParameters:(nullable id)parameters
-       completionBlock:(void (^)(id result, NSError *error))completionBlock;
+       completionBlock:(void (^)(id _Nullable result, NSError * _Nullable error))completionBlock;
 
 @end
 

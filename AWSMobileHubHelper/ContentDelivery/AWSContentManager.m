@@ -361,9 +361,6 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
             if (task.error) {
                 completionHandler(nil, nil, task.error);
             }
-            if (task.exception) {
-                @throw task.exception;
-            }
             if (task.result) {
                 AWSS3ListObjectsOutput *listObjectsOutput = task.result;
                 
@@ -416,17 +413,12 @@ static AWSSynchronizedMutableDictionary *_serviceClients = nil;
 }
 
 - (void)listRecentContentsWithPrefix:(NSString * _Nullable)prefix
-                   completionHandler:(void (^)(id result, NSError *error))completionHandler {
+                   completionHandler:(void (^)(NSArray<AWSContent *> *result, NSError *error))completionHandler {
     __block NSMutableArray *recentContents = [NSMutableArray new];
     [[self listRecentContents:recentContents
                    nextMarker:nil
                        prefix:prefix
                       counter:10] continueWithBlock:^id _Nullable(AWSTask * _Nonnull task) {
-        
-        if (task.exception) {
-            AWSLogError(@"Fatal exception: [%@]", task.exception);
-            kill(getpid(), SIGKILL);
-        }
         
         if (task.error) {
             completionHandler(nil, task.error);
@@ -1028,9 +1020,6 @@ totalBytesExpectedToWrite:(int64_t)totalBytesExpectedToWrite {
             NSError *error = task.error;
             completionHandler(nil, error);
         }
-        if (task.exception) {
-            @throw task.exception;
-        }
         if (task.result) {
             NSURL *URL = task.result;
             completionHandler(URL, nil);
@@ -1052,9 +1041,6 @@ totalBytesExpectedToWrite:(int64_t)totalBytesExpectedToWrite {
             NSError *error = task.error;
             completionHandler(nil, error);
         }
-        if (task.exception) {
-            @throw task.exception;
-        }
         if (task.result) {
             NSURL *URL = task.result;
             completionHandler(URL, nil);
@@ -1075,9 +1061,6 @@ totalBytesExpectedToWrite:(int64_t)totalBytesExpectedToWrite {
         if (task.error) {
             NSError *error = task.error;
             completionHandler(nil, error);
-        }
-        if (task.exception) {
-            @throw task.exception;
         }
         if (task.result) {
             NSURL *URL = task.result;

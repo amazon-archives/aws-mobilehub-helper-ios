@@ -56,13 +56,13 @@ FOUNDATION_EXPORT NSString *const AWSIdentityManagerDidSignOutNotification;
  
  *Swift*
  
- let identityManager = AWSIdentityManager.defaultIdentityManager()
+ let identityManager = AWSIdentityManager.default()
  
  *Objective-C*
  
  AWSIdentityManager *identityManager = [AWSIdentityManager defaultIdentityManager];
  */
-+ (instancetype)defaultIdentityManager NS_SWIFT_NAME(defaultIdentityManager());
++ (instancetype)defaultIdentityManager;
 
 /**
  * Signs the user out of whatever third party identity provider they used to sign in.
@@ -77,8 +77,7 @@ FOUNDATION_EXPORT NSString *const AWSIdentityManagerDidSignOutNotification;
  * @param completionHandler used to callback application with async operation results
  */
 - (void)loginWithSignInProvider:(id<AWSSignInProvider>)signInProvider
-              completionHandler:(void (^)(id _Nullable result, NSError * _Nullable error))completionHandler;
-
+              completionHandler:(void (^)(id _Nullable result, NSError * _Nullable error))completionHandler NS_SWIFT_NAME(login(signInProvider:completionHandler:));
 
 /**
  * Attempts to resume session with the previous sign-in provider.

@@ -123,10 +123,6 @@ static NSString *const AWSInfoProjectClientId = @"ProjectClientId";
             [notificationCenter postNotificationName:AWSIdentityManagerDidSignOutNotification
                                               object:[AWSIdentityManager defaultIdentityManager]
                                             userInfo:nil];
-            if (task.exception) {
-                AWSLogError(@"Fatal exception: [%@]", task.exception);
-                kill(getpid(), SIGKILL);
-            }
             completionHandler(task.result, task.error);
         });
         return nil;
@@ -167,10 +163,6 @@ static NSString *const AWSInfoProjectClientId = @"ProjectClientId";
                 [notificationCenter postNotificationName:AWSIdentityManagerDidSignInNotification
                                                   object:[AWSIdentityManager defaultIdentityManager]
                                                 userInfo:nil];
-            }
-            if (task.exception) {
-                AWSLogError(@"Fatal exception: [%@]", task.exception);
-                kill(getpid(), SIGKILL);
             }
             self.completionHandler(task.result, task.error);
         });

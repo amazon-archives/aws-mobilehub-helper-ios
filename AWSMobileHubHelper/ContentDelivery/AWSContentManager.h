@@ -78,14 +78,14 @@ typedef NS_ENUM(NSInteger, AWSContentManagerErrorType){
  
  *Swift*
  
-    let contentManager = AWSContentManager.defaultContentManager()
+    let contentManager = AWSContentManager.default()
  
  *Objective-C*
  
     AWSContentManager *contentManager =  [AWSContentManager defaultContentManager];
  
  */
-+ (instancetype)defaultContentManager NS_SWIFT_NAME(defaultContentManager());
++ (instancetype)defaultContentManager;
 
 /**
  Creates a helper client for AWSContentManager for specified configuration with mentioned key.
@@ -95,14 +95,14 @@ typedef NS_ENUM(NSInteger, AWSContentManagerErrorType){
  
  *Swift*
  
-     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
+     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
          let credentialProvider = AWSCognitoCredentialsProvider(regionType: .USEast1, identityPoolId: "YourIdentityPoolId")
          let configuration = AWSServiceConfiguration(region: .USWest2, credentialsProvider: credentialProvider)
-         AWSServiceManager.defaultServiceManager().defaultServiceConfiguration = configuration
+         AWSServiceManager.default().defaultServiceConfiguration = configuration
          
          let contentManagerConfiguration = AWSContentManagerConfiguration(bucketName: "myBucket")
          
-         AWSContentManager.registerContentManagerWithConfiguration(contentManagerConfiguration, forKey: "defaultManager")
+         AWSContentManager.register(with: contentManagerConfiguration, forKey: "defaultManager")
      }
  
  *Objective-C*
@@ -114,7 +114,7 @@ typedef NS_ENUM(NSInteger, AWSContentManagerErrorType){
                                                                               credentialsProvider:credentialsProvider];
          AWSServiceManager.defaultServiceManager.defaultServiceConfiguration = configuration;                                                                          
          AWSContentManagerConfiguration *contentManagerConfiguration = [[AWSContentManager alloc] initWithBucketName:@"myBucketName"];
-         [AWSContentManager registerUserFileManagerWithConfiguration:userFileManagerConfiguration
+         [AWSContentManager registerUserFileManagerWithConfiguration:contentManagerConfiguration
                                                               forKey:@"defaultManager"];     
          return YES;
      }
@@ -144,11 +144,11 @@ typedef NS_ENUM(NSInteger, AWSContentManagerErrorType){
  
 	 let credentialProvider = AWSCognitoCredentialsProvider(regionType: .USEast1, identityPoolId: "YourIdentityPoolId")
 	 let configuration = AWSServiceConfiguration(region: .USWest2, credentialsProvider: credentialProvider)
-	 AWSServiceManager.defaultServiceManager().defaultServiceConfiguration = configuration
+	 AWSServiceManager.default().defaultServiceConfiguration = configuration
 	 
 	 let contentManagerConfiguration = AWSContentManagerConfiguration(bucketName: "myBucket")
 	 
-	 AWSContentManager.registerContentManagerWithConfiguration(contentManagerConfiguration, forKey: "defaultManager")
+	 AWSContentManager.register(with: contentManagerConfiguration, forKey: "defaultManager")
 
  *Objective-C*
  
@@ -165,7 +165,7 @@ typedef NS_ENUM(NSInteger, AWSContentManagerErrorType){
  
  *Swift*
  
-    let ContentManager = AWSContentManager.ContentManager(forKey: "defaultManager")
+    let ContentManager = AWSContentManager(forKey: "defaultManager")
  
  *Objective-C*
  
@@ -174,14 +174,14 @@ typedef NS_ENUM(NSInteger, AWSContentManagerErrorType){
  @param  key  A string to identify the helper client.
  @return An instance of AWSUserFileManager for specified key.
  */
-+ (instancetype)ContentManagerForKey:(NSString *)key NS_SWIFT_NAME(ContentManager(forKey:));
++ (instancetype)ContentManagerForKey:(NSString *)key;
 
 /**
  Removes the helper client associated with the key and release it.
  
  *Swift*
  
-    AWSContentManager.removeContentManagerForKey("defaultManager")
+    AWSContentManager.remove(forKey: "defaultManager")
  
  *Objective-C*
  
@@ -198,17 +198,17 @@ typedef NS_ENUM(NSInteger, AWSContentManagerErrorType){
 
  *Swift*
  
- 	let contentManager = AWSContentManager(forKey: "defaultManager")
- 	contentManager.listAvailableContentsWithPrefix("prefix", marker: marker, completionHandler: {(contents: [AnyObject]?, nextMarker: String?, error: NSError?) -> Void in
-            if let error = error {
-                print("Failed to load the list of contents. \(error)")
-                // handle content load failure here
-            }
-            if let contents = contents where contents.count > 0 {
-                // Use marker and contents here
-            }
-            // handle successful result here
-            })
+    let contentManager = AWSContentManager(forKey: "defaultManager")
+    manager.listAvailableContents(withPrefix: "prefix", marker: marker, completionHandler: {(contents: [AWSContent]?, nextMarker: String?, error: Error?) -> Void in
+        if let error = error {
+            print("Failed to load the list of contents. \(error)")
+            // handle content load failure here
+        }
+        if let contents = contents, contents.count > 0 {
+            // Use marker and contents here
+        }
+        // handle successful result here
+    })
  
  *Objective-C*
  
@@ -240,25 +240,28 @@ typedef NS_ENUM(NSInteger, AWSContentManagerErrorType){
  
  *Swift*
  
- 	let contentManager = AWSContentManager(forKey: "defaultManager")
- 	contentManager.listRecentContentsWithPrefix("prefix", completionHandler: {(result: AnyObject?, error: NSError?) -> Void in
-            if let error = error {
-                print("Failed to load the list of recent contents. \(error)")
-                // Handle error here
+    let contentManager = AWSContentManager(forKey: "defaultManager")
+    contentManager.listRecentContents(withPrefix: "prefix", completionHandler: {(result: [AWSContent]?, error: Error?) -> Void in
+        if let error = error {
+            print("Failed to load the list of recent contents. \(error)")
+            // Handle error here
+        }
+        if let downloadResult: [AWSContent] = result {
+            // Handle successful result here
+            for content: AWSContent in downloadResult {
+                // Handle each of the item in the result
             }
-            if let downloadResult: [AWSContent] = result as? [AWSContent] {
-                // Handle successful result here
-                for content: AWSContent in downloadResult {
-                    // Handle each of the item in the result
-                }
-            }
-        })
+        }
+    })
  
  *Objective-C*
  
  	AWSContentManager *contentManager = [AWSContentManager contentManagerForKey:@"defaultManager"];
  	[contentManager listRecentContentsWithPrefix:@"prefix"
-                               completionHandler:^(id result, NSError *error) {
+                               completionHandler:^(NSArray<AWSContent *> * result, NSError *error) {
+                                           if (error) {
+                                               NSLog(@"%@", error.description);
+                                           }
                                            for (AWSContent *content in result) {
                                                // Handle each of the item in result
                                         	}
@@ -269,7 +272,7 @@ typedef NS_ENUM(NSInteger, AWSContentManagerErrorType){
  @param completionHandler The completion handler that returns the result and error.
  */
 - (void)listRecentContentsWithPrefix:(nullable NSString *)prefix
-                   completionHandler:(void (^)(id _Nullable result, NSError * _Nullable error))completionHandler;
+                   completionHandler:(void (^)(NSArray<AWSContent *> * _Nullable result, NSError * _Nullable error))completionHandler;
 
 /**
  *  Removes all cached contents. It does not modify the remote objects.
@@ -364,7 +367,7 @@ typedef NS_ENUM(NSInteger, AWSContentDownloadType){
 /**
  *  The last known last modified date reported by the Amazon S3. May be different from the actual last modified date if the file was modified on the server.
  */
-@property (nonatomic, readonly) NSDate *knownRemoteLastModifiedDate;
+@property (nonatomic, readonly) NSDate * _Nullable knownRemoteLastModifiedDate;
 
 /**
  *  The cached data object.
@@ -379,7 +382,7 @@ typedef NS_ENUM(NSInteger, AWSContentDownloadType){
 /**
  *  The date the cached data was downloaded.
  */
-@property (nonatomic, readonly) NSDate *downloadedDate;
+@property (nonatomic, readonly) NSDate * _Nullable downloadedDate;
 
 /**
  *  Wheather the content is locally cached.
@@ -397,16 +400,16 @@ typedef NS_ENUM(NSInteger, AWSContentDownloadType){
  *Swift*
  
  	func downloadContent(content: AWSContent, pinOnCompletion: Bool) {
-        content.downloadWithDownloadType( .IfNewerExists, pinOnCompletion: pinOnCompletion, progressBlock: {(content: AWSContent?, progress: NSProgress?) -> Void in
-            	// Handle progress feedback
-            }, completionHandler: {(content: AWSContent?, data: NSData?, error: NSError?) -> Void in
-                if let error = error {
-                    print("Failed to download a content from a server.)")
-                    // Handle error here                    
-                    return
-                }
-                // Handle successful download here
-            })
+         content.download(with: .ifNewerExists, pinOnCompletion: pinOnCompletion, progressBlock: { (content: AWSContent, content: Progress) in
+                 // Handle progress feedback
+             }, completionHandler: { (content: AWSContent?, data: Data?, error: Error?) in
+                 if let error = error {
+                     print("Failed to download a content from a server.)")
+                     // Handle error here
+                     return
+                 }
+                 // Handle successful download here
+             })
     }
  
  *Objective-C*
@@ -444,7 +447,7 @@ typedef NS_ENUM(NSInteger, AWSContentDownloadType){
  *Swift*
  
  	func getContentURL(content: AWSContent) {
-        content.getRemoteFileURLWithCompletionHandler({ (url: NSURL?, error: NSError?) -> Void in
+        content.getRemoteFileURLWithCompletionHandler({ (url: URL?, error: Error?) -> Void in
             guard let url = url else {
                 NSLog("Error getting URL for file. \(error)")
                 return
@@ -502,11 +505,11 @@ typedef NS_ENUM(NSInteger, AWSContentDownloadType){
  
      let credentialProvider = AWSCognitoCredentialsProvider(regionType: .USEast1, identityPoolId: "YourIdentityPoolId")
      let configuration = AWSServiceConfiguration(region: .USWest2, credentialsProvider: credentialProvider)
-     AWSServiceManager.defaultServiceManager().defaultServiceConfiguration = configuration
+     AWSServiceManager.default().defaultServiceConfiguration = configuration
      
      let contentManagerConfiguration = AWSContentManagerConfiguration(bucketName: "myBucket")
      
-     AWSContentManager.registerContentManagerWithConfiguration(contentManagerConfiguration, forKey: "defaultManager")
+     AWSContentManager.register(with: contentManagerConfiguration, forKey: "defaultManager")
  
  *Objective-C*
  
@@ -532,11 +535,11 @@ typedef NS_ENUM(NSInteger, AWSContentDownloadType){
  
      let credentialProvider = AWSCognitoCredentialsProvider(regionType: .USEast1, identityPoolId: "YourIdentityPoolId")
      let configuration = AWSServiceConfiguration(region: .USWest2, credentialsProvider: credentialProvider)
-     AWSServiceManager.defaultServiceManager().defaultServiceConfiguration = configuration;
+     AWSServiceManager.default().defaultServiceConfiguration = configuration;
      
      let contentManagerConfiguration = AWSContentManagerConfiguration(bucketName: "myBucket", cloudFrontURL: "https:/a.b.myurl")
      
-     AWSContentManager.registerContentManagerWithConfiguration(contentManagerConfiguration, forKey: "defaultManager")
+     AWSContentManager.register(with: contentManagerConfiguration, forKey: "defaultManager")
  
  *Objective-C*
  
@@ -569,7 +572,7 @@ typedef NS_ENUM(NSInteger, AWSContentDownloadType){
      
      let contentManagerConfiguration = AWSContentManagerConfiguration(bucketName: "myBucket", cloudFrontURL: "https:/a.b.myurl", serviceConfiguration: configuration)
      
-     AWSContentManager.registerContentManagerWithConfiguration(contentManagerConfiguration, forKey: "USWest2BucketContentManager")
+     AWSContentManager.register(with: contentManagerConfiguration, forKey: "USWest2BucketContentManager")
  
  *Objective-C*
  
