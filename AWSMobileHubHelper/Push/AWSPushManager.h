@@ -340,6 +340,14 @@ didReceiveRemoteNotification:(nullable NSDictionary *)userInfo;
 @required
 
 /**
+ Indicates the Authrization faild of the `- registerForPushNotifications` call (iOS 10 only).
+ 
+ @param pushManager An instance of `PushManager`.
+ */
+- (void)pushManager:(AWSPushManager *)pushManager didFailToAuthrized:(NSError *)error;
+
+
+/**
  Indicates the success of the `- registerForPushNotifications` call.
 
  @param pushManager An instance of `PushManager`.
