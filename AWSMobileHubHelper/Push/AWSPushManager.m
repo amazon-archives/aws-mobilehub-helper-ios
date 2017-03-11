@@ -9,6 +9,8 @@
 #import "AWSPushManager.h"
 #import <AWSSNS/AWSSNS.h>
 
+#import <UserNotifications/UserNotifications.h>
+
 NSString *const AWSPushManagerErrorDomain = @"com.amazonaws.PushManager.ErrorDomain";
 
 NSString *const AWSPushManagerUserDefaultsIsEnabledKey = @"com.amazonaws.PushManager.IsEnabled";
@@ -220,11 +222,25 @@ static NSString *const AWSPushTopics = @"SNSConfiguredTopics";
 #pragma mark - User action methods
 
 - (void)registerForPushNotifications {
+    
+    
     UIApplication *application = [UIApplication sharedApplication];
-    UIUserNotificationType types = UIUserNotificationTypeBadge | UIUserNotificationTypeSound | UIUserNotificationTypeAlert;
-    UIUserNotificationSettings *notificationSettings = [UIUserNotificationSettings settingsForTypes:types
-                                                                                         categories:nil];
-    [application registerUserNotificationSettings:notificationSettings];
+    if (NSClassFromString(@"UNUserNotificationCenter") != nil) {
+        // Support iOS 10 and later
+        UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter];
+        __weak AWSPushManager *weakSelf = self;
+        UNAuthorizationOptions options = UNAuthorizationOptionBadge | UNAuthorizationOptionSound | UNAuthorizationOptionAlert;
+        [center requestAuthorizationWithOptions:options completionHandler:^(BOOL granted, NSError * _Nullable error) {
+            if(error != nil) {
+                [weakSelf.delegate pushManager:weakSelf didFailToAuthrized:error];
+            }
+        }];
+    } else {
+        // For iOS 8 - 9
+        UIUserNotificationType types = UIUserNotificationTypeBadge | UIUserNotificationTypeSound | UIUserNotificationTypeAlert;
+        UIUserNotificationSettings *notificationSettings = [UIUserNotificationSettings settingsForTypes:types categories:nil];
+        [application registerUserNotificationSettings:notificationSettings];
+    }
     [application registerForRemoteNotifications];
 }
 
