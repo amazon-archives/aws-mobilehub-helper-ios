@@ -13,14 +13,19 @@ function exitOnFailureCode() {
 #############################################
 #############################################
 
-project_name=AWSMobileHubHelper
+if [ $# -eq 0 ]
+  then
+    echo "No argument supplied, need to specified the name of the project. e.g. GenerateHelperFramework.sh AWSMobileHubCloudLogic"
+    exit 1
+fi
+
+project_name=$1
 project_path=.
 
 # Define these to suit your nefarious purposes
 CURR_DIR=$(PWD)
 FRAMEWORK_NAME="${project_name}"
 FRAMEWORK_VERSION=1.0.0
-
 
 # Where we'll put the build framework.
 # The script presumes we're in the project root
@@ -38,9 +43,9 @@ fi
 
 # Build .a files
 xcodebuild ARCHS="armv7 armv7s arm64 i386 x86_64" \
-	ONLY_ACTIVE_ARCH=NO \
-	OTHER_CFLAGS="-fembed-bitcode" \
-	-configuration Debug \
+    ONLY_ACTIVE_ARCH=NO \
+    OTHER_CFLAGS="-fembed-bitcode" \
+    -configuration Debug \
     -workspace "${project_path}/AWSMobileHubHelper.xcworkspace" \
     -scheme "${project_name}" \
     -sdk iphonesimulator \
@@ -50,9 +55,9 @@ xcodebuild ARCHS="armv7 armv7s arm64 i386 x86_64" \
 exitOnFailureCode $?
 
 xcodebuild ARCHS="armv7 armv7s arm64 i386 x86_64" \
-	ONLY_ACTIVE_ARCH=NO \
-	OTHER_CFLAGS="-fembed-bitcode" \
-	-configuration Release \
+    ONLY_ACTIVE_ARCH=NO \
+    OTHER_CFLAGS="-fembed-bitcode" \
+    -configuration Release \
     -workspace "${project_path}/AWSMobileHubHelper.xcworkspace" \
     -scheme "${project_name}" \
     -sdk iphoneos \
@@ -100,5 +105,5 @@ exitOnFailureCode $?
 
 echo "Framework: Copying the module map into current version..."
 #those headers are declared in xcode's building phase: Headers
-cp -a builtFramework/Release-iphoneos/include/${project_name}/module.modulemap $FRAMEWORK_DIR/Modules/
+cp -a builtFramework/Release-iphoneos/include/${project_name}/${project_name}.modulemap $FRAMEWORK_DIR/Modules/module.modulemap
 exitOnFailureCode $?

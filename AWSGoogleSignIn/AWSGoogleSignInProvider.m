@@ -8,7 +8,7 @@
 //
 
 #import "AWSGoogleSignInProvider.h"
-#import "AWSIdentityManager.h"
+#import <AWSMobileHubHelper/AWSIdentityManager.h>
 
 #import <GoogleSignIn/GoogleSignIn.h>
 

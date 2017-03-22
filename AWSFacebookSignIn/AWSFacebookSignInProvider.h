@@ -8,7 +8,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "AWSSignInProvider.h"
+#import <AWSMobileHubHelper/AWSSignInProvider.h>
 
 NS_ASSUME_NONNULL_BEGIN
 

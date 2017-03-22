@@ -1,0 +1,6 @@
+framework module AWSFacebookSignIn {
+    umbrella header "AWSFacebookSignIn.h"
+    
+    export *
+    module * { export * }
+}
