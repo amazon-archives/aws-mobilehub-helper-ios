@@ -13,7 +13,6 @@
 #import "AWSPushManager.h"
 #import "AWSUserFileManager.h"
 #import "AWSSignInProviderFactory.h"
-#import "AWSSAMLSignInProvider.h"
 #import "AWSCognitoUserPoolsSignInProvider.h"
 #import "AWSAuthorizationManager.h"
 #import "AWSSalesforceAuthorizationManager.h"

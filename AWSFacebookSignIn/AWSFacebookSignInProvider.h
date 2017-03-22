@@ -1,5 +1,6 @@
 //
 //  AWSFacebookSignInProvider.h
+//  AWSFacebookSignIn
 //
 // Copyright 2016 Amazon.com, Inc. or its affiliates (Amazon). All Rights Reserved.
 //

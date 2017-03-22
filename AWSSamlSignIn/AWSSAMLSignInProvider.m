@@ -1,6 +1,6 @@
 //
 //  AWSSAMLSignInProvider.m
-//  AWSMobileHubHelper
+//  AWSSamlSignIn
 //
 // Copyright 2016 Amazon.com, Inc. or its affiliates (Amazon). All Rights Reserved.
 //

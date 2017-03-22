@@ -30,6 +30,12 @@
 		17F9B5A41E81FC6100B80A2D /* AWSMobileHubHelper.modulemap in CopyFiles */ = {isa = PBXBuildFile; fileRef = 17F9B5A31E81FC1800B80A2D /* AWSMobileHubHelper.modulemap */; };
 		17F9B5A51E81FC6B00B80A2D /* AWSFacebookSignIn.modulemap in CopyFiles */ = {isa = PBXBuildFile; fileRef = 17F9B5A11E81FB8400B80A2D /* AWSFacebookSignIn.modulemap */; };
 		17F9B5A61E81FC7200B80A2D /* AWSGoogleSignIn.modulemap in CopyFiles */ = {isa = PBXBuildFile; fileRef = 17F9B5A21E81FC0200B80A2D /* AWSGoogleSignIn.modulemap */; };
+		17F9B5B61E8208C800B80A2D /* AWSSAMLSignInProvider.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 17F9B5521E81C97600B80A2D /* AWSSAMLSignInProvider.h */; };
+		17F9B5B91E820A6900B80A2D /* AWSSamlSignIn.modulemap in CopyFiles */ = {isa = PBXBuildFile; fileRef = 17F9B5B71E8208E300B80A2D /* AWSSamlSignIn.modulemap */; };
+		17F9B5BA1E820A6900B80A2D /* AWSSamlSignIn.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 17F9B5B81E82092D00B80A2D /* AWSSamlSignIn.h */; };
+		17F9B5BB1E820A7000B80A2D /* AWSSAMLSignInProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 17F9B5531E81C97600B80A2D /* AWSSAMLSignInProvider.m */; };
+		17F9B5BF1E820A8200B80A2D /* AWSSAMLSignInProvider.h in Headers */ = {isa = PBXBuildFile; fileRef = 17F9B5521E81C97600B80A2D /* AWSSAMLSignInProvider.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		17F9B5C01E820A8200B80A2D /* AWSSamlSignIn.h in Headers */ = {isa = PBXBuildFile; fileRef = 17F9B5B81E82092D00B80A2D /* AWSSamlSignIn.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		1851DCF11D25C5A30010B8AA /* AWSMobileHubHelper.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 1851DCF01D25C5A30010B8AA /* AWSMobileHubHelper.h */; };
 		1851DD141D25CC890010B8AA /* AWSCloudLogic.m in Sources */ = {isa = PBXBuildFile; fileRef = 1851DD011D25CC890010B8AA /* AWSCloudLogic.m */; };
 		1851DD151D25CC890010B8AA /* AWSContentManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 1851DD041D25CC890010B8AA /* AWSContentManager.m */; };
@@ -46,6 +52,7 @@
 		1851DD401D25CDB60010B8AA /* AWSUserFileManager.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 1851DD121D25CC890010B8AA /* AWSUserFileManager.h */; };
 		18A3E46C1D52AC5000A3AE26 /* libPods-AWSMobileHubHelper.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 18A3E46B1D52AC5000A3AE26 /* libPods-AWSMobileHubHelper.a */; };
 		5A1F46E8D136C85A0F66DBEB /* libPods-AWSMobileHubHelper.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F313F95C1A385D20A08A0F20 /* libPods-AWSMobileHubHelper.a */; };
+		63188623A5A0D6EC17EB6733 /* libPods-AWSSamlSignIn.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8A2D0408B1B373A7FEE8BF1E /* libPods-AWSSamlSignIn.a */; };
 		70F38F7C2F450D13D1FBA3C5 /* libPods-AWSGoogleSignIn.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B2E7F3608696087FD2B64EB /* libPods-AWSGoogleSignIn.a */; };
 		7C858251DDF6E023CE6CBC24 /* libPods-AWSFacebookSignIn.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C5EAD47864BD67192E4805F /* libPods-AWSFacebookSignIn.a */; };
 		E409712A1DDFA41F00624FDC /* AWSMarketoAuthorizationManager.h in Headers */ = {isa = PBXBuildFile; fileRef = E40971281DDFA41F00624FDC /* AWSMarketoAuthorizationManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -86,6 +93,13 @@
 			remoteGlobalIDString = 1851DCEC1D25C5A30010B8AA;
 			remoteInfo = AWSMobileHubHelper;
 		};
+		17F9B5BC1E820A7500B80A2D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1851DCE51D25C5A30010B8AA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 1851DCEC1D25C5A30010B8AA;
+			remoteInfo = AWSMobileHubHelper;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -110,6 +124,18 @@
 				17F9B5A61E81FC7200B80A2D /* AWSGoogleSignIn.modulemap in CopyFiles */,
 				17F9B59D1E81F0D000B80A2D /* AWSGoogleSignInProvider.h in CopyFiles */,
 				17F9B5991E81F06400B80A2D /* AWSGoogleSignIn.h in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		17F9B5AB1E82088600B80A2D /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "include/$(PRODUCT_NAME)";
+			dstSubfolderSpec = 16;
+			files = (
+				17F9B5B91E820A6900B80A2D /* AWSSamlSignIn.modulemap in CopyFiles */,
+				17F9B5BA1E820A6900B80A2D /* AWSSamlSignIn.h in CopyFiles */,
+				17F9B5B61E8208C800B80A2D /* AWSSAMLSignInProvider.h in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -143,6 +169,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		0E028D8BFFCE51870C1D11F8 /* Pods-AWSSamlSignIn.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AWSSamlSignIn.debug.xcconfig"; path = "Pods/Target Support Files/Pods-AWSSamlSignIn/Pods-AWSSamlSignIn.debug.xcconfig"; sourceTree = "<group>"; };
 		17F9B5491E81C97600B80A2D /* AWSCognitoUserPoolsSignInProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AWSCognitoUserPoolsSignInProvider.h; sourceTree = "<group>"; };
 		17F9B54A1E81C97600B80A2D /* AWSCognitoUserPoolsSignInProvider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AWSCognitoUserPoolsSignInProvider.m; sourceTree = "<group>"; };
 		17F9B54C1E81C97600B80A2D /* AWSFacebookSignInProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AWSFacebookSignInProvider.h; sourceTree = "<group>"; };
@@ -163,6 +190,9 @@
 		17F9B5A11E81FB8400B80A2D /* AWSFacebookSignIn.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = AWSFacebookSignIn.modulemap; sourceTree = "<group>"; };
 		17F9B5A21E81FC0200B80A2D /* AWSGoogleSignIn.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = AWSGoogleSignIn.modulemap; sourceTree = "<group>"; };
 		17F9B5A31E81FC1800B80A2D /* AWSMobileHubHelper.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = AWSMobileHubHelper.modulemap; sourceTree = "<group>"; };
+		17F9B5AD1E82088600B80A2D /* libAWSSamlSignIn.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libAWSSamlSignIn.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		17F9B5B71E8208E300B80A2D /* AWSSamlSignIn.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = AWSSamlSignIn.modulemap; sourceTree = "<group>"; };
+		17F9B5B81E82092D00B80A2D /* AWSSamlSignIn.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AWSSamlSignIn.h; sourceTree = "<group>"; };
 		1851DCED1D25C5A30010B8AA /* libAWSMobileHubHelper.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libAWSMobileHubHelper.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		1851DCF01D25C5A30010B8AA /* AWSMobileHubHelper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AWSMobileHubHelper.h; sourceTree = "<group>"; };
 		1851DD001D25CC890010B8AA /* AWSCloudLogic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AWSCloudLogic.h; sourceTree = "<group>"; };
@@ -174,10 +204,12 @@
 		1851DD121D25CC890010B8AA /* AWSUserFileManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AWSUserFileManager.h; sourceTree = "<group>"; };
 		1851DD131D25CC890010B8AA /* AWSUserFileManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AWSUserFileManager.m; sourceTree = "<group>"; };
 		18A3E46B1D52AC5000A3AE26 /* libPods-AWSMobileHubHelper.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "libPods-AWSMobileHubHelper.a"; path = "/Users/saligram/Library/Developer/Xcode/DerivedData/AWSMobileHubHelper-gyehtqpthehzduaonjwjnaptkadu/Build/Products/Debug-iphonesimulator/libPods-AWSMobileHubHelper.a"; sourceTree = "<absolute>"; };
+		23FAE518CB658EC5FC6411B7 /* Pods-AWSSamlSignIn.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AWSSamlSignIn.release.xcconfig"; path = "Pods/Target Support Files/Pods-AWSSamlSignIn/Pods-AWSSamlSignIn.release.xcconfig"; sourceTree = "<group>"; };
 		2C5EAD47864BD67192E4805F /* libPods-AWSFacebookSignIn.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-AWSFacebookSignIn.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		45AD5BB063E7E7D650BFC7FA /* Pods-AWSFacebookSignIn.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AWSFacebookSignIn.debug.xcconfig"; path = "Pods/Target Support Files/Pods-AWSFacebookSignIn/Pods-AWSFacebookSignIn.debug.xcconfig"; sourceTree = "<group>"; };
 		69A76E7A0DB218A2452CE746 /* Pods-AWSGoogleSignIn.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AWSGoogleSignIn.debug.xcconfig"; path = "Pods/Target Support Files/Pods-AWSGoogleSignIn/Pods-AWSGoogleSignIn.debug.xcconfig"; sourceTree = "<group>"; };
 		7B2E7F3608696087FD2B64EB /* libPods-AWSGoogleSignIn.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-AWSGoogleSignIn.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		8A2D0408B1B373A7FEE8BF1E /* libPods-AWSSamlSignIn.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-AWSSamlSignIn.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		9C8606474456ECAC0A2A47FB /* Pods-AWSMobileHubHelper.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AWSMobileHubHelper.release.xcconfig"; path = "Pods/Target Support Files/Pods-AWSMobileHubHelper/Pods-AWSMobileHubHelper.release.xcconfig"; sourceTree = "<group>"; };
 		B3EA1B7C4DAA1E2BB1B70928 /* Pods-AWSMobileHubHelper.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AWSMobileHubHelper.debug.xcconfig"; path = "Pods/Target Support Files/Pods-AWSMobileHubHelper/Pods-AWSMobileHubHelper.debug.xcconfig"; sourceTree = "<group>"; };
 		D6A2F10EEB4863E65DBE8DCD /* Pods-AWSGoogleSignIn.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AWSGoogleSignIn.release.xcconfig"; path = "Pods/Target Support Files/Pods-AWSGoogleSignIn/Pods-AWSGoogleSignIn.release.xcconfig"; sourceTree = "<group>"; };
@@ -214,6 +246,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				70F38F7C2F450D13D1FBA3C5 /* libPods-AWSGoogleSignIn.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		17F9B5AA1E82088600B80A2D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				63188623A5A0D6EC17EB6733 /* libPods-AWSSamlSignIn.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -254,6 +294,8 @@
 			children = (
 				17F9B5521E81C97600B80A2D /* AWSSAMLSignInProvider.h */,
 				17F9B5531E81C97600B80A2D /* AWSSAMLSignInProvider.m */,
+				17F9B5B71E8208E300B80A2D /* AWSSamlSignIn.modulemap */,
+				17F9B5B81E82092D00B80A2D /* AWSSamlSignIn.h */,
 			);
 			path = AWSSamlSignIn;
 			sourceTree = "<group>";
@@ -301,6 +343,7 @@
 				1851DCED1D25C5A30010B8AA /* libAWSMobileHubHelper.a */,
 				17F9B56B1E81CA8E00B80A2D /* libAWSFacebookSignIn.a */,
 				17F9B5941E81F06400B80A2D /* libAWSGoogleSignIn.a */,
+				17F9B5AD1E82088600B80A2D /* libAWSSamlSignIn.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -363,6 +406,7 @@
 				F313F95C1A385D20A08A0F20 /* libPods-AWSMobileHubHelper.a */,
 				2C5EAD47864BD67192E4805F /* libPods-AWSFacebookSignIn.a */,
 				7B2E7F3608696087FD2B64EB /* libPods-AWSGoogleSignIn.a */,
+				8A2D0408B1B373A7FEE8BF1E /* libPods-AWSSamlSignIn.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -376,6 +420,8 @@
 				FC1561923E381EC8B9FDB213 /* Pods-AWSFacebookSignIn.release.xcconfig */,
 				69A76E7A0DB218A2452CE746 /* Pods-AWSGoogleSignIn.debug.xcconfig */,
 				D6A2F10EEB4863E65DBE8DCD /* Pods-AWSGoogleSignIn.release.xcconfig */,
+				0E028D8BFFCE51870C1D11F8 /* Pods-AWSSamlSignIn.debug.xcconfig */,
+				23FAE518CB658EC5FC6411B7 /* Pods-AWSSamlSignIn.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -411,6 +457,15 @@
 			files = (
 				17F9B57B1E81CB8600B80A2D /* AWSFacebookSignInProvider.h in Headers */,
 				17F9B57C1E81CB8600B80A2D /* AWSFacebookSignIn.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		17F9B5BE1E820A7B00B80A2D /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				17F9B5BF1E820A8200B80A2D /* AWSSAMLSignInProvider.h in Headers */,
+				17F9B5C01E820A8200B80A2D /* AWSSamlSignIn.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -480,6 +535,27 @@
 			productReference = 17F9B5941E81F06400B80A2D /* libAWSGoogleSignIn.a */;
 			productType = "com.apple.product-type.library.static";
 		};
+		17F9B5AC1E82088600B80A2D /* AWSSamlSignIn */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 17F9B5B51E82088600B80A2D /* Build configuration list for PBXNativeTarget "AWSSamlSignIn" */;
+			buildPhases = (
+				709AEFD46DA0C5A44EBE3D6C /* [CP] Check Pods Manifest.lock */,
+				17F9B5A91E82088600B80A2D /* Sources */,
+				17F9B5AA1E82088600B80A2D /* Frameworks */,
+				17F9B5AB1E82088600B80A2D /* CopyFiles */,
+				17F9B5BE1E820A7B00B80A2D /* Headers */,
+				B4F767A8E387E577AE90C9BA /* [CP] Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				17F9B5BD1E820A7500B80A2D /* PBXTargetDependency */,
+			);
+			name = AWSSamlSignIn;
+			productName = AWSSamlSignIn;
+			productReference = 17F9B5AD1E82088600B80A2D /* libAWSSamlSignIn.a */;
+			productType = "com.apple.product-type.library.static";
+		};
 		1851DCEC1D25C5A30010B8AA /* AWSMobileHubHelper */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 1851DCF61D25C5A30010B8AA /* Build configuration list for PBXNativeTarget "AWSMobileHubHelper" */;
@@ -519,6 +595,11 @@
 						DevelopmentTeam = W3DRXD72QU;
 						ProvisioningStyle = Automatic;
 					};
+					17F9B5AC1E82088600B80A2D = {
+						CreatedOnToolsVersion = 8.2.1;
+						DevelopmentTeam = W3DRXD72QU;
+						ProvisioningStyle = Automatic;
+					};
 					1851DCEC1D25C5A30010B8AA = {
 						CreatedOnToolsVersion = 7.3.1;
 					};
@@ -539,6 +620,7 @@
 				1851DCEC1D25C5A30010B8AA /* AWSMobileHubHelper */,
 				17F9B56A1E81CA8E00B80A2D /* AWSFacebookSignIn */,
 				17F9B5931E81F06400B80A2D /* AWSGoogleSignIn */,
+				17F9B5AC1E82088600B80A2D /* AWSSamlSignIn */,
 			);
 		};
 /* End PBXProject section */
@@ -572,6 +654,21 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-AWSFacebookSignIn/Pods-AWSFacebookSignIn-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		709AEFD46DA0C5A44EBE3D6C /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 		835470475DE238CA1A2C12BC /* [CP] Copy Pods Resources */ = {
@@ -619,6 +716,21 @@
 			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
+		B4F767A8E387E577AE90C9BA /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-AWSSamlSignIn/Pods-AWSSamlSignIn-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		E70AB00DDA6652B541F1277A /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -650,6 +762,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				17F9B59E1E81F0D500B80A2D /* AWSGoogleSignInProvider.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		17F9B5A91E82088600B80A2D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				17F9B5BB1E820A7000B80A2D /* AWSSAMLSignInProvider.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -688,6 +808,11 @@
 			target = 1851DCEC1D25C5A30010B8AA /* AWSMobileHubHelper */;
 			targetProxy = 17F9B59F1E81F0DC00B80A2D /* PBXContainerItemProxy */;
 		};
+		17F9B5BD1E820A7500B80A2D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 1851DCEC1D25C5A30010B8AA /* AWSMobileHubHelper */;
+			targetProxy = 17F9B5BC1E820A7500B80A2D /* PBXContainerItemProxy */;
+		};
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
@@ -695,7 +820,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 45AD5BB063E7E7D650BFC7FA /* Pods-AWSFacebookSignIn.debug.xcconfig */;
 			buildSettings = {
-				CLANG_ENABLE_MODULE_DEBUGGING = YES;
+				CLANG_ENABLE_MODULE_DEBUGGING = NO;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -713,7 +838,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = FC1561923E381EC8B9FDB213 /* Pods-AWSFacebookSignIn.release.xcconfig */;
 			buildSettings = {
-				CLANG_ENABLE_MODULE_DEBUGGING = YES;
+				CLANG_ENABLE_MODULE_DEBUGGING = NO;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -751,6 +876,36 @@
 				DEVELOPMENT_TEAM = W3DRXD72QU;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MODULEMAP_FILE = google.modulemap;
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+		17F9B5B31E82088600B80A2D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 0E028D8BFFCE51870C1D11F8 /* Pods-AWSSamlSignIn.debug.xcconfig */;
+			buildSettings = {
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = W3DRXD72QU;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				MODULEMAP_FILE = AWSSamlSignIn.modulemap;
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		17F9B5B41E82088600B80A2D /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 23FAE518CB658EC5FC6411B7 /* Pods-AWSSamlSignIn.release.xcconfig */;
+			buildSettings = {
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = W3DRXD72QU;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				MODULEMAP_FILE = AWSSamlSignIn.modulemap;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -849,7 +1004,7 @@
 			buildSettings = {
 				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = NO;
 				CLANG_ENABLE_MODULES = YES;
-				CLANG_ENABLE_MODULE_DEBUGGING = YES;
+				CLANG_ENABLE_MODULE_DEBUGGING = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEFINES_MODULE = YES;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
@@ -870,7 +1025,7 @@
 			buildSettings = {
 				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = NO;
 				CLANG_ANALYZER_NONNULL = NO;
-				CLANG_ENABLE_MODULE_DEBUGGING = YES;
+				CLANG_ENABLE_MODULE_DEBUGGING = NO;
 				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEFINES_MODULE = YES;
@@ -902,6 +1057,15 @@
 			buildConfigurations = (
 				17F9B59B1E81F06400B80A2D /* Debug */,
 				17F9B59C1E81F06400B80A2D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		17F9B5B51E82088600B80A2D /* Build configuration list for PBXNativeTarget "AWSSamlSignIn" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				17F9B5B31E82088600B80A2D /* Debug */,
+				17F9B5B41E82088600B80A2D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
