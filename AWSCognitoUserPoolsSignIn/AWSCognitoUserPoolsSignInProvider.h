@@ -1,5 +1,6 @@
 //
 //  AWSCognitoUserPoolsSignInProvider.h
+//  AWSCognitoUserPoolsSignIn
 //
 // Copyright 2016 Amazon.com, Inc. or its affiliates (Amazon). All Rights Reserved.
 //
@@ -7,7 +8,7 @@
 // copy, distribute and modify it.
 //
 #import <Foundation/Foundation.h>
-#import "AWSSignInProvider.h"
+#import <AWSMobileHubHelper/AWSSignInProvider.h>
 
 NS_ASSUME_NONNULL_BEGIN
 

@@ -6,8 +6,6 @@ target 'AWSMobileHubHelper' do
     pod 'AWSSNS', '~>2.5.0'
     pod 'AWSS3', '~>2.5.0'
     pod 'AWSLambda', '~>2.5.0'
-    pod 'AWSCognito', '~>2.5.0'
-    pod 'AWSCognitoIdentityProvider', '~>2.5.0'
 end
 
 target 'AWSFacebookSignIn' do
@@ -23,4 +21,8 @@ end
 
 target 'AWSSamlSignIn' do
     pod 'AWSCore', '~>2.5.0'
+end
+
+target 'AWSCognitoUserPoolsSignIn' do
+    pod 'AWSCognitoIdentityProvider', '~>2.5.0'
 end

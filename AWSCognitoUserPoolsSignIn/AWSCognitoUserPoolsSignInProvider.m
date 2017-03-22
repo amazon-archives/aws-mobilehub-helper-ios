@@ -1,5 +1,6 @@
 //
 //  AWSCognitoUserPoolsSignInProvider.m
+//  AWSCognitoUserPoolsSignIn
 //
 // Copyright 2016 Amazon.com, Inc. or its affiliates (Amazon). All Rights Reserved.
 //
@@ -8,7 +9,7 @@
 //
 
 #import "AWSCognitoUserPoolsSignInProvider.h"
-#import "AWSIdentityManager.h"
+#import <AWSMobileHubHelper/AWSIdentityManager.h>
 #import <AWSCognitoIdentityProvider/AWSCognitoIdentityProvider.h>
 
 NSString *const AWSCognitoUserPoolsSignInProviderKey = @"CognitoUserPools";

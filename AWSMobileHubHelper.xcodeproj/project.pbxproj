@@ -7,6 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1728990D1E82ECA300A072D8 /* AWSCognitoUserPoolsSignInProvider.h in Headers */ = {isa = PBXBuildFile; fileRef = 17F9B5491E81C97600B80A2D /* AWSCognitoUserPoolsSignInProvider.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		1728990E1E82ECA300A072D8 /* AWSCognitoUserPoolsSignIn.h in Headers */ = {isa = PBXBuildFile; fileRef = 179348C21E82EB6900A779A6 /* AWSCognitoUserPoolsSignIn.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		179348C41E82EC6300A779A6 /* AWSCognitoUserPoolsSignInProvider.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 17F9B5491E81C97600B80A2D /* AWSCognitoUserPoolsSignInProvider.h */; };
+		179348C51E82EC6300A779A6 /* AWSCognitoUserPoolsSignIn.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 179348C21E82EB6900A779A6 /* AWSCognitoUserPoolsSignIn.h */; };
+		179348C61E82EC6300A779A6 /* AWSCognitoUserPoolsSignIn.modulemap in CopyFiles */ = {isa = PBXBuildFile; fileRef = 179348C31E82EB7D00A779A6 /* AWSCognitoUserPoolsSignIn.modulemap */; };
+		179348C91E82EC7100A779A6 /* AWSCognitoUserPoolsSignInProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 17F9B54A1E81C97600B80A2D /* AWSCognitoUserPoolsSignInProvider.m */; };
 		17F9B5621E81C9D600B80A2D /* AWSIdentityManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 17F9B55D1E81C9D600B80A2D /* AWSIdentityManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		17F9B5631E81C9D600B80A2D /* AWSIdentityManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 17F9B55E1E81C9D600B80A2D /* AWSIdentityManager.m */; };
 		17F9B5641E81C9D600B80A2D /* AWSSignInProvider.h in Headers */ = {isa = PBXBuildFile; fileRef = 17F9B55F1E81C9D600B80A2D /* AWSSignInProvider.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -20,10 +26,6 @@
 		17F9B57F1E81D41400B80A2D /* AWSSignInProvider.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 17F9B55F1E81C9D600B80A2D /* AWSSignInProvider.h */; };
 		17F9B5801E81D41400B80A2D /* AWSSignInProviderFactory.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 17F9B5601E81C9D600B80A2D /* AWSSignInProviderFactory.h */; };
 		17F9B5811E81D42A00B80A2D /* AWSIdentityManager.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 17F9B55D1E81C9D600B80A2D /* AWSIdentityManager.h */; };
-		17F9B58A1E81E5E700B80A2D /* AWSCognitoUserPoolsSignInProvider.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 17F9B5491E81C97600B80A2D /* AWSCognitoUserPoolsSignInProvider.h */; };
-		17F9B58C1E81E5E700B80A2D /* AWSSAMLSignInProvider.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 17F9B5521E81C97600B80A2D /* AWSSAMLSignInProvider.h */; };
-		17F9B58D1E81E78C00B80A2D /* AWSCognitoUserPoolsSignInProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 17F9B54A1E81C97600B80A2D /* AWSCognitoUserPoolsSignInProvider.m */; };
-		17F9B58F1E81E78C00B80A2D /* AWSSAMLSignInProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 17F9B5531E81C97600B80A2D /* AWSSAMLSignInProvider.m */; };
 		17F9B5991E81F06400B80A2D /* AWSGoogleSignIn.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 17F9B5961E81F06400B80A2D /* AWSGoogleSignIn.h */; };
 		17F9B59D1E81F0D000B80A2D /* AWSGoogleSignInProvider.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 17F9B54F1E81C97600B80A2D /* AWSGoogleSignInProvider.h */; };
 		17F9B59E1E81F0D500B80A2D /* AWSGoogleSignInProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 17F9B5501E81C97600B80A2D /* AWSGoogleSignInProvider.m */; };
@@ -55,6 +57,7 @@
 		63188623A5A0D6EC17EB6733 /* libPods-AWSSamlSignIn.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8A2D0408B1B373A7FEE8BF1E /* libPods-AWSSamlSignIn.a */; };
 		70F38F7C2F450D13D1FBA3C5 /* libPods-AWSGoogleSignIn.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7B2E7F3608696087FD2B64EB /* libPods-AWSGoogleSignIn.a */; };
 		7C858251DDF6E023CE6CBC24 /* libPods-AWSFacebookSignIn.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C5EAD47864BD67192E4805F /* libPods-AWSFacebookSignIn.a */; };
+		7E49724904AC97BE41583C3A /* libPods-AWSCognitoUserPoolsSignIn.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 83BE02584691EB49163D3C28 /* libPods-AWSCognitoUserPoolsSignIn.a */; };
 		E409712A1DDFA41F00624FDC /* AWSMarketoAuthorizationManager.h in Headers */ = {isa = PBXBuildFile; fileRef = E40971281DDFA41F00624FDC /* AWSMarketoAuthorizationManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E409712B1DDFA41F00624FDC /* AWSMarketoAuthorizationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = E40971291DDFA41F00624FDC /* AWSMarketoAuthorizationManager.m */; };
 		E409712C1DDFA85A00624FDC /* AWSMarketoAuthorizationManager.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = E40971281DDFA41F00624FDC /* AWSMarketoAuthorizationManager.h */; };
@@ -79,6 +82,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		179348C71E82EC6C00A779A6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1851DCE51D25C5A30010B8AA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 1851DCEC1D25C5A30010B8AA;
+			remoteInfo = AWSMobileHubHelper;
+		};
 		17F9B57D1E81CCEA00B80A2D /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 1851DCE51D25C5A30010B8AA /* Project object */;
@@ -103,6 +113,18 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		179348B71E82EB4100A779A6 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "include/$(PRODUCT_NAME)";
+			dstSubfolderSpec = 16;
+			files = (
+				179348C41E82EC6300A779A6 /* AWSCognitoUserPoolsSignInProvider.h in CopyFiles */,
+				179348C51E82EC6300A779A6 /* AWSCognitoUserPoolsSignIn.h in CopyFiles */,
+				179348C61E82EC6300A779A6 /* AWSCognitoUserPoolsSignIn.modulemap in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		17F9B5691E81CA8E00B80A2D /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -146,8 +168,6 @@
 			dstSubfolderSpec = 16;
 			files = (
 				17F9B5A41E81FC6100B80A2D /* AWSMobileHubHelper.modulemap in CopyFiles */,
-				17F9B58A1E81E5E700B80A2D /* AWSCognitoUserPoolsSignInProvider.h in CopyFiles */,
-				17F9B58C1E81E5E700B80A2D /* AWSSAMLSignInProvider.h in CopyFiles */,
 				17F9B5811E81D42A00B80A2D /* AWSIdentityManager.h in CopyFiles */,
 				17F9B57F1E81D41400B80A2D /* AWSSignInProvider.h in CopyFiles */,
 				17F9B5801E81D41400B80A2D /* AWSSignInProviderFactory.h in CopyFiles */,
@@ -170,6 +190,9 @@
 
 /* Begin PBXFileReference section */
 		0E028D8BFFCE51870C1D11F8 /* Pods-AWSSamlSignIn.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AWSSamlSignIn.debug.xcconfig"; path = "Pods/Target Support Files/Pods-AWSSamlSignIn/Pods-AWSSamlSignIn.debug.xcconfig"; sourceTree = "<group>"; };
+		179348B91E82EB4100A779A6 /* libAWSCognitoUserPoolsSignIn.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libAWSCognitoUserPoolsSignIn.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		179348C21E82EB6900A779A6 /* AWSCognitoUserPoolsSignIn.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AWSCognitoUserPoolsSignIn.h; sourceTree = "<group>"; };
+		179348C31E82EB7D00A779A6 /* AWSCognitoUserPoolsSignIn.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = AWSCognitoUserPoolsSignIn.modulemap; sourceTree = "<group>"; };
 		17F9B5491E81C97600B80A2D /* AWSCognitoUserPoolsSignInProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AWSCognitoUserPoolsSignInProvider.h; sourceTree = "<group>"; };
 		17F9B54A1E81C97600B80A2D /* AWSCognitoUserPoolsSignInProvider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AWSCognitoUserPoolsSignInProvider.m; sourceTree = "<group>"; };
 		17F9B54C1E81C97600B80A2D /* AWSFacebookSignInProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AWSFacebookSignInProvider.h; sourceTree = "<group>"; };
@@ -207,8 +230,10 @@
 		23FAE518CB658EC5FC6411B7 /* Pods-AWSSamlSignIn.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AWSSamlSignIn.release.xcconfig"; path = "Pods/Target Support Files/Pods-AWSSamlSignIn/Pods-AWSSamlSignIn.release.xcconfig"; sourceTree = "<group>"; };
 		2C5EAD47864BD67192E4805F /* libPods-AWSFacebookSignIn.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-AWSFacebookSignIn.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		45AD5BB063E7E7D650BFC7FA /* Pods-AWSFacebookSignIn.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AWSFacebookSignIn.debug.xcconfig"; path = "Pods/Target Support Files/Pods-AWSFacebookSignIn/Pods-AWSFacebookSignIn.debug.xcconfig"; sourceTree = "<group>"; };
+		49ED9BEBE1E9DB5547D87078 /* Pods-AWSCognitoUserPoolsSignIn.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AWSCognitoUserPoolsSignIn.debug.xcconfig"; path = "Pods/Target Support Files/Pods-AWSCognitoUserPoolsSignIn/Pods-AWSCognitoUserPoolsSignIn.debug.xcconfig"; sourceTree = "<group>"; };
 		69A76E7A0DB218A2452CE746 /* Pods-AWSGoogleSignIn.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AWSGoogleSignIn.debug.xcconfig"; path = "Pods/Target Support Files/Pods-AWSGoogleSignIn/Pods-AWSGoogleSignIn.debug.xcconfig"; sourceTree = "<group>"; };
 		7B2E7F3608696087FD2B64EB /* libPods-AWSGoogleSignIn.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-AWSGoogleSignIn.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		83BE02584691EB49163D3C28 /* libPods-AWSCognitoUserPoolsSignIn.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-AWSCognitoUserPoolsSignIn.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		8A2D0408B1B373A7FEE8BF1E /* libPods-AWSSamlSignIn.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-AWSSamlSignIn.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		9C8606474456ECAC0A2A47FB /* Pods-AWSMobileHubHelper.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AWSMobileHubHelper.release.xcconfig"; path = "Pods/Target Support Files/Pods-AWSMobileHubHelper/Pods-AWSMobileHubHelper.release.xcconfig"; sourceTree = "<group>"; };
 		B3EA1B7C4DAA1E2BB1B70928 /* Pods-AWSMobileHubHelper.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AWSMobileHubHelper.debug.xcconfig"; path = "Pods/Target Support Files/Pods-AWSMobileHubHelper/Pods-AWSMobileHubHelper.debug.xcconfig"; sourceTree = "<group>"; };
@@ -228,11 +253,20 @@
 		E49544AA1DD3B0AC008C17FC /* AWSAuthorizer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = AWSAuthorizer.h; path = Authorization/AWSAuthorizer.h; sourceTree = "<group>"; };
 		E49544AB1DD3B757008C17FC /* AWSMSDynamicsAuthorizationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AWSMSDynamicsAuthorizationManager.h; path = Authorization/AWSMSDynamicsAuthorizationManager.h; sourceTree = "<group>"; };
 		E49544AC1DD3B757008C17FC /* AWSMSDynamicsAuthorizationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AWSMSDynamicsAuthorizationManager.m; path = Authorization/AWSMSDynamicsAuthorizationManager.m; sourceTree = "<group>"; };
+		E7355F89C44787C9A5F07F84 /* Pods-AWSCognitoUserPoolsSignIn.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AWSCognitoUserPoolsSignIn.release.xcconfig"; path = "Pods/Target Support Files/Pods-AWSCognitoUserPoolsSignIn/Pods-AWSCognitoUserPoolsSignIn.release.xcconfig"; sourceTree = "<group>"; };
 		F313F95C1A385D20A08A0F20 /* libPods-AWSMobileHubHelper.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-AWSMobileHubHelper.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		FC1561923E381EC8B9FDB213 /* Pods-AWSFacebookSignIn.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AWSFacebookSignIn.release.xcconfig"; path = "Pods/Target Support Files/Pods-AWSFacebookSignIn/Pods-AWSFacebookSignIn.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		179348B61E82EB4100A779A6 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7E49724904AC97BE41583C3A /* libPods-AWSCognitoUserPoolsSignIn.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		17F9B5681E81CA8E00B80A2D /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -272,8 +306,10 @@
 		17F9B5481E81C97600B80A2D /* AWSCognitoUserPoolsSignIn */ = {
 			isa = PBXGroup;
 			children = (
+				179348C21E82EB6900A779A6 /* AWSCognitoUserPoolsSignIn.h */,
 				17F9B5491E81C97600B80A2D /* AWSCognitoUserPoolsSignInProvider.h */,
 				17F9B54A1E81C97600B80A2D /* AWSCognitoUserPoolsSignInProvider.m */,
+				179348C31E82EB7D00A779A6 /* AWSCognitoUserPoolsSignIn.modulemap */,
 			);
 			path = AWSCognitoUserPoolsSignIn;
 			sourceTree = "<group>";
@@ -281,9 +317,9 @@
 		17F9B54B1E81C97600B80A2D /* AWSFacebookSignIn */ = {
 			isa = PBXGroup;
 			children = (
+				17F9B5741E81CAB500B80A2D /* AWSFacebookSignIn.h */,
 				17F9B54C1E81C97600B80A2D /* AWSFacebookSignInProvider.h */,
 				17F9B54D1E81C97600B80A2D /* AWSFacebookSignInProvider.m */,
-				17F9B5741E81CAB500B80A2D /* AWSFacebookSignIn.h */,
 				17F9B5A11E81FB8400B80A2D /* AWSFacebookSignIn.modulemap */,
 			);
 			path = AWSFacebookSignIn;
@@ -292,10 +328,10 @@
 		17F9B5511E81C97600B80A2D /* AWSSamlSignIn */ = {
 			isa = PBXGroup;
 			children = (
+				17F9B5B81E82092D00B80A2D /* AWSSamlSignIn.h */,
 				17F9B5521E81C97600B80A2D /* AWSSAMLSignInProvider.h */,
 				17F9B5531E81C97600B80A2D /* AWSSAMLSignInProvider.m */,
 				17F9B5B71E8208E300B80A2D /* AWSSamlSignIn.modulemap */,
-				17F9B5B81E82092D00B80A2D /* AWSSamlSignIn.h */,
 			);
 			path = AWSSamlSignIn;
 			sourceTree = "<group>";
@@ -344,6 +380,7 @@
 				17F9B56B1E81CA8E00B80A2D /* libAWSFacebookSignIn.a */,
 				17F9B5941E81F06400B80A2D /* libAWSGoogleSignIn.a */,
 				17F9B5AD1E82088600B80A2D /* libAWSSamlSignIn.a */,
+				179348B91E82EB4100A779A6 /* libAWSCognitoUserPoolsSignIn.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -407,6 +444,7 @@
 				2C5EAD47864BD67192E4805F /* libPods-AWSFacebookSignIn.a */,
 				7B2E7F3608696087FD2B64EB /* libPods-AWSGoogleSignIn.a */,
 				8A2D0408B1B373A7FEE8BF1E /* libPods-AWSSamlSignIn.a */,
+				83BE02584691EB49163D3C28 /* libPods-AWSCognitoUserPoolsSignIn.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -422,6 +460,8 @@
 				D6A2F10EEB4863E65DBE8DCD /* Pods-AWSGoogleSignIn.release.xcconfig */,
 				0E028D8BFFCE51870C1D11F8 /* Pods-AWSSamlSignIn.debug.xcconfig */,
 				23FAE518CB658EC5FC6411B7 /* Pods-AWSSamlSignIn.release.xcconfig */,
+				49ED9BEBE1E9DB5547D87078 /* Pods-AWSCognitoUserPoolsSignIn.debug.xcconfig */,
+				E7355F89C44787C9A5F07F84 /* Pods-AWSCognitoUserPoolsSignIn.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -451,6 +491,15 @@
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
+		1728990C1E82EC9500A072D8 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1728990D1E82ECA300A072D8 /* AWSCognitoUserPoolsSignInProvider.h in Headers */,
+				1728990E1E82ECA300A072D8 /* AWSCognitoUserPoolsSignIn.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		17F9B57A1E81CB7900B80A2D /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
@@ -494,6 +543,27 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
+		179348B81E82EB4100A779A6 /* AWSCognitoUserPoolsSignIn */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 179348C11E82EB4100A779A6 /* Build configuration list for PBXNativeTarget "AWSCognitoUserPoolsSignIn" */;
+			buildPhases = (
+				0462D188BCA6B27405CDC99E /* [CP] Check Pods Manifest.lock */,
+				179348B51E82EB4100A779A6 /* Sources */,
+				179348B61E82EB4100A779A6 /* Frameworks */,
+				179348B71E82EB4100A779A6 /* CopyFiles */,
+				1728990C1E82EC9500A072D8 /* Headers */,
+				66AE79DBD885F1CCD412F745 /* [CP] Copy Pods Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				179348C81E82EC6C00A779A6 /* PBXTargetDependency */,
+			);
+			name = AWSCognitoUserPoolsSignIn;
+			productName = AWSCognitoUserPoolsSignIn;
+			productReference = 179348B91E82EB4100A779A6 /* libAWSCognitoUserPoolsSignIn.a */;
+			productType = "com.apple.product-type.library.static";
+		};
 		17F9B56A1E81CA8E00B80A2D /* AWSFacebookSignIn */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 17F9B5711E81CA8F00B80A2D /* Build configuration list for PBXNativeTarget "AWSFacebookSignIn" */;
@@ -585,6 +655,11 @@
 				LastUpgradeCheck = 0820;
 				ORGANIZATIONNAME = "Amazon Web Services";
 				TargetAttributes = {
+					179348B81E82EB4100A779A6 = {
+						CreatedOnToolsVersion = 8.2.1;
+						DevelopmentTeam = W3DRXD72QU;
+						ProvisioningStyle = Automatic;
+					};
 					17F9B56A1E81CA8E00B80A2D = {
 						CreatedOnToolsVersion = 8.2.1;
 						DevelopmentTeam = W3DRXD72QU;
@@ -621,11 +696,27 @@
 				17F9B56A1E81CA8E00B80A2D /* AWSFacebookSignIn */,
 				17F9B5931E81F06400B80A2D /* AWSGoogleSignIn */,
 				17F9B5AC1E82088600B80A2D /* AWSSamlSignIn */,
+				179348B81E82EB4100A779A6 /* AWSCognitoUserPoolsSignIn */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		0462D188BCA6B27405CDC99E /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
 		1A737FE591F558B10F28BC25 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -654,6 +745,21 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-AWSFacebookSignIn/Pods-AWSFacebookSignIn-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		66AE79DBD885F1CCD412F745 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-AWSCognitoUserPoolsSignIn/Pods-AWSCognitoUserPoolsSignIn-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		709AEFD46DA0C5A44EBE3D6C /* [CP] Check Pods Manifest.lock */ = {
@@ -749,6 +855,14 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		179348B51E82EB4100A779A6 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				179348C91E82EC7100A779A6 /* AWSCognitoUserPoolsSignInProvider.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		17F9B5671E81CA8E00B80A2D /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -777,8 +891,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				17F9B58D1E81E78C00B80A2D /* AWSCognitoUserPoolsSignInProvider.m in Sources */,
-				17F9B58F1E81E78C00B80A2D /* AWSSAMLSignInProvider.m in Sources */,
 				E44D19621DDBCCE800255AD3 /* AWSQuickbooksAuthorizationManager.m in Sources */,
 				1851DD141D25CC890010B8AA /* AWSCloudLogic.m in Sources */,
 				E49544AE1DD3B757008C17FC /* AWSMSDynamicsAuthorizationManager.m in Sources */,
@@ -798,6 +910,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		179348C81E82EC6C00A779A6 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 1851DCEC1D25C5A30010B8AA /* AWSMobileHubHelper */;
+			targetProxy = 179348C71E82EC6C00A779A6 /* PBXContainerItemProxy */;
+		};
 		17F9B57E1E81CCEA00B80A2D /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 1851DCEC1D25C5A30010B8AA /* AWSMobileHubHelper */;
@@ -816,6 +933,34 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
+		179348BF1E82EB4100A779A6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 49ED9BEBE1E9DB5547D87078 /* Pods-AWSCognitoUserPoolsSignIn.debug.xcconfig */;
+			buildSettings = {
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = W3DRXD72QU;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
+				MODULEMAP_FILE = AWSCognitoUserPoolsSignIn.modulemap;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		179348C01E82EB4100A779A6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = E7355F89C44787C9A5F07F84 /* Pods-AWSCognitoUserPoolsSignIn.release.xcconfig */;
+			buildSettings = {
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = W3DRXD72QU;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
+				MODULEMAP_FILE = AWSCognitoUserPoolsSignIn.modulemap;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
 		17F9B5721E81CA8F00B80A2D /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 45AD5BB063E7E7D650BFC7FA /* Pods-AWSFacebookSignIn.debug.xcconfig */;
@@ -828,7 +973,7 @@
 				DEVELOPMENT_TEAM = W3DRXD72QU;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MODULEMAP_FILE = facebook.modulemap;
-				OTHER_LDFLAGS = "-ObjC";
+				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 			};
@@ -846,7 +991,7 @@
 				DEVELOPMENT_TEAM = W3DRXD72QU;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MODULEMAP_FILE = facebook.modulemap;
-				OTHER_LDFLAGS = "-ObjC";
+				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 			};
@@ -861,7 +1006,6 @@
 				DEVELOPMENT_TEAM = W3DRXD72QU;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MODULEMAP_FILE = google.modulemap;
-				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 			};
@@ -876,7 +1020,6 @@
 				DEVELOPMENT_TEAM = W3DRXD72QU;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MODULEMAP_FILE = google.modulemap;
-				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 			};
@@ -891,7 +1034,6 @@
 				DEVELOPMENT_TEAM = W3DRXD72QU;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MODULEMAP_FILE = AWSSamlSignIn.modulemap;
-				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 			};
@@ -906,7 +1048,6 @@
 				DEVELOPMENT_TEAM = W3DRXD72QU;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MODULEMAP_FILE = AWSSamlSignIn.modulemap;
-				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 			};
@@ -1012,7 +1153,7 @@
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MODULEMAP_FILE = module.modulemap;
-				OTHER_LDFLAGS = "";
+				OTHER_LDFLAGS = "$(inherited)";
 				PRECOMPS_INCLUDE_HEADERS_FROM_BUILT_PRODUCTS_DIR = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -1034,7 +1175,7 @@
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MODULEMAP_FILE = module.modulemap;
-				OTHER_LDFLAGS = "";
+				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = NO;
 			};
@@ -1043,6 +1184,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		179348C11E82EB4100A779A6 /* Build configuration list for PBXNativeTarget "AWSCognitoUserPoolsSignIn" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				179348BF1E82EB4100A779A6 /* Debug */,
+				179348C01E82EB4100A779A6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		17F9B5711E81CA8F00B80A2D /* Build configuration list for PBXNativeTarget "AWSFacebookSignIn" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
