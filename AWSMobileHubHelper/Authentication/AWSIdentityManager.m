@@ -10,26 +10,18 @@
 #import "AWSIdentityManager.h"
 #import "AWSSignInProvider.h"
 #import "AWSGoogleSignInProvider.h"
-#import "AWSSignInProviderFactory.h"
-
-NSString *const AWSIdentityManagerDidSignInNotification = @"com.amazonaws.AWSIdentityManager.AWSIdentityManagerDidSignInNotification";
-NSString *const AWSIdentityManagerDidSignOutNotification = @"com.amazonaws.AWSIdentityManager.AWSIdentityManagerDidSignOutNotification";
-
-typedef void (^AWSIdentityManagerCompletionBlock)(id result, NSError *error);
+#import "AWSSignInManager.h"
 
 @interface AWSIdentityManager()
 
 @property (nonatomic, readwrite, strong) AWSCognitoCredentialsProvider *credentialsProvider;
-@property (atomic, copy) AWSIdentityManagerCompletionBlock completionHandler;
-
-@property (nonatomic, strong) id<AWSSignInProvider> currentSignInProvider;
-@property (nonatomic, strong) id<AWSSignInProvider> potentialSignInProvider;
 
 @end
 
-@interface AWSSignInProviderFactory()
+@interface AWSSignInManager()
 
--(NSArray<NSString *>*)getRegisterdSignInProviders;
+@property (nonatomic, strong) id<AWSSignInProvider> currentSignInProvider;
+@property (nonatomic, strong) id<AWSSignInProvider> potentialSignInProvider;
 
 @end
 
@@ -39,13 +31,14 @@ static NSString *const AWSInfoIdentityManager = @"IdentityManager";
 static NSString *const AWSInfoRoot = @"AWS";
 static NSString *const AWSInfoMobileHub = @"MobileHub";
 static NSString *const AWSInfoProjectClientId = @"ProjectClientId";
+static AWSSignInManager *signInManager;
 
 + (instancetype)defaultIdentityManager {
     static AWSIdentityManager *_defaultIdentityManager = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         AWSServiceInfo *serviceInfo = [[AWSInfo defaultAWSInfo] defaultServiceInfo:AWSInfoIdentityManager];
-        
+        signInManager = [AWSSignInManager sharedInstance];
         if (!serviceInfo) {
             @throw [NSException exceptionWithName:NSInternalInconsistencyException
                                            reason:@"The service configuration is `nil`. You need to configure `Info.plist` before using this method."
@@ -76,12 +69,12 @@ static NSString *const AWSInfoProjectClientId = @"ProjectClientId";
 #pragma mark - AWSIdentityProviderManager
 
 - (AWSTask<NSDictionary<NSString *, NSString *> *> *)logins {
-    if (!self.currentSignInProvider) {
+    if (![AWSSignInManager sharedInstance].currentSignInProvider) {
         return [AWSTask taskWithResult:nil];
     }
-    return [[self.currentSignInProvider token] continueWithSuccessBlock:^id _Nullable(AWSTask<NSString *> * _Nonnull task) {
+    return [[signInManager.currentSignInProvider token] continueWithSuccessBlock:^id _Nullable(AWSTask<NSString *> * _Nonnull task) {
         NSString *token = task.result;
-        return [AWSTask taskWithResult:@{self.currentSignInProvider.identityProviderName : token}];
+        return [AWSTask taskWithResult:@{signInManager.currentSignInProvider.identityProviderName : token}];
     }];
 }
 
@@ -91,115 +84,9 @@ static NSString *const AWSInfoProjectClientId = @"ProjectClientId";
     return self.credentialsProvider.identityId;
 }
 
-- (BOOL)isLoggedIn {
-    return self.currentSignInProvider.isLoggedIn;
+- (id<AWSUserInfo>)userInfo {
+    return signInManager.currentSignInProvider.userInfo;
 }
 
-- (NSURL *)imageURL {
-    return self.currentSignInProvider.imageURL;
-}
-
-- (NSString *)userName {
-    return self.currentSignInProvider.userName;
-}
-
-- (void)wipeAll {
-    [self.credentialsProvider clearKeychain];
-}
-
-- (void)logoutWithCompletionHandler:(void (^)(id result, NSError *error))completionHandler {
-    if ([self.currentSignInProvider isLoggedIn]) {
-        [self.currentSignInProvider logout];
-    }
-    
-    [self wipeAll];
-    
-    self.currentSignInProvider = nil;
-    
-    [[self.credentialsProvider getIdentityId] continueWithBlock:^id _Nullable(AWSTask<NSString *> * _Nonnull task) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
-            [notificationCenter postNotificationName:AWSIdentityManagerDidSignOutNotification
-                                              object:[AWSIdentityManager defaultIdentityManager]
-                                            userInfo:nil];
-            completionHandler(task.result, task.error);
-        });
-        return nil;
-    }];
-}
-
-- (void)loginWithSignInProvider:(id)signInProvider
-              completionHandler:(void (^)(id result, NSError *error))completionHandler {
-    self.potentialSignInProvider = signInProvider;
-    
-    self.completionHandler = completionHandler;
-    [self.potentialSignInProvider login:completionHandler];
-}
-
-- (void)resumeSessionWithCompletionHandler:(void (^)(id result, NSError *error))completionHandler {
-    self.completionHandler = completionHandler;
-    
-    [self.currentSignInProvider reloadSession];
-    
-    if (self.currentSignInProvider == nil) {
-        [self completeLogin];
-    }
-}
-
-- (void)completeLogin {
-    // Force a refresh of credentials to see if we need to merge
-    [self.credentialsProvider invalidateCachedTemporaryCredentials];
-    
-    if (self.potentialSignInProvider) {
-        self.currentSignInProvider = self.potentialSignInProvider;
-        self.potentialSignInProvider = nil;
-    }
-    
-    [[self.credentialsProvider credentials] continueWithBlock:^id _Nullable(AWSTask<AWSCredentials *> * _Nonnull task) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            if (self.currentSignInProvider) {
-                NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
-                [notificationCenter postNotificationName:AWSIdentityManagerDidSignInNotification
-                                                  object:[AWSIdentityManager defaultIdentityManager]
-                                                userInfo:nil];
-            }
-            self.completionHandler(task.result, task.error);
-        });
-        return nil;
-    }];
-}
-
-- (BOOL)interceptApplication:(UIApplication *)application
-didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    
-    for(NSString *key in [[AWSSignInProviderFactory sharedInstance] getRegisterdSignInProviders]) {
-        if ([[[AWSSignInProviderFactory sharedInstance] signInProviderForKey:key] isCachedLoginFlagSet]) {
-            self.currentSignInProvider = [[AWSSignInProviderFactory sharedInstance] signInProviderForKey:key];
-        }
-        
-    }
-    
-    if (self.currentSignInProvider) {
-        return [self.currentSignInProvider interceptApplication:application
-                                  didFinishLaunchingWithOptions:launchOptions];
-    } else {
-        return YES;
-    }
-}
-
-- (BOOL)interceptApplication:(UIApplication *)application
-                     openURL:(NSURL *)url
-           sourceApplication:(NSString *)sourceApplication
-                  annotation:(id)annotation {
-    if (self.potentialSignInProvider) {
-        return [self.potentialSignInProvider interceptApplication:application
-                                                          openURL:url
-                                                sourceApplication:sourceApplication
-                                                       annotation:annotation];
-    }
-    else {
-        return YES;
-    }
-}
 
 @end

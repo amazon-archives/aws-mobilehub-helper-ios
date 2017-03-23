@@ -9,10 +9,17 @@
 
 #import <UIKit/UIKit.h>
 #import <AWSCore/AWSCore.h>
+#import "AWSUserInfo.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @class AWSIdentityManager;
+
+typedef NS_ENUM(NSInteger, AWSAuthState) {
+    AWSAuthStateAuthenticated,
+    AWSAuthStateUnauthenticated,
+    AWSAuthStateNoCredentials,
+};
 
 /**
  * `AWSSignInProvider` protocol defines a list of methods and properties which a Sign-In Provider should implement.
@@ -23,25 +30,20 @@ NS_ASSUME_NONNULL_BEGIN
 @protocol AWSSignInProvider <AWSIdentityProvider>
 
 /**
+ Stores details about the logged in user.
+ */
+@property (nonatomic, readonly, nullable) id<AWSUserInfo> userInfo;
+
+/**
  Determines if a user is logged in.
  */
 @property (nonatomic, readonly, getter=isLoggedIn) BOOL loggedIn;
 
 /**
- The URL for profile image of a user.
- */
-@property (nonatomic, readonly, nullable) NSURL *imageURL;
-
-/**
- The User Name of a user.
- */
-@property (nonatomic, readonly, nullable) NSString *userName;
-
-/**
  The login handler method for the Sign-In Provider.
  The completionHandler will bubble back errors to the developers.
  */
-- (void)login:(void (^)(id _Nullable result, NSError * _Nullable error))completionHandler;
+- (void)login:(void (^)(id _Nullable result, AWSAuthState authState, NSError * _Nullable error))completionHandler;
 
 /**
  The logout handler method for the Sign-In Provider.
@@ -49,35 +51,10 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)logout;
 
 /**
- *  Call this method on a successful login. This method should store a flag in persistent storage which determines if the user has signed-in using this sign-in provider.
- *  This method is called by AWSIdentityManager on `interceptApplication:didFinishLaunchingWithOptions` method to set the current sign-in provider.
- */
-- (void)setCachedLoginFlag;
-
-/**
- *  Clears the cached login flag. This method should be called during `logout` to clear the stored flag.
- */
-- (void)clearCachedLoginFlag;
-
-/**
- *  Fetches the status of the cached login flag set using `setCachedLoginFlag`.
- *
- *  @return `YES` if the setCachedLoginFlag is set.
- */
-- (BOOL)isCachedLoginFlagSet;
-
-/**
  The handler method for managing the session reload for the Sign-In Provider.
+ The completionHandler will bubble back errors to the developers.
  */
 - (void)reloadSession;
-
-- (BOOL)interceptApplication:(UIApplication *)application
-didFinishLaunchingWithOptions:(nullable NSDictionary *)launchOptions;
-
-- (BOOL)interceptApplication:(UIApplication *)application
-                     openURL:(NSURL *)url
-           sourceApplication:(nullable NSString *)sourceApplication
-                  annotation:(id)annotation;
 
 @end
 
