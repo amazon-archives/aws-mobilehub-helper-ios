@@ -8,19 +8,18 @@
 // copy, distribute and modify it.
 //
 
-#import <AWSMobileHubHelper/AWSIdentityManager.h>
+#import <AWSMobileHubHelper/AWSSignInManager.h>
 #import <FBSDKCoreKit/FBSDKCoreKit.h>
 #import <FBSDKLoginKit/FBSDKLoginKit.h>
 #import "AWSFacebookSignInProvider.h"
 
-NSString *const AWSFacebookSignInProviderKey = @"Facebook";
 static NSString *const AWSFacebookSignInProviderUserNameKey = @"Facebook.userName";
 static NSString *const AWSFacebookSignInProviderImageURLKey = @"Facebook.imageURL";
 static NSTimeInterval const AWSFacebookSignInProviderTokenRefreshBuffer = 10 * 60;
 
-typedef void (^AWSIdentityManagerCompletionBlock)(id result, NSError *error);
+typedef void (^AWSSignInManagerCompletionBlock)(id result, AWSAuthState authState, NSError *error);
 
-@interface AWSIdentityManager()
+@interface AWSSignInManager()
 
 - (void)completeLogin;
 
@@ -30,12 +29,11 @@ typedef void (^AWSIdentityManagerCompletionBlock)(id result, NSError *error);
 
 @property (strong, nonatomic) FBSDKLoginManager *facebookLogin;
 
-@property (strong, nonatomic) NSString *userName;
-@property (strong, nonatomic) NSURL *imageURL;
+@property (strong, nonatomic) AWSUserInfo *userInfo;
 @property (assign, nonatomic) FBSDKLoginBehavior savedLoginBehavior;
 @property (strong, nonatomic) NSArray *requestedPermissions;
 @property (strong, nonatomic) UIViewController *signInViewController;
-@property (atomic, copy) AWSIdentityManagerCompletionBlock completionHandler;
+@property (atomic, copy) AWSSignInManagerCompletionBlock completionHandler;
 
 @end
 
@@ -132,8 +130,7 @@ typedef void (^AWSIdentityManagerCompletionBlock)(id result, NSError *error);
 #pragma mark -
 
 - (BOOL)isLoggedIn {
-    BOOL loggedIn = [FBSDKAccessToken currentAccessToken] != nil;
-    return [self isCachedLoginFlagSet] && loggedIn;
+    return [FBSDKAccessToken currentAccessToken] != nil;
 }
 
 - (NSString *)userName {
@@ -154,19 +151,6 @@ typedef void (^AWSIdentityManagerCompletionBlock)(id result, NSError *error);
                                               forKey:AWSFacebookSignInProviderImageURLKey];
 }
 
-- (void)setCachedLoginFlag {
-    [[NSUserDefaults standardUserDefaults] setObject:@"YES"
-                                              forKey:AWSFacebookSignInProviderKey];
-}
-
-- (BOOL)isCachedLoginFlagSet {
-    return [[NSUserDefaults standardUserDefaults] objectForKey:AWSFacebookSignInProviderKey] != nil;
-}
-
-- (void)clearCachedLoginFlag {
-    [[NSUserDefaults standardUserDefaults] removeObjectForKey:AWSFacebookSignInProviderKey];
-}
-
 - (void)clearUserName {
     [[NSUserDefaults standardUserDefaults] removeObjectForKey:AWSFacebookSignInProviderUserNameKey];
 }
@@ -176,7 +160,7 @@ typedef void (^AWSIdentityManagerCompletionBlock)(id result, NSError *error);
 }
 
 - (void)reloadSession {
-    if ([[NSUserDefaults standardUserDefaults] objectForKey:AWSFacebookSignInProviderKey]
+    if ([[NSUserDefaults standardUserDefaults] objectForKey:self.identityProviderName]
         && [FBSDKAccessToken currentAccessToken]) {
         [FBSDKAccessToken refreshCurrentAccessToken:^(FBSDKGraphRequestConnection *connection, id result, NSError *error) {
             if (error) {
@@ -189,15 +173,17 @@ typedef void (^AWSIdentityManagerCompletionBlock)(id result, NSError *error);
 }
 
 - (void)completeLogin {
-    [self setCachedLoginFlag];
-    [[AWSIdentityManager defaultIdentityManager] completeLogin];
+    
+    [[AWSSignInManager sharedInstance] completeLogin];
+    __block NSString *userName;
+    __block NSURL *imageURL;
     
     FBSDKGraphRequest *requestForImageUrl = [[FBSDKGraphRequest alloc] initWithGraphPath:@"me"
                                                                               parameters:@{@"fields" : @"picture.type(large)"}];
     [requestForImageUrl startWithCompletionHandler:^(FBSDKGraphRequestConnection *connection,
                                                      NSDictionary *result,
                                                      NSError *queryError) {
-        self.imageURL = [NSURL URLWithString:result[@"picture"][@"data"][@"url"]];
+        imageURL = [NSURL URLWithString:result[@"picture"][@"data"][@"url"]];
     }];
     
     FBSDKGraphRequest *requestForName = [[FBSDKGraphRequest alloc] initWithGraphPath:@"me"
@@ -205,11 +191,14 @@ typedef void (^AWSIdentityManagerCompletionBlock)(id result, NSError *error);
     [requestForName startWithCompletionHandler:^(FBSDKGraphRequestConnection *connection,
                                                  NSDictionary *result,
                                                  NSError *queryError) {
-        self.userName = result[@"name"];
+        userName = result[@"name"];
     }];
+    
+    self.userInfo = [[AWSUserInfo alloc] initWithUserName:userName
+                                                 imageURL:imageURL];
 }
 
-- (void)login:(AWSIdentityManagerCompletionBlock) completionHandler {
+- (void)login:(AWSSignInManagerCompletionBlock) completionHandler {
     self.completionHandler = completionHandler;
     
     if ([FBSDKAccessToken currentAccessToken]) {
@@ -223,14 +212,17 @@ typedef void (^AWSIdentityManagerCompletionBlock)(id result, NSError *error);
     [self.facebookLogin logInWithReadPermissions:self.requestedPermissions
                               fromViewController:self.signInViewController
                                          handler:^(FBSDKLoginManagerLoginResult *result, NSError *error) {
+                                             // Determine Auth State
+                                             AWSAuthState authState = [AWSSignInManager sharedInstance].authState;
+                                             
                                              if (error) {
-                                                 self.completionHandler(result, error);
+                                                    self.completionHandler(result, authState, error);
                                              } else if (result.isCancelled) {
                                                  // Login canceled, allow completionhandler to know about it
                                                  NSMutableDictionary *userInfo = [NSMutableDictionary dictionary];
                                                  userInfo[@"message"] = @"User Cancelled Login";
                                                  NSError *resultError = [NSError errorWithDomain:FBSDKLoginErrorDomain code:FBSDKLoginUnknownErrorCode userInfo:userInfo];
-                                                 self.completionHandler(result,resultError);
+                                                 self.completionHandler(result, authState, resultError);
                                              } else {
                                                  [self completeLogin];
                                              }
@@ -238,7 +230,6 @@ typedef void (^AWSIdentityManagerCompletionBlock)(id result, NSError *error);
 }
 
 - (void)clearLoginInformation {
-    [self clearCachedLoginFlag];
     [self clearUserName];
     [self clearImageURL];
 }

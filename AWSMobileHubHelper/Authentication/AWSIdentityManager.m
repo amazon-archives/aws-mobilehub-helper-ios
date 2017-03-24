@@ -84,7 +84,7 @@ static AWSSignInManager *signInManager;
     return self.credentialsProvider.identityId;
 }
 
-- (id<AWSUserInfo>)userInfo {
+- (AWSUserInfo *)userInfo {
     return signInManager.currentSignInProvider.userInfo;
 }
 

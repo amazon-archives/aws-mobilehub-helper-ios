@@ -32,7 +32,7 @@ typedef NS_ENUM(NSInteger, AWSAuthState) {
 /**
  Stores details about the logged in user.
  */
-@property (nonatomic, readonly, nullable) id<AWSUserInfo> userInfo;
+@property (nonatomic, readonly, nullable) AWSUserInfo *userInfo;
 
 /**
  Determines if a user is logged in.

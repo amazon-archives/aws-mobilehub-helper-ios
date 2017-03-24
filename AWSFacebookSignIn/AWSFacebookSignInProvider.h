@@ -10,17 +10,17 @@
 
 #import <Foundation/Foundation.h>
 #import <AWSMobileHubHelper/AWSSignInProvider.h>
+#import <AWSMobileHubHelper/AWSSignInProviderApplicationIntercept.h>
+#import <AWSMobileHubHelper/AWSUserInfo.h>
 
 NS_ASSUME_NONNULL_BEGIN
-
-FOUNDATION_EXPORT NSString *const AWSFacebookSignInProviderKey;
 
 /**
  * `AWSFacebookSignInProvider` adopts the `AWSSignInProvider` protocol.
  *
  * It works with the FacebookLoginSDK internally and uses the Facebook App ID specified in the info.plist file.
  */
-@interface AWSFacebookSignInProvider : NSObject <AWSSignInProvider>
+@interface AWSFacebookSignInProvider : NSObject <AWSSignInProvider, AWSSignInProviderApplicationIntercept>
 
 /**
  Fetches the singleton instance of AWSFacebookSignInProvider.

@@ -10,7 +10,7 @@
 
 #import "AWSSignInManager.h"
 #import "AWSIdentityManager.h"
-#import " AWSSignInProviderApplicationIntercept.h"
+#import "AWSSignInProviderApplicationIntercept.h"
 
 typedef void (^AWSSignInManagerCompletionBlock)(id result, AWSAuthState authState, NSError *error);
 
@@ -40,6 +40,15 @@ static AWSIdentityManager *identityManager;
     });
     
     return _sharedSignInManager;
+}
+
+-(AWSAuthState)authState {
+    if (identityManager.identityId && self.currentSignInProvider) {
+        return AWSAuthStateAuthenticated;
+    } else if (identityManager.identityId) {
+        return AWSAuthStateUnauthenticated;
+    }
+    return AWSAuthStateNoCredentials;
 }
 
 -(void)registerAWSSignInProvider:(id<AWSSignInProvider>)signInProvider {
@@ -104,9 +113,10 @@ static AWSIdentityManager *identityManager;
 - (void)resumeSessionWithCompletionHandler:(void (^)(id result, AWSAuthState authState, NSError *error))completionHandler {
     self.completionHandler = completionHandler;
     
-    [self.currentSignInProvider reloadSession];
+    [self.potentialSignInProvider reloadSession];
     
-    if (self.currentSignInProvider == nil) {
+    if (self.potentialSignInProvider == nil
+        && self.currentSignInProvider == nil) {
         [self completeLogin];
     }
 }
@@ -126,8 +136,10 @@ static AWSIdentityManager *identityManager;
                 self.completionHandler(task.result, AWSAuthStateAuthenticated, task.error);
             } else if (task.result) {
                 self.completionHandler(task.result, AWSAuthStateUnauthenticated, task.error);
+                self.currentSignInProvider = nil;
             } else {
                 self.completionHandler(task.result, AWSAuthStateNoCredentials, task.error);
+                self.currentSignInProvider = nil;
             }
         });
         return nil;
@@ -139,14 +151,14 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     
     for(NSString *key in [self getRegisterdSignInProviders]) {
         if ([[self signInProviderForKey:key] isLoggedIn]) {
-            self.currentSignInProvider = [self signInProviderForKey:key];
+            self.potentialSignInProvider = [self signInProviderForKey:key];
         }
     }
     
-    if (self.currentSignInProvider) {
-        if ([self.currentSignInProvider conformsToProtocol:@protocol(AWSSignInProviderApplicationIntercept)]) {
-            return [(id<AWSSignInProviderApplicationIntercept>)self.currentSignInProvider interceptApplication:application
-                                                                                 didFinishLaunchingWithOptions:launchOptions];
+    if (self.potentialSignInProvider) {
+        if ([self.potentialSignInProvider conformsToProtocol:@protocol(AWSSignInProviderApplicationIntercept)]) {
+            return [(id<AWSSignInProviderApplicationIntercept>)self.potentialSignInProvider interceptApplication:application
+                                                                                   didFinishLaunchingWithOptions:launchOptions];
         }
     }
     

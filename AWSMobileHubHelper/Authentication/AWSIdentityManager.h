@@ -9,7 +9,8 @@
 #import <UIKit/UIKit.h>
 #import <AWSCore/AWSCore.h>
 #import <Foundation/Foundation.h>
-#import <AWSMobileHubHelper/AWSSignInProvider.h>
+#import "AWSSignInProvider.h"
+#import "AWSSignInProviderApplicationIntercept.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -19,7 +20,7 @@ NS_ASSUME_NONNULL_BEGIN
  * User Info acquired from third party identity provider, such as Facebook or Google.
  * @return userInfo object of the underlying signInProvider
  */
-@property (nonatomic, readonly, nullable) id<AWSUserInfo> userInfo;
+@property (nonatomic, readonly, nullable) AWSUserInfo *userInfo;
 
 /**
  * Amazon Cognito User Identity ID. This uniquely identifies the user, regardless of

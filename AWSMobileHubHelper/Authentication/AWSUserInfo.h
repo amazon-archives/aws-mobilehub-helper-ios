@@ -10,7 +10,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@protocol AWSUserInfo <NSObject>
+@interface AWSUserInfo : NSObject
 
 /**
  The URL for profile image of a user.
@@ -25,7 +25,19 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  Fetches custom stored values using specified key.
  */
--(id)valueForKey:(NSString *)key;
+-(id)getAttributeForKey:(NSString *)key;
+
+/**
+ Stores custom values using specified key.
+ */
+-(void)setAttribute:(id)value
+             forKey:(NSString *)key;
+
+/**
+ Initializer for AWSUserInfo
+ */
+- (instancetype)initWithUserName:(NSString *)userName
+                        imageURL:(NSURL * _Nullable )imageURL;
 
 @end
 

@@ -24,6 +24,11 @@ NS_ASSUME_NONNULL_BEGIN
 // Fetches the shared instance of `AWSSignInManager`.
 +(instancetype)sharedInstance;
 
+/*
+ Fetches the current auth state for a user
+ */
+-(AWSAuthState)authState;
+
 /**
  Registers the shared instance of sign in provider implementing `AWSSignInProvider`.
  
