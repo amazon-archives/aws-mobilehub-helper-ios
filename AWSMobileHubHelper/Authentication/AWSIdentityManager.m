@@ -31,14 +31,12 @@ static NSString *const AWSInfoIdentityManager = @"IdentityManager";
 static NSString *const AWSInfoRoot = @"AWS";
 static NSString *const AWSInfoMobileHub = @"MobileHub";
 static NSString *const AWSInfoProjectClientId = @"ProjectClientId";
-static AWSSignInManager *signInManager;
 
 + (instancetype)defaultIdentityManager {
     static AWSIdentityManager *_defaultIdentityManager = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         AWSServiceInfo *serviceInfo = [[AWSInfo defaultAWSInfo] defaultServiceInfo:AWSInfoIdentityManager];
-        signInManager = [AWSSignInManager sharedInstance];
         if (!serviceInfo) {
             @throw [NSException exceptionWithName:NSInternalInconsistencyException
                                            reason:@"The service configuration is `nil`. You need to configure `Info.plist` before using this method."
@@ -72,9 +70,9 @@ static AWSSignInManager *signInManager;
     if (![AWSSignInManager sharedInstance].currentSignInProvider) {
         return [AWSTask taskWithResult:nil];
     }
-    return [[signInManager.currentSignInProvider token] continueWithSuccessBlock:^id _Nullable(AWSTask<NSString *> * _Nonnull task) {
+    return [[[AWSSignInManager sharedInstance].currentSignInProvider token] continueWithSuccessBlock:^id _Nullable(AWSTask<NSString *> * _Nonnull task) {
         NSString *token = task.result;
-        return [AWSTask taskWithResult:@{signInManager.currentSignInProvider.identityProviderName : token}];
+        return [AWSTask taskWithResult:@{[AWSSignInManager sharedInstance].currentSignInProvider.identityProviderName : token}];
     }];
 }
 
@@ -85,7 +83,7 @@ static AWSSignInManager *signInManager;
 }
 
 - (AWSUserInfo *)userInfo {
-    return signInManager.currentSignInProvider.userInfo;
+    return [AWSSignInManager sharedInstance].currentSignInProvider.userInfo;
 }
 
 

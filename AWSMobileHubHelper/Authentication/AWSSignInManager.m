@@ -66,7 +66,7 @@ static AWSIdentityManager *identityManager;
 }
 
 - (BOOL)isLoggedIn {
-    return self.currentSignInProvider.isLoggedIn;
+    return self.currentSignInProvider.isLoggedIn || self.potentialSignInProvider.isLoggedIn;
 }
 
 
@@ -111,12 +111,18 @@ static AWSIdentityManager *identityManager;
 }
 
 - (void)resumeSessionWithCompletionHandler:(void (^)(id result, AWSAuthState authState, NSError *error))completionHandler {
+
     self.completionHandler = completionHandler;
+    
+    for(NSString *key in [self getRegisterdSignInProviders]) {
+        if ([[self signInProviderForKey:key] isLoggedIn]) {
+            self.potentialSignInProvider = [self signInProviderForKey:key];
+        }
+    }
     
     [self.potentialSignInProvider reloadSession];
     
-    if (self.potentialSignInProvider == nil
-        && self.currentSignInProvider == nil) {
+    if (self.potentialSignInProvider == nil) {
         [self completeLogin];
     }
 }
@@ -124,7 +130,6 @@ static AWSIdentityManager *identityManager;
 - (void)completeLogin {
     // Force a refresh of credentials to see if we need to merge
     [identityManager.credentialsProvider invalidateCachedTemporaryCredentials];
-    
     if (self.potentialSignInProvider) {
         self.currentSignInProvider = self.potentialSignInProvider;
         self.potentialSignInProvider = nil;
@@ -148,16 +153,11 @@ static AWSIdentityManager *identityManager;
 
 - (BOOL)interceptApplication:(UIApplication *)application
 didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    
+
     for(NSString *key in [self getRegisterdSignInProviders]) {
-        if ([[self signInProviderForKey:key] isLoggedIn]) {
-            self.potentialSignInProvider = [self signInProviderForKey:key];
-        }
-    }
-    
-    if (self.potentialSignInProvider) {
-        if ([self.potentialSignInProvider conformsToProtocol:@protocol(AWSSignInProviderApplicationIntercept)]) {
-            return [(id<AWSSignInProviderApplicationIntercept>)self.potentialSignInProvider interceptApplication:application
+        id<AWSSignInProvider> signInProvider = [self signInProviderForKey:key];
+        if ([signInProvider conformsToProtocol:@protocol(AWSSignInProviderApplicationIntercept)]) {
+            return [(id<AWSSignInProviderApplicationIntercept>)signInProvider interceptApplication:application
                                                                                    didFinishLaunchingWithOptions:launchOptions];
         }
     }
@@ -170,11 +170,12 @@ didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
            sourceApplication:(NSString *)sourceApplication
                   annotation:(id)annotation {
     if (self.potentialSignInProvider) {
-        if ([self.currentSignInProvider conformsToProtocol:@protocol(AWSSignInProviderApplicationIntercept)]) {
-            return [(id<AWSSignInProviderApplicationIntercept>)self.potentialSignInProvider interceptApplication:application
-                                                                                                         openURL:url
-                                                                                               sourceApplication:sourceApplication
-                                                                                                      annotation:annotation];
+        if ([self.potentialSignInProvider conformsToProtocol:@protocol(AWSSignInProviderApplicationIntercept)]) {
+            id<AWSSignInProviderApplicationIntercept> p = (id<AWSSignInProviderApplicationIntercept>)self.potentialSignInProvider;
+            return [p interceptApplication:application
+                                   openURL:url
+                         sourceApplication:sourceApplication
+                                annotation:annotation];
         }
     }
 

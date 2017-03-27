@@ -160,8 +160,7 @@ typedef void (^AWSSignInManagerCompletionBlock)(id result, AWSAuthState authStat
 }
 
 - (void)reloadSession {
-    if ([[NSUserDefaults standardUserDefaults] objectForKey:self.identityProviderName]
-        && [FBSDKAccessToken currentAccessToken]) {
+    if ([FBSDKAccessToken currentAccessToken]) {
         [FBSDKAccessToken refreshCurrentAccessToken:^(FBSDKGraphRequestConnection *connection, id result, NSError *error) {
             if (error) {
                 AWSLogError(@"'refreshCurrentAccessToken' failed: %@", error);
@@ -173,10 +172,11 @@ typedef void (^AWSSignInManagerCompletionBlock)(id result, AWSAuthState authStat
 }
 
 - (void)completeLogin {
-    
     [[AWSSignInManager sharedInstance] completeLogin];
     __block NSString *userName;
     __block NSURL *imageURL;
+    
+    self.userInfo = [[AWSUserInfo alloc] init];
     
     FBSDKGraphRequest *requestForImageUrl = [[FBSDKGraphRequest alloc] initWithGraphPath:@"me"
                                                                               parameters:@{@"fields" : @"picture.type(large)"}];
@@ -184,18 +184,19 @@ typedef void (^AWSSignInManagerCompletionBlock)(id result, AWSAuthState authStat
                                                      NSDictionary *result,
                                                      NSError *queryError) {
         imageURL = [NSURL URLWithString:result[@"picture"][@"data"][@"url"]];
+        [self setImageURL:imageURL];
+        self.userInfo.imageURL = imageURL;
     }];
     
     FBSDKGraphRequest *requestForName = [[FBSDKGraphRequest alloc] initWithGraphPath:@"me"
-                                                                          parameters:nil];
+                                                                          parameters:@{@"fields": @"id, name, email"}];
     [requestForName startWithCompletionHandler:^(FBSDKGraphRequestConnection *connection,
                                                  NSDictionary *result,
                                                  NSError *queryError) {
         userName = result[@"name"];
+        [self setUserName:userName];
+        self.userInfo.userName = userName;
     }];
-    
-    self.userInfo = [[AWSUserInfo alloc] initWithUserName:userName
-                                                 imageURL:imageURL];
 }
 
 - (void)login:(AWSSignInManagerCompletionBlock) completionHandler {
@@ -212,10 +213,11 @@ typedef void (^AWSSignInManagerCompletionBlock)(id result, AWSAuthState authStat
     [self.facebookLogin logInWithReadPermissions:self.requestedPermissions
                               fromViewController:self.signInViewController
                                          handler:^(FBSDKLoginManagerLoginResult *result, NSError *error) {
+
                                              // Determine Auth State
                                              AWSAuthState authState = [AWSSignInManager sharedInstance].authState;
-                                             
                                              if (error) {
+                                                 
                                                     self.completionHandler(result, authState, error);
                                              } else if (result.isCancelled) {
                                                  // Login canceled, allow completionhandler to know about it

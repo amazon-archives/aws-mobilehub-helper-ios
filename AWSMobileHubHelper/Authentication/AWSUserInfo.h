@@ -15,12 +15,12 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  The URL for profile image of a user.
  */
-@property (nonatomic, readonly, nullable) NSURL *imageURL;
+@property (nonatomic, readwrite, nullable) NSURL *imageURL;
 
 /**
  The User Name of a user.
  */
-@property (nonatomic, readonly, nullable) NSString *userName;
+@property (nonatomic, readwrite, nullable) NSString *userName;
 
 /**
  Fetches custom stored values using specified key.
