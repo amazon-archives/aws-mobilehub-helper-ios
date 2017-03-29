@@ -187,7 +187,6 @@ typedef void (^AWSSignInManagerCompletionBlock)(id result, AWSAuthState authStat
                                              // Determine Auth State
                                              AWSAuthState authState = [AWSSignInManager sharedInstance].authState;
                                              if (error) {
-                                                 
                                                     self.completionHandler(result, authState, error);
                                              } else if (result.isCancelled) {
                                                  // Login canceled, allow completionhandler to know about it
@@ -202,7 +201,6 @@ typedef void (^AWSSignInManagerCompletionBlock)(id result, AWSAuthState authStat
 }
 
 - (void)logout {
-    
     if (!self.facebookLogin) {
         [self createFBSDKLoginManager];
     }

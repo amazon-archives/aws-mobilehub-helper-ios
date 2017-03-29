@@ -9,17 +9,16 @@
 //
 #import <Foundation/Foundation.h>
 #import <AWSMobileHubHelper/AWSSignInProvider.h>
+#import <AWSMobileHubHelper/AWSSignInProviderApplicationIntercept.h>
 
 NS_ASSUME_NONNULL_BEGIN
-
-FOUNDATION_EXPORT NSString *const AWSGoogleSignInProviderKey;
 
 /**
  * `AWSGoogleSignInProvider` adopts the `AWSSignInProvider` protocol.
  *
  * It works with the Google Sign In SDK internally and requires the Google Client ID provided by Google.
  */
-@interface AWSGoogleSignInProvider : NSObject <AWSSignInProvider>
+@interface AWSGoogleSignInProvider : NSObject <AWSSignInProvider, AWSSignInProviderApplicationIntercept>
 
 /**
  Fetches the shared instance for AWSGoogleSignInProvider.

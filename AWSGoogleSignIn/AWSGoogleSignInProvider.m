@@ -9,22 +9,19 @@
 //
 
 #import "AWSGoogleSignInProvider.h"
-#import <AWSMobileHubHelper/AWSIdentityManager.h>
+#import <AWSMobileHubHelper/AWSSignInManager.h>
 
 #import <GoogleSignIn/GoogleSignIn.h>
 
-NSString *const AWSGoogleSignInProviderKey = @"Google";
-static NSString *const AWSGoogleSignInProviderUserNameKey = @"Google.userName";
-static NSString *const AWSGoogleSignInProviderImageURLKey = @"Google.imageURL";
 static NSString *const AWSGoogleSignInProviderClientScope = @"profile";
 static NSString *const AWSGoogleSignInProviderOIDCScope = @"openid";
 static NSTimeInterval const AWSGoogleSignInProviderTokenRefreshBuffer = 10 * 60;
 static NSUInteger const AWSGoogleSignInProviderProfileImageDimension = 150;
 static int64_t const AWSGoogleSignInProviderTokenRefreshTimeout = 60 * NSEC_PER_SEC;
 
-typedef void (^AWSIdentityManagerCompletionBlock)(id result, NSError *error);
+typedef void (^AWSSignInManagerCompletionBlock)(id result, AWSAuthState authState, NSError *error);
 
-@interface AWSIdentityManager()
+@interface AWSSignInManager()
 
 - (void)completeLogin;
 
@@ -36,7 +33,8 @@ typedef void (^AWSIdentityManagerCompletionBlock)(id result, NSError *error);
 @property (nonatomic, strong) dispatch_semaphore_t semaphore;
 @property (nonatomic, strong) AWSExecutor *executor;
 @property (nonatomic, strong) UIViewController *signInViewController;
-@property (atomic, copy) AWSIdentityManagerCompletionBlock completionHandler;
+@property (atomic, copy) AWSSignInManagerCompletionBlock completionHandler;
+@property (strong, nonatomic) AWSUserInfo *userInfo;
 
 @end
 
@@ -151,85 +149,41 @@ static NSString *const AWSInfoGoogleClientId = @"ClientId";
 #pragma mark -
 
 - (BOOL)isLoggedIn {
-    BOOL loggedIn = [[GIDSignIn sharedInstance] hasAuthInKeychain];
-    return [self isCachedLoginFlagSet] && loggedIn;
-}
-
-- (NSString *)userName {
-    return [[NSUserDefaults standardUserDefaults] objectForKey:AWSGoogleSignInProviderUserNameKey];
-}
-
-- (void)setUserName:(NSString *)userName {
-    [[NSUserDefaults standardUserDefaults] setObject:userName
-                                              forKey:AWSGoogleSignInProviderUserNameKey];
-}
-
-- (NSURL *)imageURL {
-    return [NSURL URLWithString:[[NSUserDefaults standardUserDefaults] objectForKey:AWSGoogleSignInProviderImageURLKey]];
-}
-
-- (void)setImageURL:(NSURL *)imageURL {
-    [[NSUserDefaults standardUserDefaults] setObject:imageURL.absoluteString
-                                              forKey:AWSGoogleSignInProviderImageURLKey];
+    return [[GIDSignIn sharedInstance] hasAuthInKeychain];
 }
 
 - (void)reloadSession {
-    if ([self isCachedLoginFlagSet]) {
+    if ([self isLoggedIn]) {
         GIDSignIn *signIn = [GIDSignIn sharedInstance];
         [signIn signInSilently];
     }
 }
 
-- (void)setCachedLoginFlag {
-    [[NSUserDefaults standardUserDefaults] setObject:@"YES"
-                                              forKey:AWSGoogleSignInProviderKey];
-}
-
-- (BOOL)isCachedLoginFlagSet {
-    return [[NSUserDefaults standardUserDefaults] objectForKey:AWSGoogleSignInProviderKey] != nil;
-}
-
-- (void)clearCachedLoginFlag {
-    [[NSUserDefaults standardUserDefaults] removeObjectForKey:AWSGoogleSignInProviderKey];
-}
-
-- (void)clearUserName {
-    [[NSUserDefaults standardUserDefaults] removeObjectForKey:AWSGoogleSignInProviderUserNameKey];
-}
-
-- (void)clearImageURL {
-    [[NSUserDefaults standardUserDefaults] removeObjectForKey:AWSGoogleSignInProviderImageURLKey];
-}
-
 - (void)completeLoginWithToken:(GIDGoogleUser *)googleUser {
-    [self setCachedLoginFlag];
-    [[AWSIdentityManager defaultIdentityManager] completeLogin];
-    
-    self.userName = googleUser.profile.name;
-    self.imageURL = [googleUser.profile imageURLWithDimension:AWSGoogleSignInProviderProfileImageDimension];
+    [[AWSSignInManager sharedInstance] completeLogin];
+    self.userInfo = [[AWSUserInfo alloc] init];
+    self.userInfo.userName = googleUser.profile.name;
+    self.userInfo.imageURL = [googleUser.profile imageURLWithDimension:AWSGoogleSignInProviderProfileImageDimension];
 }
 
-- (void)login:(AWSIdentityManagerCompletionBlock)completionHandler {
+- (void)login:(AWSSignInManagerCompletionBlock)completionHandler {
     self.completionHandler = completionHandler;
     GIDSignIn *signIn = [GIDSignIn sharedInstance];
     [signIn signIn];
 }
 
-- (void)clearLoginInformation {
-    [self clearCachedLoginFlag];
-    [self clearUserName];
-    [self clearImageURL];
-}
 
 - (void)logout {
     GIDSignIn *signIn = [GIDSignIn sharedInstance];
-    [self clearLoginInformation];
     [signIn disconnect];
 }
 
 #pragma mark - GIDSignInDelegate
 
 - (void)signIn:(GIDSignIn *)signIn didSignInForUser:(GIDGoogleUser *)user withError:(NSError *)error {
+    
+    // Determine Auth State
+    AWSAuthState authState = [AWSSignInManager sharedInstance].authState;
     // `self.taskCompletionSource` is used to return `user.authentication.idToken` or `error` to the `- token` method.
     // See the `AWSIdentityProvider` section of this file.
     if (error) {
@@ -238,7 +192,7 @@ static NSString *const AWSInfoGoogleClientId = @"ClientId";
             self.taskCompletionSource.error = error;
             self.taskCompletionSource = nil;
         }
-        self.completionHandler(nil, error);
+        self.completionHandler(nil, authState, error);
     } else {
         if (self.taskCompletionSource) {
             self.taskCompletionSource.result = user.authentication.idToken;

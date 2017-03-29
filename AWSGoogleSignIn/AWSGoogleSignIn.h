@@ -9,3 +9,4 @@
 //
 
 #import "AWSGoogleSignInProvider.h"
+#import "AWSGoogleSignInButton.h"

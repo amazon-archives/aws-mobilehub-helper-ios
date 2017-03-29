@@ -13,14 +13,10 @@
 
 typedef void (^AWSSignInManagerCompletionBlock)(id result, AWSAuthState authState, NSError *error);
 
-static NSString *facebookLogoImageKey = @"fb-no-text";
-static NSString *facebookTextImageKey = @"fb-text";
-
-#define LOGO_IMAGE_HEIGHT 45
-#define LOGO_IMAGE_WIDTH 98
-
-#define TEXT_IMAGE_HEIGHT 60
-#define TEXT_IMAGE_WIDTH 338
+static NSString *FacebookLogoImageKey = @"fb-no-text";
+static NSString *FacebookTextImageKey = @"fb-text";
+static NSString *ResourceBundle = @"AWSFacebookSignInResources";
+static NSString *BundleExtension = @"bundle";
 
 @interface AWSFacebookSignInButton()
 
@@ -36,8 +32,7 @@ static NSString *facebookTextImageKey = @"fb-text";
 @synthesize buttonStyle;
 UIButton *facebookButton;
 
-- (id)initWithCoder:(NSCoder*)aDecoder
-{
+- (id)initWithCoder:(NSCoder*)aDecoder {
 
     if (self = [super initWithCoder:aDecoder]) {
         _signInProvider = [AWSFacebookSignInProvider sharedInstance];
@@ -47,6 +42,14 @@ UIButton *facebookButton;
     [self addSubview:facebookButton];
 
     return self;
+}
+
+- (void)dealloc {
+    @try {
+        [self removeObserver:self forKeyPath:@"buttonStyle" context:nil];
+    } @catch(id exception) {
+        // ignore exception
+    }
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
@@ -73,19 +76,30 @@ UIButton *facebookButton;
              forControlEvents:UIControlEventTouchDown];
 }
 
+- (UIImage *)getImageFromBundle:(NSString *)imageName {
+    NSBundle *currentBundle = [NSBundle bundleForClass:[self class]];
+    NSURL *bundleUrl = [currentBundle URLForResource:ResourceBundle withExtension:BundleExtension];
+    NSBundle *imageBundle = [NSBundle bundleWithURL:bundleUrl];
+    return [UIImage imageNamed:imageName
+                      inBundle:imageBundle
+ compatibleWithTraitCollection:nil];
+}
+
 - (void)setupFacebookLogoButton {
     CGRect buttonFrame = facebookButton.frame;
-    buttonFrame.size = CGSizeMake(LOGO_IMAGE_WIDTH, LOGO_IMAGE_HEIGHT);
+    buttonFrame.size = CGSizeMake(self.frame.size.width, self.frame.size.height);
     facebookButton.frame = buttonFrame;
-    UIImage *providerImage = [UIImage imageNamed:facebookLogoImageKey];
+    UIImage *providerImage = [self getImageFromBundle:FacebookLogoImageKey];
+    facebookButton.imageView.contentMode = UIViewContentModeScaleAspectFit;
     [facebookButton setImage:providerImage forState:UIControlStateNormal];
 }
 
 - (void)setupFacebookTextButton {
     CGRect buttonFrame = facebookButton.frame;
-    buttonFrame.size = CGSizeMake(TEXT_IMAGE_WIDTH, TEXT_IMAGE_HEIGHT);
+    buttonFrame.size = CGSizeMake(self.frame.size.width, self.frame.size.height);
     facebookButton.frame = buttonFrame;
-    UIImage *providerImage = [UIImage imageNamed:facebookTextImageKey];
+    UIImage *providerImage = [self getImageFromBundle:FacebookTextImageKey];
+    facebookButton.imageView.contentMode = UIViewContentModeScaleAspectFit;
     [facebookButton setImage:providerImage forState:UIControlStateNormal];
 }
 
