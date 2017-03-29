@@ -11,6 +11,12 @@
 		1728990E1E82ECA300A072D8 /* AWSCognitoUserPoolsSignIn.h in Headers */ = {isa = PBXBuildFile; fileRef = 179348C21E82EB6900A779A6 /* AWSCognitoUserPoolsSignIn.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		172899111E82FC6800A072D8 /* AWSSignInManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 1728990F1E82FC6800A072D8 /* AWSSignInManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		172899121E82FC6800A072D8 /* AWSSignInManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 172899101E82FC6800A072D8 /* AWSSignInManager.m */; };
+		175826BD1E85A0D500A667BA /* AWSFacebookSignInButton.h in Headers */ = {isa = PBXBuildFile; fileRef = 175826BB1E85A0D500A667BA /* AWSFacebookSignInButton.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		175826BE1E85A0D500A667BA /* AWSFacebookSignInButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 175826BC1E85A0D500A667BA /* AWSFacebookSignInButton.m */; };
+		175826C11E85A1B100A667BA /* AWSSignInView.h in Headers */ = {isa = PBXBuildFile; fileRef = 175826BF1E85A1B100A667BA /* AWSSignInView.h */; };
+		175826C21E85A1B100A667BA /* AWSSignInView.m in Sources */ = {isa = PBXBuildFile; fileRef = 175826C01E85A1B100A667BA /* AWSSignInView.m */; };
+		175826C41E85AE6900A667BA /* AWSFacebookSignInButton.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 175826BB1E85A0D500A667BA /* AWSFacebookSignInButton.h */; };
+		175826C61E85B10300A667BA /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 175826C31E85A93E00A667BA /* Images.xcassets */; };
 		179348C41E82EC6300A779A6 /* AWSCognitoUserPoolsSignInProvider.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 17F9B5491E81C97600B80A2D /* AWSCognitoUserPoolsSignInProvider.h */; };
 		179348C51E82EC6300A779A6 /* AWSCognitoUserPoolsSignIn.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 179348C21E82EB6900A779A6 /* AWSCognitoUserPoolsSignIn.h */; };
 		179348C61E82EC6300A779A6 /* AWSCognitoUserPoolsSignIn.modulemap in CopyFiles */ = {isa = PBXBuildFile; fileRef = 179348C31E82EB7D00A779A6 /* AWSCognitoUserPoolsSignIn.modulemap */; };
@@ -136,6 +142,7 @@
 			dstPath = "include/$(PRODUCT_NAME)";
 			dstSubfolderSpec = 16;
 			files = (
+				175826C41E85AE6900A667BA /* AWSFacebookSignInButton.h in CopyFiles */,
 				17F9B5A51E81FC6B00B80A2D /* AWSFacebookSignIn.modulemap in CopyFiles */,
 				17F9B5771E81CB7700B80A2D /* AWSFacebookSignInProvider.h in CopyFiles */,
 				17F9B5781E81CB7700B80A2D /* AWSFacebookSignIn.h in CopyFiles */,
@@ -201,6 +208,11 @@
 		172899101E82FC6800A072D8 /* AWSSignInManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AWSSignInManager.m; sourceTree = "<group>"; };
 		172899131E8301B500A072D8 /* AWSUserInfo.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AWSUserInfo.h; sourceTree = "<group>"; };
 		172899141E8304F700A072D8 /* AWSSignInProviderApplicationIntercept.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AWSSignInProviderApplicationIntercept.h; sourceTree = "<group>"; };
+		175826BB1E85A0D500A667BA /* AWSFacebookSignInButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AWSFacebookSignInButton.h; sourceTree = "<group>"; };
+		175826BC1E85A0D500A667BA /* AWSFacebookSignInButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AWSFacebookSignInButton.m; sourceTree = "<group>"; };
+		175826BF1E85A1B100A667BA /* AWSSignInView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AWSSignInView.h; sourceTree = "<group>"; };
+		175826C01E85A1B100A667BA /* AWSSignInView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AWSSignInView.m; sourceTree = "<group>"; };
+		175826C31E85A93E00A667BA /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		179348B91E82EB4100A779A6 /* libAWSCognitoUserPoolsSignIn.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libAWSCognitoUserPoolsSignIn.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		179348C21E82EB6900A779A6 /* AWSCognitoUserPoolsSignIn.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AWSCognitoUserPoolsSignIn.h; sourceTree = "<group>"; };
 		179348C31E82EB7D00A779A6 /* AWSCognitoUserPoolsSignIn.modulemap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = "sourcecode.module-map"; path = AWSCognitoUserPoolsSignIn.modulemap; sourceTree = "<group>"; };
@@ -331,6 +343,9 @@
 				17F9B54C1E81C97600B80A2D /* AWSFacebookSignInProvider.h */,
 				17F9B54D1E81C97600B80A2D /* AWSFacebookSignInProvider.m */,
 				17F9B5A11E81FB8400B80A2D /* AWSFacebookSignIn.modulemap */,
+				175826BB1E85A0D500A667BA /* AWSFacebookSignInButton.h */,
+				175826BC1E85A0D500A667BA /* AWSFacebookSignInButton.m */,
+				175826C31E85A93E00A667BA /* Images.xcassets */,
 			);
 			path = AWSFacebookSignIn;
 			sourceTree = "<group>";
@@ -357,6 +372,8 @@
 				172899141E8304F700A072D8 /* AWSSignInProviderApplicationIntercept.h */,
 				172899131E8301B500A072D8 /* AWSUserInfo.h */,
 				17FC3F141E843E9400CF2909 /* AWSUserInfo.m */,
+				175826BF1E85A1B100A667BA /* AWSSignInView.h */,
+				175826C01E85A1B100A667BA /* AWSSignInView.m */,
 			);
 			path = Authentication;
 			sourceTree = "<group>";
@@ -519,6 +536,7 @@
 			files = (
 				17F9B57B1E81CB8600B80A2D /* AWSFacebookSignInProvider.h in Headers */,
 				17F9B57C1E81CB8600B80A2D /* AWSFacebookSignIn.h in Headers */,
+				175826BD1E85A0D500A667BA /* AWSFacebookSignInButton.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -538,6 +556,7 @@
 				1851DD1D1D25CCF10010B8AA /* AWSCloudLogic.h in Headers */,
 				1851DD1E1D25CCF40010B8AA /* AWSContentManager.h in Headers */,
 				1851DD201D25CCFB0010B8AA /* AWSPushManager.h in Headers */,
+				175826C11E85A1B100A667BA /* AWSSignInView.h in Headers */,
 				E424BC571DCCE0B200E231E9 /* AWSSalesforceAuthorizationManager.h in Headers */,
 				E49544AD1DD3B757008C17FC /* AWSMSDynamicsAuthorizationManager.h in Headers */,
 				E49544A81DD3929E008C17FC /* AWSZendeskAuthorizationManager.h in Headers */,
@@ -589,6 +608,7 @@
 				17F9B5691E81CA8E00B80A2D /* CopyFiles */,
 				17F9B57A1E81CB7900B80A2D /* Headers */,
 				6596592F464A59E4EF6D2225 /* [CP] Copy Pods Resources */,
+				175826C51E85B0FB00A667BA /* Resources */,
 			);
 			buildRules = (
 			);
@@ -715,6 +735,17 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		175826C51E85B0FB00A667BA /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				175826C61E85B10300A667BA /* Images.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
 		0462D188BCA6B27405CDC99E /* [CP] Check Pods Manifest.lock */ = {
@@ -883,6 +914,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				17F9B5761E81CB6900B80A2D /* AWSFacebookSignInProvider.m in Sources */,
+				175826BE1E85A0D500A667BA /* AWSFacebookSignInButton.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -915,6 +947,7 @@
 				172899121E82FC6800A072D8 /* AWSSignInManager.m in Sources */,
 				E44D19521DD95D8100255AD3 /* AWSHubspotAuthorizationManager.m in Sources */,
 				E424BC581DCCE0B200E231E9 /* AWSSalesforceAuthorizationManager.m in Sources */,
+				175826C21E85A1B100A667BA /* AWSSignInView.m in Sources */,
 				17F9B5631E81C9D600B80A2D /* AWSIdentityManager.m in Sources */,
 				E49544A91DD3929E008C17FC /* AWSZendeskAuthorizationManager.m in Sources */,
 				E424BC5C1DCCE0F600E231E9 /* AWSAuthorizationManager.m in Sources */,
@@ -981,6 +1014,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 45AD5BB063E7E7D650BFC7FA /* Pods-AWSFacebookSignIn.debug.xcconfig */;
 			buildSettings = {
+				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = NO;
 				CLANG_ENABLE_MODULE_DEBUGGING = NO;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
@@ -999,6 +1033,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = FC1561923E381EC8B9FDB213 /* Pods-AWSFacebookSignIn.release.xcconfig */;
 			buildSettings = {
+				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = NO;
 				CLANG_ENABLE_MODULE_DEBUGGING = NO;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
@@ -1161,7 +1196,7 @@
 			buildSettings = {
 				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = NO;
 				CLANG_ENABLE_MODULES = YES;
-				CLANG_ENABLE_MODULE_DEBUGGING = NO;
+				CLANG_ENABLE_MODULE_DEBUGGING = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEFINES_MODULE = YES;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
@@ -1182,7 +1217,7 @@
 			buildSettings = {
 				CLANG_ALLOW_NON_MODULAR_INCLUDES_IN_FRAMEWORK_MODULES = NO;
 				CLANG_ANALYZER_NONNULL = NO;
-				CLANG_ENABLE_MODULE_DEBUGGING = NO;
+				CLANG_ENABLE_MODULE_DEBUGGING = YES;
 				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEFINES_MODULE = YES;

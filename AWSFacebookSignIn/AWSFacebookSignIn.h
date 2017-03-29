@@ -9,3 +9,4 @@
 //
 
 #import "AWSFacebookSignInProvider.h"
+#import "AWSFacebookSignInButton.h"

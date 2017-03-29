@@ -13,8 +13,6 @@
 #import <FBSDKLoginKit/FBSDKLoginKit.h>
 #import "AWSFacebookSignInProvider.h"
 
-static NSString *const AWSFacebookSignInProviderUserNameKey = @"Facebook.userName";
-static NSString *const AWSFacebookSignInProviderImageURLKey = @"Facebook.imageURL";
 static NSTimeInterval const AWSFacebookSignInProviderTokenRefreshBuffer = 10 * 60;
 
 typedef void (^AWSSignInManagerCompletionBlock)(id result, AWSAuthState authState, NSError *error);
@@ -133,32 +131,6 @@ typedef void (^AWSSignInManagerCompletionBlock)(id result, AWSAuthState authStat
     return [FBSDKAccessToken currentAccessToken] != nil;
 }
 
-- (NSString *)userName {
-    return [[NSUserDefaults standardUserDefaults] objectForKey:AWSFacebookSignInProviderUserNameKey];
-}
-
-- (void)setUserName:(NSString *)userName {
-    [[NSUserDefaults standardUserDefaults] setObject:userName
-                                              forKey:AWSFacebookSignInProviderUserNameKey];
-}
-
-- (NSURL *)imageURL {
-    return [NSURL URLWithString:[[NSUserDefaults standardUserDefaults] objectForKey:AWSFacebookSignInProviderImageURLKey]];
-}
-
-- (void)setImageURL:(NSURL *)imageURL {
-    [[NSUserDefaults standardUserDefaults] setObject:imageURL.absoluteString
-                                              forKey:AWSFacebookSignInProviderImageURLKey];
-}
-
-- (void)clearUserName {
-    [[NSUserDefaults standardUserDefaults] removeObjectForKey:AWSFacebookSignInProviderUserNameKey];
-}
-
-- (void)clearImageURL {
-    [[NSUserDefaults standardUserDefaults] removeObjectForKey:AWSFacebookSignInProviderImageURLKey];
-}
-
 - (void)reloadSession {
     if ([FBSDKAccessToken currentAccessToken]) {
         [FBSDKAccessToken refreshCurrentAccessToken:^(FBSDKGraphRequestConnection *connection, id result, NSError *error) {
@@ -184,7 +156,6 @@ typedef void (^AWSSignInManagerCompletionBlock)(id result, AWSAuthState authStat
                                                      NSDictionary *result,
                                                      NSError *queryError) {
         imageURL = [NSURL URLWithString:result[@"picture"][@"data"][@"url"]];
-        [self setImageURL:imageURL];
         self.userInfo.imageURL = imageURL;
     }];
     
@@ -194,7 +165,6 @@ typedef void (^AWSSignInManagerCompletionBlock)(id result, AWSAuthState authStat
                                                  NSDictionary *result,
                                                  NSError *queryError) {
         userName = result[@"name"];
-        [self setUserName:userName];
         self.userInfo.userName = userName;
     }];
 }
@@ -231,17 +201,11 @@ typedef void (^AWSSignInManagerCompletionBlock)(id result, AWSAuthState authStat
                                          }];
 }
 
-- (void)clearLoginInformation {
-    [self clearUserName];
-    [self clearImageURL];
-}
-
 - (void)logout {
     
     if (!self.facebookLogin) {
         [self createFBSDKLoginManager];
     }
-    [self clearLoginInformation];
     [self.facebookLogin logOut];
 }
 
