@@ -33,12 +33,6 @@ NS_ASSUME_NONNULL_BEGIN
 -(void)setAttribute:(id)value
              forKey:(NSString *)key;
 
-/**
- Initializer for AWSUserInfo
- */
-- (instancetype)initWithUserName:(NSString *)userName
-                        imageURL:(NSURL * _Nullable )imageURL;
-
 @end
 
 NS_ASSUME_NONNULL_END

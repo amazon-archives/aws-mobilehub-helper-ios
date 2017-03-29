@@ -13,6 +13,27 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+/**
+ * This protocol defines the method to be implemented to receive a call back when a user attempts
+ * login with a registered sign-in provider.
+ */
+@protocol AWSSignInDelegate <NSObject>
+
+/**
+ This method gets a call back to the assigned delegate when a user attempts login with a registered sign-in provider.
+ 
+ @param  signInProvider    The instance of sign in provider implementing `AWSSignInProvider` protocol.
+ @param  result            The result of login attempt. If error, set to `nil`.
+ @param  authState         The auth state of the user after sign-in attempt.
+ @param  error             The error if sign-in attempt failed.
+ **/
+- (void)onLoginWithSignInProvider:(id<AWSSignInProvider>)signInProvider
+                           result:(id _Nullable)result
+                        authState:(AWSAuthState)authState
+                            error:(NSError * _Nullable)error;
+
+@end
+
 @interface AWSSignInManager : NSObject
 
 /**
@@ -21,7 +42,14 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property (nonatomic, readonly, getter=isLoggedIn) BOOL loggedIn;
 
-// Fetches the shared instance of `AWSSignInManager`.
+/**
+ * The delegate class to be called when a user attempts to login with a registered sign in provider.
+ */
+@property (nonatomic, weak) id<AWSSignInDelegate> delegate;
+
+/*
+ * Fetches the shared instance of `AWSSignInManager`.
+ */
 +(instancetype)sharedInstance;
 
 /*

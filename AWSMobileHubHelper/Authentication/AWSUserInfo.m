@@ -17,6 +17,13 @@
 
 @implementation AWSUserInfo
 
+-(instancetype)init {
+    if (self = [super init]) {
+        _userAttributes = [NSMutableDictionary new];
+    }
+    return self;
+}
+
 -(id)getAttributeForKey:(NSString *)key {
     return [self.userAttributes objectForKey:key];
 }
@@ -27,16 +34,5 @@
     [self.userAttributes setValue:value
                            forKey:key];
 }
-
-- (instancetype)initWithUserName:(NSString *)userName
-                        imageURL:(NSURL * _Nullable )imageURL{
-    if (self = [super init]) {
-        _userAttributes = [NSMutableDictionary new];
-        _userName = userName;
-        _imageURL = imageURL;
-    }
-    return self;
-}
-
 
 @end
