@@ -455,7 +455,7 @@ didFailToUnsubscribeWithError:(NSError *)error;
      [AWSPushManager registerPushManagerWithConfiguration:pushManagerConfiguration
                                                        forKey:@"defaultPushManager"];
 
- @param  snsPlatformARN	The SNS Platform ARN
+ @param  platformARN	The SNS Platform ARN
  
  @return an instance of `AWSPushManagerConfiguration`
  */
@@ -487,7 +487,7 @@ didFailToUnsubscribeWithError:(NSError *)error;
                                                        forKey:@"defaultPushManager"];
 
  @param  platformARN			 The SNS Platform ARN
- @param  topicARN                The list of SNS topics that could be registered
+ @param  topicARNs                The list of SNS topics that could be registered
  @param  serviceConfiguration    AWSServiceConfiguration object; nil for default configuration
  @return an instance of `AWSPushManagerConfiguration`
  */

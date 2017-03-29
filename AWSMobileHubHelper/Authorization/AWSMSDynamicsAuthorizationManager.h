@@ -29,7 +29,7 @@
                   redirectURI:(NSString * _Nonnull)redirectURI
                      resource:(NSString * _Nonnull)resource;
 /**
- * @param The version of Microsoft Dynamics API you are using.
+ * @param apiVersion The version of Microsoft Dynamics API you are using.
  *        The default value is "v8.0"
  */
 - (void)setAPIVersion:(NSString * _Nonnull)apiVersion;

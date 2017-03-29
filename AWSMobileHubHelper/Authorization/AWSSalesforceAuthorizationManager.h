@@ -24,7 +24,6 @@
  * @param redirectURI Should be you're bundle ID or universal URL
  *          i.e. com.amazonaws.mysampleapp://salesforce/success
  *               https://mysampleapp.amazonaws.com/success
- * @return the singleton
  */
 - (void)configureWithClientID:(NSString * _Nonnull)clientID redirectURI:(NSString * _Nonnull)redirectURI;
 

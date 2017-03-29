@@ -21,3 +21,4 @@
 #import "AWSQuickbooksAuthorizationManager.h"
 #import "AWSHubspotAuthorizationManager.h"
 #import "AWSMarketoAuthorizationManager.h"
+#import "AWSSignInButtonView.h"

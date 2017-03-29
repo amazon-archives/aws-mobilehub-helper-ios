@@ -20,11 +20,10 @@
 /**
  * Customize the flow.
  *
- * @param clientID Client ID provided by Salesforce.
- * @param redirectURI Should be you're bundle ID or universal URL
+ * @param identityURI Client ID provided by Salesforce.
+ * @param restApiURI Should be you're bundle ID or universal URL
  *          i.e. com.amazonaws.mysampleapp://salesforce/success
  *               https://mysampleapp.amazonaws.com/success
- * @return the singleton
  */
 - (void)configureWithIdentityURI:(NSString * _Nonnull)identityURI
                       restApiURI:(NSString * _Nonnull)restApiURI;
