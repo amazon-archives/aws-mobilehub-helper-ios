@@ -15,7 +15,7 @@ function exitOnFailureCode() {
 
 if [ $# -eq 0 ]
   then
-    echo "No argument supplied, need to specified the name of the project. e.g. GenerateHelperFramework.sh AWSMobileHubCloudLogic"
+    echo "No argument supplied, need to specified the name of the project. e.g. GenerateHelperFramework.sh AWSFacebookSignIn"
     exit 1
 fi
 
