@@ -66,20 +66,9 @@ cognitoIdentityUserPoolAppClientSecret:(NSString *)cognitoIdentityUserPoolAppCli
 - (BOOL)isLoggedIn;
 
 /**
- *  Sets the userName value of the signed-in user into a persistent store.
- *  Should be called on a successful login to set the user name which is used by `AWSIdentityManager`.
- *
- *  @param userName the user name of the signed-in user
+ *  The user info object which stores user details like user name, image url or other information.
  */
-- (void)setUserName:(NSString *)userName;
-
-/**
- *  Sets the imageURL value of the signed-in user into a persistent store.
- *  Should be called on a successful login to set the user name which is used by `AWSIdentityManager`.
- *
- *  @param imageURL the image URL for a picture of the signed-in user
- */
-- (void)setImageURL:(NSURL *)imageURL;
+@property (strong, nonatomic) AWSUserInfo *userInfo;
 
 
 @end

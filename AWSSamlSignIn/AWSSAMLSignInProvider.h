@@ -9,6 +9,7 @@
 //
 
 #import "AWSSignInProvider.h"
+#import "AWSSignInProviderApplicationIntercept.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -27,9 +28,14 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-@interface AWSSAMLSignInProvider : NSObject <AWSSignInProvider>
+@interface AWSSAMLSignInProvider : NSObject <AWSSignInProvider, AWSSignInProviderApplicationIntercept>
 
 #pragma mark - Initializer
+
+/**
+ * The user info object to store user name, image url or other details.
+ */
+@property (strong, nonatomic) AWSUserInfo *userInfo;
 
 /*
  The only initializer for AWSSAMLSignInProvider. This initializer has to be used by the class over-riding AWSSAMLSignInProvider.
@@ -117,22 +123,6 @@ didFinishLaunchingWithOptions:(nullable NSDictionary *)launchOptions;
                   annotation:(id)annotation;
 
 #pragma mark - Instance Methods
-
-/**
- *  Sets the userName value of the signed-in user into a persistent store.
- *  Should be called on a successful login to set the user name which is used by `AWSIdentityManager`.
- *
- *  @param userName the user name of the signed-in user
- */
-- (void)setUserName:(NSString *)userName;
-
-/**
- *  Sets the imageURL value of the signed-in user into a persistent store.
- *  Should be called on a successful login to set the user name which is used by `AWSIdentityManager`.
- *
- *  @param imageURL the image URL for a picture of the signed-in user
- */
-- (void)setImageURL:(NSURL *)imageURL;
 
 /**
  *  Can be used to store a reference of teh view controller from which `loginWithSignInProvider` is invoked by `AWSIdentityManager`

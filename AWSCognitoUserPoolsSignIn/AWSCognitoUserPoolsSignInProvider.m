@@ -9,7 +9,7 @@
 //
 
 #import "AWSCognitoUserPoolsSignInProvider.h"
-#import <AWSMobileHubHelper/AWSIdentityManager.h>
+#import <AWSMobileHubHelper/AWSSignInManager.h>
 #import <AWSCognitoIdentityProvider/AWSCognitoIdentityProvider.h>
 
 NSString *const AWSCognitoUserPoolsSignInProviderKey = @"CognitoUserPools";
@@ -17,9 +17,9 @@ static NSString *const AWSCognitoUserPoolsSignInProviderUserNameKey = @"CognitoU
 static NSString *const AWSCognitoUserPoolsSignInProviderImageURLKey = @"CognitoUserPools.imageURL";
 
 
-typedef void (^AWSIdentityManagerCompletionBlock)(id result, NSError *error);
+typedef void (^AWSSignInManagerCompletionBlock)(id result, AWSAuthState authState, NSError *error);
 
-@interface AWSIdentityManager()
+@interface AWSSignInManager()
 
 - (void)completeLogin;
 
@@ -27,10 +27,8 @@ typedef void (^AWSIdentityManagerCompletionBlock)(id result, NSError *error);
 
 @interface AWSCognitoUserPoolsSignInProvider()
 
-@property (strong, nonatomic) NSString *userName;
-@property (strong, nonatomic) NSURL *imageURL;
 @property (strong, nonatomic) UIViewController *signInViewController;
-@property (atomic, copy) AWSIdentityManagerCompletionBlock completionHandler;
+@property (atomic, copy) AWSSignInManagerCompletionBlock completionHandler;
 @property (strong, nonatomic) id<AWSCognitoUserPoolsSignInHandler> interactiveAuthenticationDelegate;
 
 @end
@@ -94,39 +92,7 @@ cognitoIdentityUserPoolAppClientSecret:(NSString *)cognitoIdentityUserPoolAppCli
 
 - (BOOL)isLoggedIn {
     AWSCognitoIdentityUserPool *pool = [self getUserPool];
-    BOOL loggedIn = [pool.currentUser isSignedIn];
-    return (loggedIn && [self isCachedLoginFlagSet]);
-}
-
-- (void)setCachedLoginFlag {
-    [[NSUserDefaults standardUserDefaults] setObject:@"YES"
-                                              forKey:AWSCognitoUserPoolsSignInProviderKey];
-}
-
-- (BOOL)isCachedLoginFlagSet {
-    return [[NSUserDefaults standardUserDefaults] objectForKey: AWSCognitoUserPoolsSignInProviderKey] != nil;
-}
-
-- (void)clearCachedLoginFlag {
-    [[NSUserDefaults standardUserDefaults] removeObjectForKey:AWSCognitoUserPoolsSignInProviderKey];
-}
-
-- (NSString *)userName {
-    return [[NSUserDefaults standardUserDefaults] objectForKey:AWSCognitoUserPoolsSignInProviderUserNameKey];
-}
-
-- (void)setUserName:(NSString *)userName {
-    [[NSUserDefaults standardUserDefaults] setObject:userName
-                                              forKey:AWSCognitoUserPoolsSignInProviderUserNameKey];
-}
-
-- (NSURL *)imageURL {
-    return [NSURL URLWithString:[[NSUserDefaults standardUserDefaults] objectForKey:AWSCognitoUserPoolsSignInProviderImageURLKey]];
-}
-
-- (void)setImageURL:(NSURL *)imageURL {
-    [[NSUserDefaults standardUserDefaults] setObject:imageURL.absoluteString
-                                              forKey:AWSCognitoUserPoolsSignInProviderImageURLKey];
+    return [pool.currentUser isSignedIn];
 }
 
 - (void)reloadSession {
@@ -136,10 +102,8 @@ cognitoIdentityUserPoolAppClientSecret:(NSString *)cognitoIdentityUserPoolAppCli
 }
 
 - (void)completeLogin {
-    [self setCachedLoginFlag];
-    [self setUserName:[[[self getUserPool] currentUser] username]]; // set user name as name
-    [[AWSIdentityManager defaultIdentityManager] completeLogin];
-    
+    self.userInfo.userName = [[[self getUserPool] currentUser] username]; // set user name as name
+    [[AWSSignInManager sharedInstance] completeLogin];
 }
 
 - (void)setInteractiveAuthDelegate:(id)interactiveAuthDelegate {
@@ -147,7 +111,7 @@ cognitoIdentityUserPoolAppClientSecret:(NSString *)cognitoIdentityUserPoolAppCli
     [self getUserPool].delegate = interactiveAuthDelegate;
 }
 
-- (void)login:(AWSIdentityManagerCompletionBlock) completionHandler {
+- (void)login:(AWSSignInManagerCompletionBlock) completionHandler {
     self.completionHandler = completionHandler;
     AWSCognitoIdentityUserPool *pool = [self getUserPool];
     [[pool.getUser getSession] continueWithSuccessBlock:^id _Nullable(AWSTask<AWSCognitoIdentityUserSession *> * _Nonnull task) {
@@ -158,7 +122,6 @@ cognitoIdentityUserPoolAppClientSecret:(NSString *)cognitoIdentityUserPoolAppCli
 }
 
 - (void)logout {
-    [self clearCachedLoginFlag];
     AWSCognitoIdentityUserPool *pool = [self getUserPool];
     [pool.currentUser signOut];
 }

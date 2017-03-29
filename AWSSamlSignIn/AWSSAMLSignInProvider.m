@@ -9,16 +9,16 @@
 //
 
 #import "AWSSAMLSignInProvider.h"
-#import "AWSIdentityManager.h"
+#import "AWSSignInManager.h"
 #import <AWSCore/AWSUICKeyChainStore.h>
 
 static NSString *const AWSSAMLSignInProviderUserNameKeySuffix = @"SAML.userName";
 static NSString *const AWSSAMLSignInProviderImageURLKeySuffix = @"SAML.imageURL";
 static NSString *const AWSSAMLSignInProviderTokenSuffix = @"SAML.loginToken";
 
-typedef void (^AWSIdentityManagerCompletionBlock)(id result, NSError *error);
+typedef void (^AWSSignInManagerCompletionBlock)(id result, AWSAuthState authState, NSError *error);
 
-@interface AWSIdentityManager()
+@interface AWSSignInManager()
 
 - (void)completeLogin;
 
@@ -31,7 +31,7 @@ typedef void (^AWSIdentityManagerCompletionBlock)(id result, NSError *error);
 @property (nonatomic, strong) AWSUICKeyChainStore *keychain;
 @property (strong, nonatomic) NSString *userName;
 @property (strong, nonatomic) NSURL *imageURL;
-@property (atomic, copy) AWSIdentityManagerCompletionBlock completionHandler;
+@property (atomic, copy) AWSSignInManagerCompletionBlock completionHandler;
 @property (nonatomic, strong) UIViewController *signInViewController;
 
 @end
@@ -75,11 +75,7 @@ typedef void (^AWSIdentityManagerCompletionBlock)(id result, NSError *error);
 #pragma mark - Instance Methods
 
 - (BOOL)isLoggedIn {
-    if ([self isCachedLoginFlagSet] &&
-        [self fetchStoredToken]) {
-        return YES;
-    }
-    return NO;
+    return [self fetchStoredToken];
 }
 
 - (NSString *)userName {
@@ -87,7 +83,7 @@ typedef void (^AWSIdentityManagerCompletionBlock)(id result, NSError *error);
 }
 
 - (void)setUserName:(NSString *)userName {
-    [[NSUserDefaults standardUserDefaults] setObject:userName forKey: [self stringWithUniqueIdentifierPrefix:AWSSAMLSignInProviderUserNameKeySuffix]];
+    self.userInfo.userName = userName;
 }
 
 - (NSURL *)imageURL {
@@ -95,7 +91,7 @@ typedef void (^AWSIdentityManagerCompletionBlock)(id result, NSError *error);
 }
 
 - (void)setImageURL:(NSURL *)imageURL {
-    [[NSUserDefaults standardUserDefaults] setObject:imageURL forKey: [self stringWithUniqueIdentifierPrefix:AWSSAMLSignInProviderImageURLKeySuffix]];
+    self.userInfo.imageURL = imageURL;
 }
 
 - (void)reloadSession {
@@ -111,21 +107,8 @@ typedef void (^AWSIdentityManagerCompletionBlock)(id result, NSError *error);
     }
 }
 
-- (void)setCachedLoginFlag {
-    [[NSUserDefaults standardUserDefaults] setObject: @"YES" forKey: self.uniqueIdentfier];
-}
-
-- (BOOL)isCachedLoginFlagSet {
-    return [[NSUserDefaults standardUserDefaults] objectForKey: self.uniqueIdentfier] != nil;
-}
-
-- (void)clearCachedLoginFlag {
-    [[NSUserDefaults standardUserDefaults] removeObjectForKey:self.uniqueIdentfier];
-}
-
 - (void)completeLogin {
-    [self setCachedLoginFlag];
-    [[AWSIdentityManager defaultIdentityManager] completeLogin];
+    [[AWSSignInManager sharedInstance] completeLogin];
 }
 
 - (void)saveToken:(NSString *)token {
@@ -140,14 +123,15 @@ typedef void (^AWSIdentityManagerCompletionBlock)(id result, NSError *error);
     return self.keychain[[self stringWithUniqueIdentifierPrefix:AWSSAMLSignInProviderTokenSuffix]];
 }
 
-- (void)login:(AWSIdentityManagerCompletionBlock) completionHandler {
+- (void)login:(AWSSignInManagerCompletionBlock)completionHandler {
     self.completionHandler = completionHandler;
     AWSTaskCompletionSource<NSString *> *taskCompletionSource = [AWSTaskCompletionSource taskCompletionSource];
     
     [self handleLoginWithTaskCompletionSource:taskCompletionSource];
     [taskCompletionSource.task continueWithBlock:^id _Nullable(AWSTask * _Nonnull task) {
+        AWSAuthState authState = [AWSSignInManager sharedInstance].authState;
         if(task.error){
-            self.completionHandler(nil, task.error);
+            self.completionHandler(nil, authState, task.error);
         } else {
             [self completeLoginWithToken:task.result];
         }
@@ -161,11 +145,11 @@ typedef void (^AWSIdentityManagerCompletionBlock)(id result, NSError *error);
 }
 
 - (void)cancelLoginWithError:(NSError *)error {
-    self.completionHandler(nil, error);
+    AWSAuthState authState = [AWSSignInManager sharedInstance].authState;
+    self.completionHandler(nil, authState, error);
 }
 
 - (void)logout {
-    [self clearCachedLoginFlag];
     [self deleteToken];
 }
 
