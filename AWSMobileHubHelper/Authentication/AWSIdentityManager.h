@@ -20,7 +20,7 @@ NS_ASSUME_NONNULL_BEGIN
  * User Info acquired from third party identity provider, such as Facebook or Google.
  * @return userInfo object of the underlying signInProvider
  */
-@property (nonatomic, readonly, nullable) AWSUserInfo *userInfo;
+@property (nonatomic, readonly) id<AWSIdentityProfile> _Nullable identityProfile;
 
 /**
  * Amazon Cognito User Identity ID. This uniquely identifies the user, regardless of

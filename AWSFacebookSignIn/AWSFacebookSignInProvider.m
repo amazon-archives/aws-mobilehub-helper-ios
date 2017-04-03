@@ -27,7 +27,6 @@ typedef void (^AWSSignInManagerCompletionBlock)(id result, AWSAuthState authStat
 
 @property (strong, nonatomic) FBSDKLoginManager *facebookLogin;
 
-@property (strong, nonatomic) AWSUserInfo *userInfo;
 @property (assign, nonatomic) FBSDKLoginBehavior savedLoginBehavior;
 @property (strong, nonatomic) NSArray *requestedPermissions;
 @property (strong, nonatomic) UIViewController *signInViewController;
@@ -48,18 +47,16 @@ typedef void (^AWSSignInManagerCompletionBlock)(id result, AWSAuthState authStat
 }
 
 - (instancetype)init {
-    Class fbSDKLoginManager = NSClassFromString(@"FBSDKLoginManager");
-    if (fbSDKLoginManager) {
-        if (self = [super init]) {
-            _requestedPermissions = nil;
-            _signInViewController = nil;
-            if (NSClassFromString(@"SFSafariViewController")) {
-                _savedLoginBehavior = FBSDKLoginBehaviorNative;
-            } else {
-                _savedLoginBehavior = FBSDKLoginBehaviorWeb;
-            }
-            return self;
+    
+    if (self = [super init]) {
+        _requestedPermissions = nil;
+        _signInViewController = nil;
+        if (NSClassFromString(@"SFSafariViewController")) {
+            _savedLoginBehavior = FBSDKLoginBehaviorNative;
+        } else {
+            _savedLoginBehavior = FBSDKLoginBehaviorWeb;
         }
+        return self;
     }
     return nil;
 }
@@ -145,28 +142,6 @@ typedef void (^AWSSignInManagerCompletionBlock)(id result, AWSAuthState authStat
 
 - (void)completeLogin {
     [[AWSSignInManager sharedInstance] completeLogin];
-    __block NSString *userName;
-    __block NSURL *imageURL;
-    
-    self.userInfo = [[AWSUserInfo alloc] init];
-    
-    FBSDKGraphRequest *requestForImageUrl = [[FBSDKGraphRequest alloc] initWithGraphPath:@"me"
-                                                                              parameters:@{@"fields" : @"picture.type(large)"}];
-    [requestForImageUrl startWithCompletionHandler:^(FBSDKGraphRequestConnection *connection,
-                                                     NSDictionary *result,
-                                                     NSError *queryError) {
-        imageURL = [NSURL URLWithString:result[@"picture"][@"data"][@"url"]];
-        self.userInfo.imageURL = imageURL;
-    }];
-    
-    FBSDKGraphRequest *requestForName = [[FBSDKGraphRequest alloc] initWithGraphPath:@"me"
-                                                                          parameters:@{@"fields": @"id, name, email"}];
-    [requestForName startWithCompletionHandler:^(FBSDKGraphRequestConnection *connection,
-                                                 NSDictionary *result,
-                                                 NSError *queryError) {
-        userName = result[@"name"];
-        self.userInfo.userName = userName;
-    }];
 }
 
 - (void)login:(AWSSignInManagerCompletionBlock) completionHandler {

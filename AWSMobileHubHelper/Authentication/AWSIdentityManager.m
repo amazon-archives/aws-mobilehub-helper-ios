@@ -11,6 +11,7 @@
 #import "AWSSignInProvider.h"
 #import "AWSGoogleSignInProvider.h"
 #import "AWSSignInManager.h"
+#import "AWSIdentityProfileManager.h"
 
 @interface AWSIdentityManager()
 
@@ -22,6 +23,12 @@
 
 @property (nonatomic, strong) id<AWSSignInProvider> currentSignInProvider;
 @property (nonatomic, strong) id<AWSSignInProvider> potentialSignInProvider;
+
+@end
+
+@interface AWSIdentityProfileManager()
+
+-(id<AWSIdentityProfile>)getIdentityProfileForProviderKey:(NSString *)key;
 
 @end
 
@@ -82,9 +89,14 @@ static NSString *const AWSInfoProjectClientId = @"ProjectClientId";
     return self.credentialsProvider.identityId;
 }
 
-- (AWSUserInfo *)userInfo {
-    return [AWSSignInManager sharedInstance].currentSignInProvider.userInfo;
+- (id<AWSIdentityProfile>)identityProfile {
+    
+    if ([AWSSignInManager sharedInstance].currentSignInProvider) {
+        NSString *signInProviderKey = [AWSSignInManager sharedInstance].currentSignInProvider.identityProviderName;
+        return [[AWSIdentityProfileManager sharedInstance] getIdentityProfileForProviderKey:signInProviderKey];
+    }
+    
+    return nil;
 }
-
 
 @end

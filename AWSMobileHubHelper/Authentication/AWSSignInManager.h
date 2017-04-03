@@ -29,7 +29,7 @@ NS_ASSUME_NONNULL_BEGIN
  **/
 - (void)onLoginWithSignInProvider:(id<AWSSignInProvider>)signInProvider
                            result:(id _Nullable)result
-                        authState:(AWSAuthState)authState
+                        authState:(AWSIdentityManagerAuthState)authState
                             error:(NSError * _Nullable)error;
 
 @end
@@ -55,7 +55,7 @@ NS_ASSUME_NONNULL_BEGIN
 /*
  Fetches the current auth state for a user
  */
--(AWSAuthState)authState;
+-(AWSIdentityManagerAuthState)authState;
 
 /**
  Registers the shared instance of sign in provider implementing `AWSSignInProvider`.
@@ -68,7 +68,7 @@ NS_ASSUME_NONNULL_BEGIN
  * Signs the user out of whatever third party identity provider they used to sign in.
  * @param completionHandler used to callback application with async operation results
  */
-- (void)logoutWithCompletionHandler:(void (^)(id _Nullable result, AWSAuthState authState, NSError * _Nullable error))completionHandler;
+- (void)logoutWithCompletionHandler:(void (^)(id _Nullable result, AWSIdentityManagerAuthState authState, NSError * _Nullable error))completionHandler;
 
 /**
  * Signs the user in with an identity provider. Note that even if User Sign-in is not
@@ -77,13 +77,13 @@ NS_ASSUME_NONNULL_BEGIN
  * @param completionHandler used to callback application with async operation results
  */
 - (void)loginWithSignInProviderKey:(NSString *)signInProviderKey
-                 completionHandler:(void (^)(id _Nullable result, AWSAuthState authState, NSError * _Nullable error))completionHandler NS_SWIFT_NAME(login(signInProviderKey:completionHandler:));
+                 completionHandler:(void (^)(id _Nullable result, AWSIdentityManagerAuthState authState, NSError * _Nullable error))completionHandler NS_SWIFT_NAME(login(signInProviderKey:completionHandler:));
 
 /**
  * Attempts to resume session with the previous sign-in provider.
  * @param completionHandler used to callback application with async operation results
  */
-- (void)resumeSessionWithCompletionHandler:(void (^)(id _Nullable result, AWSAuthState authState, NSError * _Nullable error))completionHandler;
+- (void)resumeSessionWithCompletionHandler:(void (^)(id _Nullable result, AWSIdentityManagerAuthState authState, NSError * _Nullable error))completionHandler;
 
 /**
  * Passes parameters used to launch the application to the current identity provider. For some

@@ -13,9 +13,6 @@
 #import <AWSCognitoIdentityProvider/AWSCognitoIdentityProvider.h>
 
 NSString *const AWSCognitoUserPoolsSignInProviderKey = @"CognitoUserPools";
-static NSString *const AWSCognitoUserPoolsSignInProviderUserNameKey = @"CognitoUserPools.userName";
-static NSString *const AWSCognitoUserPoolsSignInProviderImageURLKey = @"CognitoUserPools.imageURL";
-
 
 typedef void (^AWSSignInManagerCompletionBlock)(id result, AWSAuthState authState, NSError *error);
 
@@ -102,7 +99,6 @@ cognitoIdentityUserPoolAppClientSecret:(NSString *)cognitoIdentityUserPoolAppCli
 }
 
 - (void)completeLogin {
-    self.userInfo.userName = [[[self getUserPool] currentUser] username]; // set user name as name
     [[AWSSignInManager sharedInstance] completeLogin];
 }
 

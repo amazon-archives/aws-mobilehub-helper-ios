@@ -9,16 +9,16 @@
 
 #import <UIKit/UIKit.h>
 #import <AWSCore/AWSCore.h>
-#import "AWSUserInfo.h"
+#import "AWSIdentityProfile.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @class AWSIdentityManager;
 
-typedef NS_ENUM(NSInteger, AWSAuthState) {
-    AWSAuthStateAuthenticated,
-    AWSAuthStateUnauthenticated,
-    AWSAuthStateNoCredentials,
+typedef NS_ENUM(NSInteger, AWSIdentityManagerAuthState) {
+    AWSIdentityManagerAuthStateAuthenticated,
+    AWSIdentityManagerAuthStateUnauthenticated,
+    AWSIdentityManagerAuthStateNoCredentials,
 };
 
 /**
@@ -30,11 +30,6 @@ typedef NS_ENUM(NSInteger, AWSAuthState) {
 @protocol AWSSignInProvider <AWSIdentityProvider>
 
 /**
- Stores details about the logged in user.
- */
-@property (nonatomic, readonly, nullable) AWSUserInfo *userInfo;
-
-/**
  Determines if a user is logged in.
  */
 @property (nonatomic, readonly, getter=isLoggedIn) BOOL loggedIn;
@@ -43,7 +38,7 @@ typedef NS_ENUM(NSInteger, AWSAuthState) {
  The login handler method for the Sign-In Provider.
  The completionHandler will bubble back errors to the developers.
  */
-- (void)login:(void (^)(id _Nullable result, AWSAuthState authState, NSError * _Nullable error))completionHandler;
+- (void)login:(void (^)(id _Nullable result, AWSIdentityManagerAuthState authState, NSError * _Nullable error))completionHandler;
 
 /**
  The logout handler method for the Sign-In Provider.

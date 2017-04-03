@@ -12,7 +12,7 @@
 #import "AWSIdentityManager.h"
 #import "AWSPushManager.h"
 #import "AWSUserFileManager.h"
-#import "AWSUserInfo.h"
+#import "AWSIdentityProfile.h"
 #import "AWSSignInManager.h"
 #import "AWSAuthorizationManager.h"
 #import "AWSSalesforceAuthorizationManager.h"

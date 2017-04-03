@@ -16,7 +16,6 @@
 static NSString *const AWSGoogleSignInProviderClientScope = @"profile";
 static NSString *const AWSGoogleSignInProviderOIDCScope = @"openid";
 static NSTimeInterval const AWSGoogleSignInProviderTokenRefreshBuffer = 10 * 60;
-static NSUInteger const AWSGoogleSignInProviderProfileImageDimension = 150;
 static int64_t const AWSGoogleSignInProviderTokenRefreshTimeout = 60 * NSEC_PER_SEC;
 
 typedef void (^AWSSignInManagerCompletionBlock)(id result, AWSAuthState authState, NSError *error);
@@ -34,7 +33,6 @@ typedef void (^AWSSignInManagerCompletionBlock)(id result, AWSAuthState authStat
 @property (nonatomic, strong) AWSExecutor *executor;
 @property (nonatomic, strong) UIViewController *signInViewController;
 @property (atomic, copy) AWSSignInManagerCompletionBlock completionHandler;
-@property (strong, nonatomic) AWSUserInfo *userInfo;
 
 @end
 
@@ -47,12 +45,7 @@ static NSString *const AWSInfoGoogleClientId = @"ClientId";
 + (instancetype)sharedInstance {
     AWSServiceInfo *serviceInfo = [[AWSInfo defaultAWSInfo] defaultServiceInfo:AWSInfoIdentityManager];
     NSString *googleClientID = [[serviceInfo.infoDictionary objectForKey:AWSInfoGoogleIdententifier] objectForKey:AWSInfoGoogleClientId];
-    
-    Class gIDSignIn = NSClassFromString(@"GIDSignIn");
-    if (!gIDSignIn){
-        return nil;
-    }
-    
+
     if (!googleClientID) {
         @throw [NSException exceptionWithName:NSInternalInconsistencyException
                                        reason:@"Google Client ID is not set correctly in `Info.plist`. You need to set it in `Info.plist` before using."
@@ -161,9 +154,6 @@ static NSString *const AWSInfoGoogleClientId = @"ClientId";
 
 - (void)completeLoginWithToken:(GIDGoogleUser *)googleUser {
     [[AWSSignInManager sharedInstance] completeLogin];
-    self.userInfo = [[AWSUserInfo alloc] init];
-    self.userInfo.userName = googleUser.profile.name;
-    self.userInfo.imageURL = [googleUser.profile imageURLWithDimension:AWSGoogleSignInProviderProfileImageDimension];
 }
 
 - (void)login:(AWSSignInManagerCompletionBlock)completionHandler {

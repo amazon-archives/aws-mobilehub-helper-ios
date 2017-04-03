@@ -11,8 +11,9 @@
 #import "AWSSignInManager.h"
 #import "AWSIdentityManager.h"
 #import "AWSSignInProviderApplicationIntercept.h"
+#import "AWSIdentityProfileManager.h"
 
-typedef void (^AWSSignInManagerCompletionBlock)(id result, AWSAuthState authState, NSError *error);
+typedef void (^AWSSignInManagerCompletionBlock)(id result, AWSIdentityManagerAuthState authState, NSError *error);
 
 @interface AWSSignInManager()
 
@@ -42,13 +43,13 @@ static AWSIdentityManager *identityManager;
     return _sharedSignInManager;
 }
 
--(AWSAuthState)authState {
+-(AWSIdentityManagerAuthState)authState {
     if (identityManager.identityId && self.currentSignInProvider) {
-        return AWSAuthStateAuthenticated;
+        return AWSIdentityManagerAuthStateAuthenticated;
     } else if (identityManager.identityId) {
-        return AWSAuthStateUnauthenticated;
+        return AWSIdentityManagerAuthStateUnauthenticated;
     }
-    return AWSAuthStateNoCredentials;
+    return AWSIdentityManagerAuthStateNoCredentials;
 }
 
 -(void)registerAWSSignInProvider:(id<AWSSignInProvider>)signInProvider {
@@ -74,9 +75,10 @@ static AWSIdentityManager *identityManager;
     [identityManager.credentialsProvider clearKeychain];
 }
 
-- (void)logoutWithCompletionHandler:(void (^)(id result, AWSAuthState authState, NSError *error))completionHandler {
+- (void)logoutWithCompletionHandler:(void (^)(id result, AWSIdentityManagerAuthState authState, NSError *error))completionHandler {
     if ([self.currentSignInProvider isLoggedIn]) {
         [self.currentSignInProvider logout];
+        [[AWSIdentityProfileManager sharedInstance] clearProfileForProviderKey:self.currentSignInProvider.identityProviderName];
     }
     
     [self wipeAll];
@@ -86,9 +88,9 @@ static AWSIdentityManager *identityManager;
     [[identityManager.credentialsProvider getIdentityId] continueWithBlock:^id _Nullable(AWSTask<NSString *> * _Nonnull task) {
         dispatch_async(dispatch_get_main_queue(), ^{
             if (task.result) {
-                completionHandler(task.result, AWSAuthStateUnauthenticated, task.error);
+                completionHandler(task.result, AWSIdentityManagerAuthStateUnauthenticated, task.error);
             } else {
-                completionHandler(task.result, AWSAuthStateNoCredentials, task.error);
+                completionHandler(task.result, AWSIdentityManagerAuthStateNoCredentials, task.error);
             }
         });
         return nil;
@@ -96,7 +98,7 @@ static AWSIdentityManager *identityManager;
 }
 
 - (void)loginWithSignInProviderKey:(NSString *)signInProviderKey
-              completionHandler:(void (^)(id result, AWSAuthState authState, NSError *error))completionHandler {
+              completionHandler:(void (^)(id result, AWSIdentityManagerAuthState authState, NSError *error))completionHandler {
     
     if ([self signInProviderForKey:signInProviderKey]) {
         self.potentialSignInProvider = [self signInProviderForKey:signInProviderKey];
@@ -110,7 +112,7 @@ static AWSIdentityManager *identityManager;
     [self.potentialSignInProvider login:completionHandler];
 }
 
-- (void)resumeSessionWithCompletionHandler:(void (^)(id result, AWSAuthState authState, NSError *error))completionHandler {
+- (void)resumeSessionWithCompletionHandler:(void (^)(id result, AWSIdentityManagerAuthState authState, NSError *error))completionHandler {
 
     self.completionHandler = completionHandler;
     
@@ -134,12 +136,13 @@ static AWSIdentityManager *identityManager;
     if (self.potentialSignInProvider) {
         self.currentSignInProvider = self.potentialSignInProvider;
         self.potentialSignInProvider = nil;
+        [[AWSIdentityProfileManager sharedInstance] loadProfileForProviderKey:self.currentSignInProvider.identityProviderName];
     }
     
     [[identityManager.credentialsProvider credentials] continueWithBlock:^id _Nullable(AWSTask<AWSCredentials *> * _Nonnull task) {
         dispatch_async(dispatch_get_main_queue(), ^{
             // Determine Auth State
-            AWSAuthState authState = [AWSSignInManager sharedInstance].authState;
+            AWSIdentityManagerAuthState authState = [AWSSignInManager sharedInstance].authState;
             self.completionHandler(task.result, authState, task.error);
         });
         return nil;

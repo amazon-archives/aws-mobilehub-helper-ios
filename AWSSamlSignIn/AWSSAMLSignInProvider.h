@@ -32,11 +32,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 #pragma mark - Initializer
 
-/**
- * The user info object to store user name, image url or other details.
- */
-@property (strong, nonatomic) AWSUserInfo *userInfo;
-
 /*
  The only initializer for AWSSAMLSignInProvider. This initializer has to be used by the class over-riding AWSSAMLSignInProvider.
  @param uniqueIdentifier     The unique identifier string for the SAML Sign In Provider

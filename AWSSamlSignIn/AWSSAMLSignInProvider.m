@@ -78,22 +78,6 @@ typedef void (^AWSSignInManagerCompletionBlock)(id result, AWSAuthState authStat
     return [self fetchStoredToken];
 }
 
-- (NSString *)userName {
-    return [[NSUserDefaults standardUserDefaults] objectForKey: [self.uniqueIdentfier stringByAppendingString:AWSSAMLSignInProviderUserNameKeySuffix]];
-}
-
-- (void)setUserName:(NSString *)userName {
-    self.userInfo.userName = userName;
-}
-
-- (NSURL *)imageURL {
-    return [[NSUserDefaults standardUserDefaults] objectForKey: [self stringWithUniqueIdentifierPrefix:AWSSAMLSignInProviderImageURLKeySuffix]];
-}
-
-- (void)setImageURL:(NSURL *)imageURL {
-    self.userInfo.imageURL = imageURL;
-}
-
 - (void)reloadSession {
     if ([self isLoggedIn]) {
         [[self fetchLatestToken] continueWithBlock:^id _Nullable(AWSTask<NSString *> * _Nonnull task) {

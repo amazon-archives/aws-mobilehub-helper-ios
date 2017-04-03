@@ -11,7 +11,6 @@
 #import <Foundation/Foundation.h>
 #import <AWSMobileHubHelper/AWSSignInProvider.h>
 #import <AWSMobileHubHelper/AWSSignInProviderApplicationIntercept.h>
-#import <AWSMobileHubHelper/AWSUserInfo.h>
 
 NS_ASSUME_NONNULL_BEGIN
 

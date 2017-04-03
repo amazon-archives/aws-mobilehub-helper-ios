@@ -18,7 +18,7 @@ FOUNDATION_EXPORT NSString *const AWSCognitoUserPoolsSignInProviderKey;
 
 /**
  *  This method is called when `loginWithSignInProvider` is called by `AWSIdentityManager`.
- *  This method should handle the input from the user and set the `taskCompletionSournce` result required by Cognito Idp SDK.
+ *  This method should handle the input from the user and set the `taskCompletionSource` result required by Cognito Idp SDK.
  */
 - (void)handleUserPoolSignInFlowStart;
 
@@ -64,11 +64,6 @@ cognitoIdentityUserPoolAppClientSecret:(NSString *)cognitoIdentityUserPoolAppCli
  *  @return `YES` if the user is signed in.
  */
 - (BOOL)isLoggedIn;
-
-/**
- *  The user info object which stores user details like user name, image url or other information.
- */
-@property (strong, nonatomic) AWSUserInfo *userInfo;
 
 
 @end
