@@ -1,6 +1,6 @@
 source 'https://github.com/CocoaPods/Specs.git'
 
-platform :ios, '8.1'
+platform :ios, '9.0'
  
 target 'AWSMobileHubHelper' do
     pod 'AWSSNS', '~>2.5.0'
@@ -25,4 +25,8 @@ end
 
 target 'AWSCognitoUserPoolsSignIn' do
     pod 'AWSCognitoIdentityProvider', '~>2.5.0'
+end
+
+target 'AWSMobileHubAuthorizers' do
+    pod 'AWSCore', '~>2.5.0'
 end
