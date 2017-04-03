@@ -15,7 +15,7 @@
 
 static NSTimeInterval const AWSFacebookSignInProviderTokenRefreshBuffer = 10 * 60;
 
-typedef void (^AWSSignInManagerCompletionBlock)(id result, AWSAuthState authState, NSError *error);
+typedef void (^AWSSignInManagerCompletionBlock)(id result, AWSIdentityManagerAuthState authState, NSError *error);
 
 @interface AWSSignInManager()
 
@@ -160,7 +160,7 @@ typedef void (^AWSSignInManagerCompletionBlock)(id result, AWSAuthState authStat
                                          handler:^(FBSDKLoginManagerLoginResult *result, NSError *error) {
 
                                              // Determine Auth State
-                                             AWSAuthState authState = [AWSSignInManager sharedInstance].authState;
+                                             AWSIdentityManagerAuthState authState = [AWSSignInManager sharedInstance].authState;
                                              if (error) {
                                                     self.completionHandler(result, authState, error);
                                              } else if (result.isCancelled) {

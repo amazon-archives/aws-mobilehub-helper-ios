@@ -11,7 +11,7 @@
 #import "AWSFacebookSignInButton.h"
 #import "AWSFacebookSignInProvider.h"
 
-typedef void (^AWSSignInManagerCompletionBlock)(id result, AWSAuthState authState, NSError *error);
+typedef void (^AWSSignInManagerCompletionBlock)(id result, AWSIdentityManagerAuthState authState, NSError *error);
 
 static NSString *FacebookLogoImageKey = @"fb-no-text";
 static NSString *FacebookTextImageKey = @"fb-text";
@@ -110,7 +110,7 @@ UIButton *facebookButton;
 - (void)logInWithProvider:(id)sender {
 
     [[AWSSignInManager sharedInstance] loginWithSignInProviderKey:[self.signInProvider identityProviderName]
-                                                completionHandler:^(id result, AWSAuthState authState, NSError *error) {
+                                                completionHandler:^(id result, AWSIdentityManagerAuthState authState, NSError *error) {
         [self.delegate onLoginWithSignInProvider:self.signInProvider
                                           result:result
                                        authState:authState

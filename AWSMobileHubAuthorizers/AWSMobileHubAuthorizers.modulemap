@@ -1,0 +1,6 @@
+framework module AWSMobileHubAuthorizers {
+    umbrella header "AWSMobileHubAuthorizers.h"
+    
+    export *
+    module * { export * }
+}

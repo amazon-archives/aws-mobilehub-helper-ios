@@ -11,7 +11,7 @@
 #import "AWSGoogleSignInButton.h"
 #import "AWSGoogleSignInProvider.h"
 
-typedef void (^AWSSignInManagerCompletionBlock)(id result, AWSAuthState authState, NSError *error);
+typedef void (^AWSSignInManagerCompletionBlock)(id result, AWSIdentityManagerAuthState authState, NSError *error);
 
 static NSString *GoogleLogoImageKey = @"google-no-text";
 static NSString *GoogleTextImageKey = @"google-text";
@@ -111,7 +111,7 @@ UIButton *googleButton;
 - (void)logInWithProvider:(id)sender {
     
     [[AWSSignInManager sharedInstance] loginWithSignInProviderKey:[self.signInProvider identityProviderName]
-                                                completionHandler:^(id result, AWSAuthState authState, NSError *error) {
+                                                completionHandler:^(id result, AWSIdentityManagerAuthState authState, NSError *error) {
                                                     [self.delegate onLoginWithSignInProvider:self.signInProvider
                                                                                       result:result
                                                                                    authState:authState

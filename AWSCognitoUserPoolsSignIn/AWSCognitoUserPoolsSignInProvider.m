@@ -14,7 +14,7 @@
 
 NSString *const AWSCognitoUserPoolsSignInProviderKey = @"CognitoUserPools";
 
-typedef void (^AWSSignInManagerCompletionBlock)(id result, AWSAuthState authState, NSError *error);
+typedef void (^AWSSignInManagerCompletionBlock)(id result, AWSIdentityManagerAuthState authState, NSError *error);
 
 @interface AWSSignInManager()
 

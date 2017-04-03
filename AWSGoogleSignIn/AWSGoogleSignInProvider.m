@@ -18,7 +18,7 @@ static NSString *const AWSGoogleSignInProviderOIDCScope = @"openid";
 static NSTimeInterval const AWSGoogleSignInProviderTokenRefreshBuffer = 10 * 60;
 static int64_t const AWSGoogleSignInProviderTokenRefreshTimeout = 60 * NSEC_PER_SEC;
 
-typedef void (^AWSSignInManagerCompletionBlock)(id result, AWSAuthState authState, NSError *error);
+typedef void (^AWSSignInManagerCompletionBlock)(id result, AWSIdentityManagerAuthState authState, NSError *error);
 
 @interface AWSSignInManager()
 
@@ -173,7 +173,7 @@ static NSString *const AWSInfoGoogleClientId = @"ClientId";
 - (void)signIn:(GIDSignIn *)signIn didSignInForUser:(GIDGoogleUser *)user withError:(NSError *)error {
     
     // Determine Auth State
-    AWSAuthState authState = [AWSSignInManager sharedInstance].authState;
+    AWSIdentityManagerAuthState authState = [AWSSignInManager sharedInstance].authState;
     // `self.taskCompletionSource` is used to return `user.authentication.idToken` or `error` to the `- token` method.
     // See the `AWSIdentityProvider` section of this file.
     if (error) {

@@ -16,7 +16,7 @@ static NSString *const AWSSAMLSignInProviderUserNameKeySuffix = @"SAML.userName"
 static NSString *const AWSSAMLSignInProviderImageURLKeySuffix = @"SAML.imageURL";
 static NSString *const AWSSAMLSignInProviderTokenSuffix = @"SAML.loginToken";
 
-typedef void (^AWSSignInManagerCompletionBlock)(id result, AWSAuthState authState, NSError *error);
+typedef void (^AWSSignInManagerCompletionBlock)(id result, AWSIdentityManagerAuthState authState, NSError *error);
 
 @interface AWSSignInManager()
 
@@ -113,7 +113,7 @@ typedef void (^AWSSignInManagerCompletionBlock)(id result, AWSAuthState authStat
     
     [self handleLoginWithTaskCompletionSource:taskCompletionSource];
     [taskCompletionSource.task continueWithBlock:^id _Nullable(AWSTask * _Nonnull task) {
-        AWSAuthState authState = [AWSSignInManager sharedInstance].authState;
+        AWSIdentityManagerAuthState authState = [AWSSignInManager sharedInstance].authState;
         if(task.error){
             self.completionHandler(nil, authState, task.error);
         } else {
@@ -129,7 +129,7 @@ typedef void (^AWSSignInManagerCompletionBlock)(id result, AWSAuthState authStat
 }
 
 - (void)cancelLoginWithError:(NSError *)error {
-    AWSAuthState authState = [AWSSignInManager sharedInstance].authState;
+    AWSIdentityManagerAuthState authState = [AWSSignInManager sharedInstance].authState;
     self.completionHandler(nil, authState, error);
 }
 
