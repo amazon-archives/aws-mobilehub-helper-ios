@@ -10,4 +10,5 @@ if [ -x "Scripts/GenerateHelperFramework.sh" ]; then
     Scripts/GenerateHelperFramework.sh AWSGoogleSignIn
     Scripts/GenerateHelperFramework.sh AWSSamlSignIn
     Scripts/GenerateHelperFramework.sh AWSCognitoUserPoolsSignIn
+    Scripts/GenerateHelperFramework.sh AWSMobileHubAuthorizers
 fi
