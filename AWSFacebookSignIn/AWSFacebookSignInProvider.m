@@ -31,6 +31,7 @@ typedef void (^AWSSignInManagerCompletionBlock)(id result, AWSIdentityManagerAut
 @property (strong, nonatomic) NSArray *requestedPermissions;
 @property (strong, nonatomic) UIViewController *signInViewController;
 @property (atomic, copy) AWSSignInManagerCompletionBlock completionHandler;
+@property (strong, nonatomic) AWSTaskCompletionSource *taskCompletionSource;
 
 @end
 
@@ -109,17 +110,17 @@ typedef void (^AWSSignInManagerCompletionBlock)(id result, AWSIdentityManagerAut
         return [AWSTask taskWithResult:tokenString];
     }
     
-    AWSTaskCompletionSource *taskCompletionSource = [AWSTaskCompletionSource taskCompletionSource];
+    _taskCompletionSource = [AWSTaskCompletionSource taskCompletionSource];
     [FBSDKLoginManager renewSystemCredentials:^(ACAccountCredentialRenewResult result, NSError *error) {
         if (result == ACAccountCredentialRenewResultRenewed) {
             FBSDKAccessToken *token = [FBSDKAccessToken currentAccessToken];
             NSString *tokenString = token.tokenString;
-            taskCompletionSource.result = tokenString;
+            _taskCompletionSource.result = tokenString;
         } else {
-            taskCompletionSource.error = error;
+            _taskCompletionSource.error = error;
         }
     }];
-    return taskCompletionSource.task;
+    return _taskCompletionSource.task;
 }
 
 #pragma mark -

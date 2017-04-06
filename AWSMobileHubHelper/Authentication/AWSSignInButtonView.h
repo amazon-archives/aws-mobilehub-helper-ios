@@ -16,7 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 typedef NS_ENUM(NSInteger, AWSSignInButtonStyle) {
     AWSSignInButtonStyleSmall,
-    AWSSignInButtonStyleBig
+    AWSSignInButtonStyleLarge
 };
 
 @protocol AWSSignInButtonView<NSObject>

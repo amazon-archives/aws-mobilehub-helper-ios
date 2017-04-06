@@ -9,4 +9,3 @@
 //
 
 #import "AWSCognitoUserPoolsSignInProvider.h"
-#import "AWSCognitoUserPoolsIdentityProfile.h"

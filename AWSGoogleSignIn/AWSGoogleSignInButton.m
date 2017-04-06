@@ -26,6 +26,9 @@ static NSString *BundleExtension = @"bundle";
 @property (nonatomic, strong) id<AWSSignInProvider> signInProvider;
 
 @property (nonatomic, strong) UIImageView *signInButton;
+@property (nonatomic, strong) UIButton *googleButton;
+@property (nonatomic, strong) UIStackView *googleStackView;
+@property (nonatomic, strong) UIImageView *googleLogoImageView;
 
 @end
 
@@ -33,9 +36,6 @@ static NSString *BundleExtension = @"bundle";
 
 @synthesize delegate;
 @synthesize buttonStyle;
-UIButton *googleButton;
-UIStackView *googleStackView;
-UIImageView *googleLogoImageView;
 
 - (id)initWithCoder:(NSCoder*)aDecoder {
     
@@ -72,30 +72,30 @@ UIImageView *googleLogoImageView;
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
     // property set
     if ([keyPath isEqualToString:@"buttonStyle"]) {
-        if (googleButton) {
-            [googleButton setImage:nil forState:UIControlStateNormal];
+        if (_googleButton) {
+            [_googleButton setImage:nil forState:UIControlStateNormal];
         }
-        if (buttonStyle == AWSSignInButtonStyleBig) {
-            [self setupBigGoogleButton];
+        if (buttonStyle == AWSSignInButtonStyleLarge) {
+            [self setupLargeGoogleButton];
         } else {
             [self setupSmallGoogleButton];
         }
         // refresh views
-        [googleButton setNeedsDisplay];
+        [_googleButton setNeedsDisplay];
         [self setNeedsDisplay];
     }
 }
 
 - (void)initGoogleButton {
-    googleButton = [[UIButton alloc] init];
+    _googleButton = [[UIButton alloc] init];
     [self addObserver:self forKeyPath:@"buttonStyle" options:0 context:nil];
-    [googleButton addTarget:self
+    [_googleButton addTarget:self
                      action:@selector(logInWithProvider:)
-           forControlEvents:UIControlEventTouchDown];
-    CGRect buttonFrame = googleButton.frame;
+           forControlEvents:UIControlEventTouchUpInside];
+    CGRect buttonFrame = _googleButton.frame;
     buttonFrame.size = CGSizeMake(self.frame.size.width, self.frame.size.height);
-    googleButton.frame = buttonFrame;
-    [self addSubview:googleButton];
+    _googleButton.frame = buttonFrame;
+    [self addSubview:_googleButton];
 }
 
 - (void)initLogo {
@@ -104,21 +104,21 @@ UIImageView *googleLogoImageView;
     logoImageView.contentMode = UIViewContentModeScaleAspectFit;
     logoImageView.exclusiveTouch = NO;
     logoImageView.userInteractionEnabled = NO;
-    [googleStackView addArrangedSubview:logoImageView];
+    [_googleStackView addArrangedSubview:logoImageView];
 }
 
 -(void)initStackView {
-    googleStackView = [[UIStackView alloc] initWithFrame:googleButton.frame];
-    googleStackView.axis = UILayoutConstraintAxisHorizontal;
-    googleStackView.distribution = UIStackViewDistributionEqualSpacing;
-    googleStackView.contentMode = UIViewContentModeScaleAspectFit;
-    googleStackView.alignment = UIStackViewAlignmentCenter;
-    googleStackView.layoutMargins = UIEdgeInsetsMake(SPACING, SPACING, SPACING, SPACING);
-    [googleStackView setLayoutMarginsRelativeArrangement:YES];
-    [googleStackView setSpacing:SPACING];
-    googleStackView.exclusiveTouch = NO;
-    googleStackView.userInteractionEnabled = NO;
-    [self addSubview:googleStackView];
+    _googleStackView = [[UIStackView alloc] initWithFrame:_googleButton.frame];
+    _googleStackView.axis = UILayoutConstraintAxisHorizontal;
+    _googleStackView.distribution = UIStackViewDistributionEqualSpacing;
+    _googleStackView.contentMode = UIViewContentModeScaleAspectFit;
+    _googleStackView.alignment = UIStackViewAlignmentCenter;
+    _googleStackView.layoutMargins = UIEdgeInsetsMake(SPACING, SPACING, SPACING, SPACING);
+    [_googleStackView setLayoutMarginsRelativeArrangement:YES];
+    [_googleStackView setSpacing:SPACING];
+    _googleStackView.exclusiveTouch = NO;
+    _googleStackView.userInteractionEnabled = NO;
+    [self addSubview:_googleStackView];
 }
 
 - (void)initLabel {
@@ -134,26 +134,26 @@ UIImageView *googleLogoImageView;
 }
 
 - (void)setUpButtonEffects {
-    googleButton.backgroundColor = [UIColor whiteColor];
-    googleButton.layer.cornerRadius = 4.0f;
-    googleButton.layer.borderWidth = 0.1f;
-    googleButton.layer.borderColor = [[UIColor grayColor] CGColor];
-    googleButton.layer.shadowColor = [[UIColor lightGrayColor] CGColor];
-    googleButton.layer.shadowOffset = CGSizeMake(0, 2.0f);
-    googleButton.layer.shadowOpacity = 0.5f;
-    googleButton.layer.shadowRadius = 0.0f;
-    googleButton.layer.masksToBounds = NO;
+    _googleButton.backgroundColor = [UIColor whiteColor];
+    _googleButton.layer.cornerRadius = 4.0f;
+    _googleButton.layer.borderWidth = 0.1f;
+    _googleButton.layer.borderColor = [[UIColor grayColor] CGColor];
+    _googleButton.layer.shadowColor = [[UIColor lightGrayColor] CGColor];
+    _googleButton.layer.shadowOffset = CGSizeMake(0, 2.0f);
+    _googleButton.layer.shadowOpacity = 0.5f;
+    _googleButton.layer.shadowRadius = 0.0f;
+    _googleButton.layer.masksToBounds = NO;
 }
 
 - (void)setupSmallGoogleButton {
-    googleStackView.distribution = UIStackViewDistributionEqualCentering;
+    _googleStackView.distribution = UIStackViewDistributionEqualCentering;
     [_textLabel removeFromSuperview];
 }
 
-- (void)setupBigGoogleButton {
-    googleStackView.distribution = UIStackViewDistributionFill;
-    [googleLogoImageView setContentHuggingPriority:LOW_HUGGING_PRIORITY forAxis:UILayoutConstraintAxisHorizontal];
-    [googleStackView addArrangedSubview:_textLabel];
+- (void)setupLargeGoogleButton {
+    _googleStackView.distribution = UIStackViewDistributionFill;
+    [_googleLogoImageView setContentHuggingPriority:LOW_HUGGING_PRIORITY forAxis:UILayoutConstraintAxisHorizontal];
+    [_googleStackView addArrangedSubview:_textLabel];
 }
 
 

@@ -9,4 +9,3 @@
 //
 
 #import "AWSSamlSignInProvider.h"
-#import "AWSSamlIdentityProfileh"

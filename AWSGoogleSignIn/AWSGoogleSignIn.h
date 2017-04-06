@@ -10,4 +10,3 @@
 
 #import "AWSGoogleSignInProvider.h"
 #import "AWSGoogleSignInButton.h"
-#import "AWSGoogleIdentityProfile.h"

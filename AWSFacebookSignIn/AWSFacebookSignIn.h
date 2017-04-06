@@ -10,4 +10,3 @@
 
 #import "AWSFacebookSignInProvider.h"
 #import "AWSFacebookSignInButton.h"
-#import "AWSFacebookIdentityProfile.h"

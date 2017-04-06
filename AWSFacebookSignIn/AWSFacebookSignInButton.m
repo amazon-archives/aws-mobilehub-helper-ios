@@ -26,8 +26,9 @@ static NSString *BundleExtension = @"bundle";
 @interface AWSFacebookSignInButton()
 
 @property (nonatomic, strong) id<AWSSignInProvider> signInProvider;
-
-@property (nonatomic, strong) UIImageView *signInButton;
+@property (nonatomic, strong) UIButton *facebookButton;
+@property (nonatomic, strong) UIStackView *facebookStackView;
+@property (nonatomic, strong) UIImageView *facebookLogoImageView;
 
 @end
 
@@ -35,9 +36,6 @@ static NSString *BundleExtension = @"bundle";
 
 @synthesize delegate;
 @synthesize buttonStyle;
-UIButton *facebookButton;
-UIStackView *facebookStackView;
-UIImageView *facebookLogoImageView;
 
 - (id)initWithCoder:(NSCoder*)aDecoder {
     
@@ -74,31 +72,31 @@ UIImageView *facebookLogoImageView;
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
     // property set
     if ([keyPath isEqualToString:@"buttonStyle"]) {
-        if (facebookButton) {
-            [facebookButton setImage:nil forState:UIControlStateNormal];
+        if (_facebookButton) {
+            [_facebookButton setImage:nil forState:UIControlStateNormal];
         }
-        if (buttonStyle == AWSSignInButtonStyleBig) {
-            [self setupBigFacebookButton];
+        if (buttonStyle == AWSSignInButtonStyleLarge) {
+            [self setupLargeFacebookButton];
         } else {
             [self setupSmallFacebookButton];
         }
         // refresh views
-        [facebookButton setNeedsDisplay];
+        [_facebookButton setNeedsDisplay];
         [self setNeedsDisplay];
     }
 }
 
 - (void)initFacebookButton {
-    facebookButton = [[UIButton alloc] init];
+    _facebookButton = [[UIButton alloc] init];
     [self addObserver:self forKeyPath:@"buttonStyle" options:0 context:nil];
-    [facebookButton addTarget:self
-                     action:@selector(logInWithProvider:)
-           forControlEvents:UIControlEventTouchDown];
-    CGRect buttonFrame = facebookButton.frame;
+    [_facebookButton addTarget:self
+                       action:@selector(logInWithProvider:)
+             forControlEvents:UIControlEventTouchUpInside];
+    CGRect buttonFrame = _facebookButton.frame;
     buttonFrame.size = CGSizeMake(self.frame.size.width, self.frame.size.height);
-    facebookButton.frame = buttonFrame;
-    facebookButton.contentMode = UIViewContentModeCenter;
-    [self addSubview:facebookButton];
+    _facebookButton.frame = buttonFrame;
+    _facebookButton.contentMode = UIViewContentModeCenter;
+    [self addSubview:_facebookButton];
 }
 
 - (void)initLogo {
@@ -107,21 +105,21 @@ UIImageView *facebookLogoImageView;
     facebookLogoImageView.contentMode = UIViewContentModeScaleAspectFit;
     facebookLogoImageView.exclusiveTouch = NO;
     facebookLogoImageView.userInteractionEnabled = NO;
-    [facebookStackView addArrangedSubview:facebookLogoImageView];
+    [_facebookStackView addArrangedSubview:facebookLogoImageView];
 }
 
 -(void)initStackView {
-    facebookStackView = [[UIStackView alloc] initWithFrame:facebookButton.frame];
-    facebookStackView.axis = UILayoutConstraintAxisHorizontal;
-    facebookStackView.distribution = UIStackViewDistributionEqualCentering;
-    facebookStackView.contentMode = UIViewContentModeScaleAspectFit;
-    facebookStackView.alignment = UIStackViewAlignmentCenter;
-    facebookStackView.layoutMargins = UIEdgeInsetsMake(SPACING, SPACING, SPACING, SPACING);
-    [facebookStackView setLayoutMarginsRelativeArrangement:YES];
-    [facebookStackView setSpacing:SPACING];
-    facebookStackView.exclusiveTouch = NO;
-    facebookStackView.userInteractionEnabled = NO;
-    [self addSubview:facebookStackView];
+    _facebookStackView = [[UIStackView alloc] initWithFrame:_facebookButton.frame];
+    _facebookStackView.axis = UILayoutConstraintAxisHorizontal;
+    _facebookStackView.distribution = UIStackViewDistributionEqualCentering;
+    _facebookStackView.contentMode = UIViewContentModeScaleAspectFit;
+    _facebookStackView.alignment = UIStackViewAlignmentCenter;
+    _facebookStackView.layoutMargins = UIEdgeInsetsMake(SPACING, SPACING, SPACING, SPACING);
+    [_facebookStackView setLayoutMarginsRelativeArrangement:YES];
+    [_facebookStackView setSpacing:SPACING];
+    _facebookStackView.exclusiveTouch = NO;
+    _facebookStackView.userInteractionEnabled = NO;
+    [self addSubview:_facebookStackView];
 }
 
 - (void)initLabel {
@@ -139,26 +137,26 @@ UIImageView *facebookLogoImageView;
 - (void)setUpButtonEffects {
     // Facebook Icon Blue Color as background color
     UIColor *fbBackGroundColor = FB_BLUE_COLOR;
-    [facebookButton setBackgroundColor: fbBackGroundColor];
-    facebookButton.layer.cornerRadius = 4.0f;
-    facebookButton.layer.borderWidth = 0.1f;
-    facebookButton.layer.borderColor = [[UIColor grayColor] CGColor];
-    facebookButton.layer.shadowColor = [[UIColor lightGrayColor] CGColor];
-    facebookButton.layer.shadowOffset = CGSizeMake(0, 2.0f);
-    facebookButton.layer.shadowOpacity = 0.5f;
-    facebookButton.layer.shadowRadius = 0.0f;
-    facebookButton.layer.masksToBounds = NO;
+    [_facebookButton setBackgroundColor: fbBackGroundColor];
+    _facebookButton.layer.cornerRadius = 4.0f;
+    _facebookButton.layer.borderWidth = 0.1f;
+    _facebookButton.layer.borderColor = [[UIColor grayColor] CGColor];
+    _facebookButton.layer.shadowColor = [[UIColor lightGrayColor] CGColor];
+    _facebookButton.layer.shadowOffset = CGSizeMake(0, 2.0f);
+    _facebookButton.layer.shadowOpacity = 0.5f;
+    _facebookButton.layer.shadowRadius = 0.0f;
+    _facebookButton.layer.masksToBounds = NO;
 }
 
 - (void)setupSmallFacebookButton {
     [_textLabel removeFromSuperview];
-    facebookStackView.distribution = UIStackViewDistributionEqualCentering;
+    _facebookStackView.distribution = UIStackViewDistributionEqualCentering;
 }
 
-- (void)setupBigFacebookButton {
-    facebookStackView.distribution = UIStackViewDistributionFill;
-    [facebookLogoImageView setContentHuggingPriority:LOW_HUGGING_PRIORITY forAxis:UILayoutConstraintAxisHorizontal];
-    [facebookStackView addArrangedSubview:_textLabel];
+- (void)setupLargeFacebookButton {
+    _facebookStackView.distribution = UIStackViewDistributionFill;
+    [_facebookLogoImageView setContentHuggingPriority:LOW_HUGGING_PRIORITY forAxis:UILayoutConstraintAxisHorizontal];
+    [_facebookStackView addArrangedSubview:_textLabel];
 }
 
 - (UIImage *)getImageFromBundle:(NSString *)imageName {
