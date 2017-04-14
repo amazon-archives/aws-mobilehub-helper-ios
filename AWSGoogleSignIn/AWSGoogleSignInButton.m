@@ -72,8 +72,8 @@ static NSString *BundleExtension = @"bundle";
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
     // property set
     if ([keyPath isEqualToString:@"buttonStyle"]) {
-        if (_googleButton) {
-            [_googleButton setImage:nil forState:UIControlStateNormal];
+        if (self.googleButton) {
+            [self.googleButton setImage:nil forState:UIControlStateNormal];
         }
         if (buttonStyle == AWSSignInButtonStyleLarge) {
             [self setupLargeGoogleButton];
@@ -81,7 +81,7 @@ static NSString *BundleExtension = @"bundle";
             [self setupSmallGoogleButton];
         }
         // refresh views
-        [_googleButton setNeedsDisplay];
+        [self.googleButton setNeedsDisplay];
         [self setNeedsDisplay];
     }
 }
@@ -89,13 +89,15 @@ static NSString *BundleExtension = @"bundle";
 - (void)initGoogleButton {
     _googleButton = [[UIButton alloc] init];
     [self addObserver:self forKeyPath:@"buttonStyle" options:0 context:nil];
-    [_googleButton addTarget:self
+    [self.googleButton addTarget:self
                      action:@selector(logInWithProvider:)
            forControlEvents:UIControlEventTouchUpInside];
-    CGRect buttonFrame = _googleButton.frame;
+    CGRect buttonFrame = self.googleButton.frame;
     buttonFrame.size = CGSizeMake(self.frame.size.width, self.frame.size.height);
-    _googleButton.frame = buttonFrame;
-    [self addSubview:_googleButton];
+    self.googleButton.frame = buttonFrame;
+    NSLog(@"Google Frame: %f %f", self.frame.size.width, self.frame.size.height);
+    NSLog(@"Google Button: %f %f", self.googleButton.frame.size.width, self.googleButton.frame.size.height);
+    [self addSubview:self.googleButton];
 }
 
 - (void)initLogo {
@@ -104,56 +106,56 @@ static NSString *BundleExtension = @"bundle";
     logoImageView.contentMode = UIViewContentModeScaleAspectFit;
     logoImageView.exclusiveTouch = NO;
     logoImageView.userInteractionEnabled = NO;
-    [_googleStackView addArrangedSubview:logoImageView];
+    [self.googleStackView addArrangedSubview:logoImageView];
 }
 
 -(void)initStackView {
-    _googleStackView = [[UIStackView alloc] initWithFrame:_googleButton.frame];
-    _googleStackView.axis = UILayoutConstraintAxisHorizontal;
-    _googleStackView.distribution = UIStackViewDistributionEqualSpacing;
-    _googleStackView.contentMode = UIViewContentModeScaleAspectFit;
-    _googleStackView.alignment = UIStackViewAlignmentCenter;
-    _googleStackView.layoutMargins = UIEdgeInsetsMake(SPACING, SPACING, SPACING, SPACING);
-    [_googleStackView setLayoutMarginsRelativeArrangement:YES];
-    [_googleStackView setSpacing:SPACING];
-    _googleStackView.exclusiveTouch = NO;
-    _googleStackView.userInteractionEnabled = NO;
-    [self addSubview:_googleStackView];
+    _googleStackView = [[UIStackView alloc] initWithFrame:self.googleButton.frame];
+    self.googleStackView.axis = UILayoutConstraintAxisHorizontal;
+    self.googleStackView.distribution = UIStackViewDistributionEqualSpacing;
+    self.googleStackView.contentMode = UIViewContentModeScaleAspectFit;
+    self.googleStackView.alignment = UIStackViewAlignmentCenter;
+    self.googleStackView.layoutMargins = UIEdgeInsetsMake(SPACING, SPACING, SPACING, SPACING);
+    [self.googleStackView setLayoutMarginsRelativeArrangement:YES];
+    [self.googleStackView setSpacing:SPACING];
+    self.googleStackView.exclusiveTouch = NO;
+    self.googleStackView.userInteractionEnabled = NO;
+    [self.googleButton addSubview:self.googleStackView];
 }
 
 - (void)initLabel {
     _textLabel = [[UILabel alloc] init];
-    _textLabel.numberOfLines = 1;
-    _textLabel.adjustsFontSizeToFitWidth = YES;
-    _textLabel.text = @"Google";
-    _textLabel.font = [UIFont fontWithName:@"Helvetica-Bold" size:18];
-    _textLabel.textColor = [UIColor darkGrayColor];
-    _textLabel.exclusiveTouch = NO;
-    _textLabel.userInteractionEnabled = NO;
-    [_textLabel setContentHuggingPriority:HIGH_HUGGING_PRIORITY forAxis:UILayoutConstraintAxisHorizontal];
+    self.textLabel.numberOfLines = 1;
+    self.textLabel.adjustsFontSizeToFitWidth = YES;
+    self.textLabel.text = @"Sign in with Google";
+    self.textLabel.font = [UIFont fontWithName:@"Helvetica-Bold" size:18];
+    self.textLabel.textColor = [UIColor darkGrayColor];
+    self.textLabel.exclusiveTouch = NO;
+    self.textLabel.userInteractionEnabled = NO;
+    [self.textLabel setContentHuggingPriority:HIGH_HUGGING_PRIORITY forAxis:UILayoutConstraintAxisHorizontal];
 }
 
 - (void)setUpButtonEffects {
-    _googleButton.backgroundColor = [UIColor whiteColor];
-    _googleButton.layer.cornerRadius = 4.0f;
-    _googleButton.layer.borderWidth = 0.1f;
-    _googleButton.layer.borderColor = [[UIColor grayColor] CGColor];
-    _googleButton.layer.shadowColor = [[UIColor lightGrayColor] CGColor];
-    _googleButton.layer.shadowOffset = CGSizeMake(0, 2.0f);
-    _googleButton.layer.shadowOpacity = 0.5f;
-    _googleButton.layer.shadowRadius = 0.0f;
-    _googleButton.layer.masksToBounds = NO;
+    self.googleButton.backgroundColor = [UIColor whiteColor];
+    self.googleButton.layer.cornerRadius = 4.0f;
+    self.googleButton.layer.borderWidth = 0.1f;
+    self.googleButton.layer.borderColor = [[UIColor grayColor] CGColor];
+    self.googleButton.layer.shadowColor = [[UIColor lightGrayColor] CGColor];
+    self.googleButton.layer.shadowOffset = CGSizeMake(0, 2.0f);
+    self.googleButton.layer.shadowOpacity = 0.5f;
+    self.googleButton.layer.shadowRadius = 0.0f;
+    self.googleButton.layer.masksToBounds = NO;
 }
 
 - (void)setupSmallGoogleButton {
-    _googleStackView.distribution = UIStackViewDistributionEqualCentering;
-    [_textLabel removeFromSuperview];
+    self.googleStackView.distribution = UIStackViewDistributionEqualCentering;
+    [self.textLabel removeFromSuperview];
 }
 
 - (void)setupLargeGoogleButton {
-    _googleStackView.distribution = UIStackViewDistributionFill;
-    [_googleLogoImageView setContentHuggingPriority:LOW_HUGGING_PRIORITY forAxis:UILayoutConstraintAxisHorizontal];
-    [_googleStackView addArrangedSubview:_textLabel];
+    self.googleStackView.distribution = UIStackViewDistributionFill;
+    [self.googleLogoImageView setContentHuggingPriority:LOW_HUGGING_PRIORITY forAxis:UILayoutConstraintAxisHorizontal];
+    [self.googleStackView addArrangedSubview:self.textLabel];
 }
 
 

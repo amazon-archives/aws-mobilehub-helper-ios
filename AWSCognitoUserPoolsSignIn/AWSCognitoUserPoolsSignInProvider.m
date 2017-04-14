@@ -10,7 +10,6 @@
 
 #import "AWSCognitoUserPoolsSignInProvider.h"
 #import <AWSMobileHubHelper/AWSSignInManager.h>
-#import <AWSCognitoIdentityProvider/AWSCognitoIdentityProvider.h>
 
 NSString *const AWSCognitoUserPoolsSignInProviderKey = @"CognitoUserPools";
 

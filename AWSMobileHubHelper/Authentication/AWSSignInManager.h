@@ -30,7 +30,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)onLoginWithSignInProvider:(id<AWSSignInProvider>)signInProvider
                            result:(id _Nullable)result
                         authState:(AWSIdentityManagerAuthState)authState
-                            error:(NSError * _Nullable)error;
+                            error:(NSError * _Nullable)error NS_SWIFT_NAME(onLogin(signInProvider:result:authState:error:));
 
 @end
 

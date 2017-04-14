@@ -13,12 +13,12 @@ NS_ASSUME_NONNULL_BEGIN
 /*
  This protocol defines a list of methods and properties required to be implemented by a Identity Profile provider.
  */
-@protocol AWSIdentityProfile<NSObject>
+@protocol AWSIdentityProfile
 
 /*
  The shared instance for the profile provider.
  */
-+(instancetype)sharedInstance;
++(id<AWSIdentityProfile>)sharedInstance;
 
 /**
  The URL for profile image of a user.
@@ -33,7 +33,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  Fetches custom stored profile attribute using specified key.
  */
--(id)getProfileAttributeForKey:(NSString *)key;
+-(_Nullable id)getProfileAttributeForKey:( NSString *)key;
 
 /**
  Stores custom values using specified key.
@@ -44,7 +44,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  Fetches the entire identity profile attributes map.
  */
--(NSDictionary *)getProfileAttributesMap;
+-(NSDictionary<NSString *,id> *)getProfileAttributesMap;
 
 /**
  Clears the current profile information.

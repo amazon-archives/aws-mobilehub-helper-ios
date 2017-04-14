@@ -9,6 +9,7 @@
 //
 #import <Foundation/Foundation.h>
 #import <AWSMobileHubHelper/AWSSignInProvider.h>
+#import <AWSCognitoIdentityProvider/AWSCognitoIdentityProvider.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -64,6 +65,13 @@ cognitoIdentityUserPoolAppClientSecret:(NSString *)cognitoIdentityUserPoolAppCli
  *  @return `YES` if the user is signed in.
  */
 - (BOOL)isLoggedIn;
+
+/**
+ *  Returns the configured underlying user pool client.
+ *
+ *  @return the configured user pool instance
+ */
+- (AWSCognitoIdentityUserPool *)getUserPool;
 
 
 @end

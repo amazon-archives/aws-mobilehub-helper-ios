@@ -72,8 +72,8 @@ static NSString *BundleExtension = @"bundle";
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
     // property set
     if ([keyPath isEqualToString:@"buttonStyle"]) {
-        if (_facebookButton) {
-            [_facebookButton setImage:nil forState:UIControlStateNormal];
+        if (self.facebookButton) {
+            [self.facebookButton setImage:nil forState:UIControlStateNormal];
         }
         if (buttonStyle == AWSSignInButtonStyleLarge) {
             [self setupLargeFacebookButton];
@@ -81,7 +81,7 @@ static NSString *BundleExtension = @"bundle";
             [self setupSmallFacebookButton];
         }
         // refresh views
-        [_facebookButton setNeedsDisplay];
+        [self.facebookButton setNeedsDisplay];
         [self setNeedsDisplay];
     }
 }
@@ -89,14 +89,14 @@ static NSString *BundleExtension = @"bundle";
 - (void)initFacebookButton {
     _facebookButton = [[UIButton alloc] init];
     [self addObserver:self forKeyPath:@"buttonStyle" options:0 context:nil];
-    [_facebookButton addTarget:self
+    [self.facebookButton addTarget:self
                        action:@selector(logInWithProvider:)
              forControlEvents:UIControlEventTouchUpInside];
     CGRect buttonFrame = _facebookButton.frame;
     buttonFrame.size = CGSizeMake(self.frame.size.width, self.frame.size.height);
-    _facebookButton.frame = buttonFrame;
-    _facebookButton.contentMode = UIViewContentModeCenter;
-    [self addSubview:_facebookButton];
+    self.facebookButton.frame = buttonFrame;
+    self.facebookButton.contentMode = UIViewContentModeCenter;
+    [self addSubview:self.facebookButton];
 }
 
 - (void)initLogo {
@@ -105,58 +105,58 @@ static NSString *BundleExtension = @"bundle";
     facebookLogoImageView.contentMode = UIViewContentModeScaleAspectFit;
     facebookLogoImageView.exclusiveTouch = NO;
     facebookLogoImageView.userInteractionEnabled = NO;
-    [_facebookStackView addArrangedSubview:facebookLogoImageView];
+    [self.facebookStackView addArrangedSubview:facebookLogoImageView];
 }
 
 -(void)initStackView {
     _facebookStackView = [[UIStackView alloc] initWithFrame:_facebookButton.frame];
-    _facebookStackView.axis = UILayoutConstraintAxisHorizontal;
-    _facebookStackView.distribution = UIStackViewDistributionEqualCentering;
-    _facebookStackView.contentMode = UIViewContentModeScaleAspectFit;
-    _facebookStackView.alignment = UIStackViewAlignmentCenter;
-    _facebookStackView.layoutMargins = UIEdgeInsetsMake(SPACING, SPACING, SPACING, SPACING);
-    [_facebookStackView setLayoutMarginsRelativeArrangement:YES];
-    [_facebookStackView setSpacing:SPACING];
-    _facebookStackView.exclusiveTouch = NO;
-    _facebookStackView.userInteractionEnabled = NO;
-    [self addSubview:_facebookStackView];
+    self.facebookStackView.axis = UILayoutConstraintAxisHorizontal;
+    self.facebookStackView.distribution = UIStackViewDistributionEqualCentering;
+    self.facebookStackView.contentMode = UIViewContentModeScaleAspectFit;
+    self.facebookStackView.alignment = UIStackViewAlignmentCenter;
+    self.facebookStackView.layoutMargins = UIEdgeInsetsMake(SPACING, SPACING, SPACING, SPACING);
+    [self.facebookStackView setLayoutMarginsRelativeArrangement:YES];
+    [self.facebookStackView setSpacing:SPACING];
+    self.facebookStackView.exclusiveTouch = NO;
+    self.facebookStackView.userInteractionEnabled = NO;
+    [self.facebookButton addSubview:self.facebookStackView];
 }
 
 - (void)initLabel {
     _textLabel = [[UILabel alloc] init];
-    _textLabel.numberOfLines = 1;
-    _textLabel.adjustsFontSizeToFitWidth = YES;
-    _textLabel.text = @"Sign in with Facebook";
-    _textLabel.font = [UIFont fontWithName:@"Helvetica-Bold" size:18];
-    _textLabel.textColor = [UIColor whiteColor];
-    _textLabel.exclusiveTouch = NO;
-    _textLabel.userInteractionEnabled = NO;
-    [_textLabel setContentHuggingPriority:HIGH_HUGGING_PRIORITY forAxis:UILayoutConstraintAxisHorizontal];
+    self.textLabel.numberOfLines = 1;
+    self.textLabel.adjustsFontSizeToFitWidth = YES;
+    self.textLabel.text = @"Continue with Facebook";
+    self.textLabel.font = [UIFont fontWithName:@"Helvetica-Bold" size:18];
+    self.textLabel.textColor = [UIColor whiteColor];
+    self.textLabel.exclusiveTouch = NO;
+    self.textLabel.userInteractionEnabled = NO;
+    [self.textLabel setContentHuggingPriority:HIGH_HUGGING_PRIORITY forAxis:UILayoutConstraintAxisHorizontal];
 }
 
 - (void)setUpButtonEffects {
     // Facebook Icon Blue Color as background color
     UIColor *fbBackGroundColor = FB_BLUE_COLOR;
-    [_facebookButton setBackgroundColor: fbBackGroundColor];
-    _facebookButton.layer.cornerRadius = 4.0f;
-    _facebookButton.layer.borderWidth = 0.1f;
-    _facebookButton.layer.borderColor = [[UIColor grayColor] CGColor];
-    _facebookButton.layer.shadowColor = [[UIColor lightGrayColor] CGColor];
-    _facebookButton.layer.shadowOffset = CGSizeMake(0, 2.0f);
-    _facebookButton.layer.shadowOpacity = 0.5f;
-    _facebookButton.layer.shadowRadius = 0.0f;
-    _facebookButton.layer.masksToBounds = NO;
+    [self.facebookButton setBackgroundColor: fbBackGroundColor];
+    self.facebookButton.layer.cornerRadius = 4.0f;
+    self.facebookButton.layer.borderWidth = 0.1f;
+    self.facebookButton.layer.borderColor = [[UIColor grayColor] CGColor];
+    self.facebookButton.layer.shadowColor = [[UIColor lightGrayColor] CGColor];
+    self.facebookButton.layer.shadowOffset = CGSizeMake(0, 2.0f);
+    self.facebookButton.layer.shadowOpacity = 0.5f;
+    self.facebookButton.layer.shadowRadius = 0.0f;
+    self.facebookButton.layer.masksToBounds = NO;
 }
 
 - (void)setupSmallFacebookButton {
-    [_textLabel removeFromSuperview];
-    _facebookStackView.distribution = UIStackViewDistributionEqualCentering;
+    [self.textLabel removeFromSuperview];
+    self.facebookStackView.distribution = UIStackViewDistributionEqualCentering;
 }
 
 - (void)setupLargeFacebookButton {
-    _facebookStackView.distribution = UIStackViewDistributionFill;
-    [_facebookLogoImageView setContentHuggingPriority:LOW_HUGGING_PRIORITY forAxis:UILayoutConstraintAxisHorizontal];
-    [_facebookStackView addArrangedSubview:_textLabel];
+    self.facebookStackView.distribution = UIStackViewDistributionFill;
+    [self.facebookLogoImageView setContentHuggingPriority:LOW_HUGGING_PRIORITY forAxis:UILayoutConstraintAxisHorizontal];
+    [self.facebookStackView addArrangedSubview:self.textLabel];
 }
 
 - (UIImage *)getImageFromBundle:(NSString *)imageName {

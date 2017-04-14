@@ -8,8 +8,8 @@
 // copy, distribute and modify it.
 //
 
-#import "AWSSignInProvider.h"
-#import "AWSSignInProviderApplicationIntercept.h"
+#import <AWSMobileHubHelper/AWSSignInProvider.h>
+#import <AWSMobileHubHelper/AWSSignInProviderApplicationIntercept.h>
 
 NS_ASSUME_NONNULL_BEGIN
 

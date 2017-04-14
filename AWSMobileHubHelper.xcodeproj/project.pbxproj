@@ -69,6 +69,8 @@
 		179348C51E82EC6300A779A6 /* AWSCognitoUserPoolsSignIn.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 179348C21E82EB6900A779A6 /* AWSCognitoUserPoolsSignIn.h */; };
 		179348C61E82EC6300A779A6 /* AWSCognitoUserPoolsSignIn.modulemap in CopyFiles */ = {isa = PBXBuildFile; fileRef = 179348C31E82EB7D00A779A6 /* AWSCognitoUserPoolsSignIn.modulemap */; };
 		179348C91E82EC7100A779A6 /* AWSCognitoUserPoolsSignInProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = 17F9B54A1E81C97600B80A2D /* AWSCognitoUserPoolsSignInProvider.m */; };
+		17BB49051E96FE77008B8745 /* AWSIdentityProfileManager.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 1739FC4A1E91E788007908FE /* AWSIdentityProfileManager.h */; };
+		17BB49061E96FF5E008B8745 /* AWSGoogleSignInButton.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = 171D97351E8B77350003D8B3 /* AWSGoogleSignInButton.h */; };
 		17F9B5621E81C9D600B80A2D /* AWSIdentityManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 17F9B55D1E81C9D600B80A2D /* AWSIdentityManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		17F9B5631E81C9D600B80A2D /* AWSIdentityManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 17F9B55E1E81C9D600B80A2D /* AWSIdentityManager.m */; };
 		17F9B5641E81C9D600B80A2D /* AWSSignInProvider.h in Headers */ = {isa = PBXBuildFile; fileRef = 17F9B55F1E81C9D600B80A2D /* AWSSignInProvider.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -251,6 +253,7 @@
 			dstPath = "include/$(PRODUCT_NAME)";
 			dstSubfolderSpec = 16;
 			files = (
+				17BB49061E96FF5E008B8745 /* AWSGoogleSignInButton.h in CopyFiles */,
 				17F9B5A61E81FC7200B80A2D /* AWSGoogleSignIn.modulemap in CopyFiles */,
 				17F9B59D1E81F0D000B80A2D /* AWSGoogleSignInProvider.h in CopyFiles */,
 				17F9B5991E81F06400B80A2D /* AWSGoogleSignIn.h in CopyFiles */,
@@ -275,6 +278,7 @@
 			dstPath = "include/$(PRODUCT_NAME)";
 			dstSubfolderSpec = 16;
 			files = (
+				17BB49051E96FE77008B8745 /* AWSIdentityProfileManager.h in CopyFiles */,
 				17743C381E89DFE300D5D248 /* AWSSignInButtonView.h in CopyFiles */,
 				17FC3F111E843D7E00CF2909 /* AWSSignInManager.h in CopyFiles */,
 				17FC3F121E843D7E00CF2909 /* AWSIdentityProfile.h in CopyFiles */,
@@ -1536,13 +1540,15 @@
 				CODE_SIGN_IDENTITY = "-";
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = W3DRXD72QU;
+				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = AWSFacebookSignInResources/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = com.amazonaws.AWSFacebookSignInResources;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = macosx;
+				SDKROOT = iphoneos10.2;
 				SKIP_INSTALL = YES;
 				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos";
 				WRAPPER_EXTENSION = bundle;
@@ -1556,13 +1562,14 @@
 				CODE_SIGN_IDENTITY = "-";
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = W3DRXD72QU;
+				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = AWSFacebookSignInResources/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				PRODUCT_BUNDLE_IDENTIFIER = com.amazonaws.AWSFacebookSignInResources;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = macosx;
+				SDKROOT = iphoneos10.2;
 				SKIP_INSTALL = YES;
 				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos";
 				WRAPPER_EXTENSION = bundle;
@@ -1576,12 +1583,15 @@
 				CODE_SIGN_IDENTITY = "-";
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = W3DRXD72QU;
+				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = AWSGoogleSignInResources/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = com.amazonaws.AWSGoogleSignInResources;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = macosx;
+				SDKROOT = iphoneos10.2;
 				SKIP_INSTALL = YES;
 				WRAPPER_EXTENSION = bundle;
 			};
@@ -1594,12 +1604,14 @@
 				CODE_SIGN_IDENTITY = "-";
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = W3DRXD72QU;
+				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = AWSGoogleSignInResources/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				PRODUCT_BUNDLE_IDENTIFIER = com.amazonaws.AWSGoogleSignInResources;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = macosx;
+				SDKROOT = iphoneos10.2;
 				SKIP_INSTALL = YES;
 				WRAPPER_EXTENSION = bundle;
 			};
@@ -1612,7 +1624,7 @@
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = W3DRXD72QU;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MODULEMAP_FILE = AWSMobileHubAuthorizers.modulemap;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1627,7 +1639,7 @@
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = W3DRXD72QU;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MODULEMAP_FILE = AWSMobileHubAuthorizers.modulemap;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1674,7 +1686,7 @@
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = W3DRXD72QU;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MODULEMAP_FILE = AWSCognitoUserPoolsSignIn.modulemap;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -1688,7 +1700,7 @@
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = W3DRXD72QU;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MODULEMAP_FILE = AWSCognitoUserPoolsSignIn.modulemap;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
