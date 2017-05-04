@@ -180,7 +180,9 @@ static NSString *const AWSInfoGoogleClientId = @"ClientId";
             self.taskCompletionSource.error = error;
             self.taskCompletionSource = nil;
         }
-        self.completionHandler(nil, authState, error);
+        if (self.completionHandler) {
+            self.completionHandler(nil, authState, error);
+        }
     } else {
         if (self.taskCompletionSource) {
             self.taskCompletionSource.result = user.authentication.idToken;
