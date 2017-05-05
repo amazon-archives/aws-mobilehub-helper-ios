@@ -8,4 +8,4 @@
 // copy, distribute and modify it.
 //
 
-#import "AWSSamlSignInProvider.h"
+#import "AWSSAMLSignInProvider.h"
