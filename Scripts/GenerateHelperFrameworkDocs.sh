@@ -28,6 +28,11 @@ else
 
     
     cp -r AWSMobileHubHelper ./docs_tmp/AWSMobileHubHelper
+    cp -r AWSFacebookSignIn ./docs_tmp/AWSFacebookSignIn
+    cp -r AWSGoogleSignIn ./docs_tmp/AWSGoogleSignIn
+    cp -r AWSSamlSignIn ./docs_tmp/AWSSamlSignIn
+    cp -r AWSCognitoUserPoolsSignIn ./docs_tmp/AWSCognitoUserPoolsSignIn
+    cp -r AWSMobileHubAuthorizers ./docs_tmp/AWSMobileHubAuthorizers
 
     cd docs_tmp
     
