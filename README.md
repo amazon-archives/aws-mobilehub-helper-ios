@@ -6,7 +6,7 @@ This helper code is the source for the AWSMobileHubHelper.framework file which i
 
 * [API Docs](https://docs.aws.amazon.com/awsmobilehubhelper/apireference/latest/index.html)
 * [Forums](https://forums.aws.amazon.com/forum.jspa?forumID=88)
-* [Issues](https://github.com/aws/aws-mobilehub-helper-ios/issues)
+* [Issues](https://github.com/aws/aws-sdk-ios/issues)
 
 ## Distribution
 
